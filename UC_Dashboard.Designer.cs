@@ -28,17 +28,47 @@
         /// </summary>
         private void InitializeComponent()
         {
+            panel1 = new Panel();
+            label1 = new Label();
+            panel1.SuspendLayout();
             SuspendLayout();
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.LightSalmon;
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(14, 16);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(248, 112);
+            panel1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            label1.Location = new Point(71, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(102, 37);
+            label1.TabIndex = 0;
+            label1.Text = "Veicoli";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // UC_Dashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Red;
+            BackColor = SystemColors.Control;
+            Controls.Add(panel1);
             Name = "UC_Dashboard";
+            Size = new Size(886, 466);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Panel panel1;
+        private Label label1;
     }
 }

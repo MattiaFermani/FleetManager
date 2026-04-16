@@ -6,5 +6,11 @@ namespace FleetManager
 {
     internal class MetodiDB
     {
+
+        public static void EstraiDati()
+        {
+
+        }
+
     }
 }

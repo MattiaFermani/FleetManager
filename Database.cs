@@ -5,11 +5,19 @@ using System.Data;
 using Microsoft.Data;
 using Microsoft.Data.SqlClient;
 
-namespace EsempioDBconDapper
+namespace FleetManager
 {
     internal class Database
     {
-        public static string ConnectionString { get; set; } = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=FleetMangement;Integrated Security=True;";
+        public static string ConnectionString
+        {
+            get => Properties.Settings.Default.DbConnectionString;
+            set
+            {
+                Properties.Settings.Default.DbConnectionString = value;
+                Properties.Settings.Default.Save(); // Salva su disco in AppData
+            }
+        }
 
         public static IDbConnection Connection()
         {

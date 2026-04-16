@@ -34,6 +34,7 @@
             SideBar = new MenuStrip();
             registroEventiToolStripMenuItem = new ToolStripMenuItem();
             statisticheToolStripMenuItem = new ToolStripMenuItem();
+            impostazioni_MenuItem = new ToolStripMenuItem();
             pnlContainer = new Panel();
             SideBar.SuspendLayout();
             SuspendLayout();
@@ -63,7 +64,7 @@
             // 
             SideBar.Dock = DockStyle.Left;
             SideBar.Font = new Font("Segoe UI", 12F);
-            SideBar.Items.AddRange(new ToolStripItem[] { dashboard_MenuItem, flotta_MenuItem, personale_MenuItem, registroEventiToolStripMenuItem, statisticheToolStripMenuItem });
+            SideBar.Items.AddRange(new ToolStripItem[] { dashboard_MenuItem, flotta_MenuItem, personale_MenuItem, registroEventiToolStripMenuItem, statisticheToolStripMenuItem, impostazioni_MenuItem });
             SideBar.Location = new Point(0, 0);
             SideBar.Name = "SideBar";
             SideBar.RenderMode = ToolStripRenderMode.Professional;
@@ -83,6 +84,13 @@
             statisticheToolStripMenuItem.Size = new Size(119, 25);
             statisticheToolStripMenuItem.Text = "Statistiche";
             // 
+            // impostazioni_MenuItem
+            // 
+            impostazioni_MenuItem.Name = "impostazioni_MenuItem";
+            impostazioni_MenuItem.Size = new Size(119, 25);
+            impostazioni_MenuItem.Text = "Impostazioni";
+            impostazioni_MenuItem.Click += impostazioniToolStripMenuItem_Click;
+            // 
             // pnlContainer
             // 
             pnlContainer.Dock = DockStyle.Fill;
@@ -95,7 +103,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.MediumSeaGreen;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1018, 466);
             Controls.Add(pnlContainer);
             Controls.Add(SideBar);
@@ -121,5 +129,6 @@
         private ToolStripMenuItem registroEventiToolStripMenuItem;
         private ToolStripMenuItem statisticheToolStripMenuItem;
         private Panel pnlContainer;
+        private ToolStripMenuItem impostazioni_MenuItem;
     }
 }
