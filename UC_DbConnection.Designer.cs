@@ -36,12 +36,13 @@
             txb_AuthPassword = new TextBox();
             btn_testConnection = new Button();
             btn_SaveConfig = new Button();
+            label1 = new Label();
+            label2 = new Label();
             SuspendLayout();
             // 
             // cb_cnType
             // 
             cb_cnType.FormattingEnabled = true;
-            cb_cnType.Items.AddRange(new object[] { "LocalDB", "ServerRemoto (SQL Server)" });
             cb_cnType.Location = new Point(349, 132);
             cb_cnType.Name = "cb_cnType";
             cb_cnType.Size = new Size(172, 23);
@@ -74,7 +75,7 @@
             // 
             // txb_AuthUsername
             // 
-            txb_AuthUsername.Location = new Point(257, 226);
+            txb_AuthUsername.Location = new Point(257, 232);
             txb_AuthUsername.Name = "txb_AuthUsername";
             txb_AuthUsername.Size = new Size(172, 23);
             txb_AuthUsername.TabIndex = 1;
@@ -82,7 +83,7 @@
             // 
             // txb_AuthPassword
             // 
-            txb_AuthPassword.Location = new Point(435, 226);
+            txb_AuthPassword.Location = new Point(435, 232);
             txb_AuthPassword.Name = "txb_AuthPassword";
             txb_AuthPassword.Size = new Size(172, 23);
             txb_AuthPassword.TabIndex = 1;
@@ -108,10 +109,30 @@
             btn_SaveConfig.UseVisualStyleBackColor = true;
             btn_SaveConfig.Click += btnSave_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(257, 158);
+            label1.Name = "label1";
+            label1.Size = new Size(84, 15);
+            label1.TabIndex = 4;
+            label1.Text = "Server Address";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(435, 158);
+            label2.Name = "label2";
+            label2.Size = new Size(90, 15);
+            label2.TabIndex = 4;
+            label2.Text = "Database Name";
+            // 
             // UC_DbConnection
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(btn_SaveConfig);
             Controls.Add(btn_testConnection);
             Controls.Add(ck_Auth);
@@ -137,5 +158,7 @@
         private TextBox txb_AuthPassword;
         private Button btn_testConnection;
         private Button btn_SaveConfig;
+        private Label label1;
+        private Label label2;
     }
 }
