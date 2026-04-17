@@ -5,7 +5,7 @@ using System.Data;
 using Microsoft.Data;
 using Microsoft.Data.SqlClient;
 
-namespace FleetManager
+namespace FleetManager.DB
 {
     internal class Database
     {
@@ -15,7 +15,7 @@ namespace FleetManager
             set
             {
                 Properties.Settings.Default.DbConnectionString = value;
-                Properties.Settings.Default.Save(); // Salva su disco in AppData
+                Properties.Settings.Default.Save(); // Salva su disco in AppData/Local
             }
         }
 

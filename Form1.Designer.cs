@@ -93,6 +93,7 @@
             // 
             // pnlContainer
             // 
+            pnlContainer.AutoScroll = true;
             pnlContainer.Dock = DockStyle.Fill;
             pnlContainer.Location = new Point(132, 0);
             pnlContainer.Name = "pnlContainer";

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
+using FleetManager.DB;
 
 namespace FleetManager
 {
@@ -60,6 +61,7 @@ namespace FleetManager
 
             // Salva solo se il test passa
             Database.ConnectionString = tempConnectionString;
+            Database.Connection(); // Inizializza la connessione per verificare che funzioni
 
             MessageBox.Show("Configurazione salvata permanentemente!", "OK",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);

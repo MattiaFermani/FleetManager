@@ -1,22 +1,22 @@
+using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
+using FleetManager.DB;
+
 namespace FleetManager
 {
     public partial class Form1 : Form
     {
         private Dictionary<PageType, UserControl> _userControls = new Dictionary<PageType, UserControl>();
 
-        // CORREZIONE 1: Dichiarazione della variabile di stato
         private PageType _currentPage;
 
         public Form1()
         {
             InitializeComponent();
 
-            // CORREZIONE 2: Avvio del thread di monitoraggio
-            _ = WatchdogConnessione();
 
             if (string.IsNullOrWhiteSpace(Database.ConnectionString))
             {
-                // CORREZIONE 3: Verifica il nome corretto del tuo oggetto ToolStripMenuItem (es. impostazioniToolStripMenuItem)
                 MenuSelection(PageType.Impostazioni, impostazioni_MenuItem);
                 SideBar.Enabled = false;
                 MessageBox.Show("Per favore, configura prima la connessione al database.", "Configurazione richiesta");
@@ -25,6 +25,9 @@ namespace FleetManager
             {
                 MenuSelection(PageType.Dashboard, dashboard_MenuItem);
             }
+
+
+            _ = WatchdogConnessione();
         }
 
         private void MenuSelection(PageType page, ToolStripMenuItem selectedItem)
@@ -89,10 +92,9 @@ namespace FleetManager
         private void impostazioniToolStripMenuItem_Click(object sender, EventArgs e) =>
             MenuSelection(PageType.Impostazioni, (ToolStripMenuItem)sender);
 
-
         private async Task WatchdogConnessione()
         {
-            while (true)
+            while (!this.IsDisposed)
             {
                 bool connessioneValida = await Task.Run(() => {
                     try
@@ -106,8 +108,10 @@ namespace FleetManager
                     catch { return false; }
                 });
 
-                // Sposta l'esecuzione sul thread della UI per modificare i controlli
-                this.Invoke(new Action(() => AggiornaStatoApplicazione(connessioneValida)));
+                if (!this.IsDisposed)
+                {
+                    this.Invoke(new Action(() => AggiornaStatoApplicazione(connessioneValida)));
+                }
 
                 await Task.Delay(5000);
             }
@@ -115,23 +119,35 @@ namespace FleetManager
 
         private void AggiornaStatoApplicazione(bool connessioneOk)
         {
+            // Aggiorna lo status
+            //lblStatusDB.Text = connessioneOk ? "Connesso" : "Disconnesso";
+            //lblStatusDB.ForeColor = connessioneOk ? Color.Green : Color.Red;
+
             if (connessioneOk)
             {
+                // Se la connessione torna e la SideBar era bloccata
                 if (!SideBar.Enabled)
                 {
                     SideBar.Enabled = true;
-                    MenuSelection(PageType.Dashboard, dashboard_MenuItem);
+                    // Opzionale: torna alla Dashboard solo se l'utente era "bloccato" nelle impostazioni
+                    if (_currentPage == PageType.Impostazioni)
+                        MenuSelection(PageType.Dashboard, dashboard_MenuItem);
                 }
             }
             else
             {
-                if (SideBar.Enabled || _currentPage != PageType.Impostazioni)
+                // Se la connessione cade
+                if (SideBar.Enabled)
                 {
-                    SideBar.Enabled = false;
-                    if (_currentPage != PageType.Impostazioni)
-                    {
-                        MenuSelection(PageType.Impostazioni, impostazioni_MenuItem);
-                    }
+                    SideBar.Enabled = false; // Blocca navigazione
+                }
+
+                // Forza il redirect alle impostazioni solo se non ci siamo già
+                if (_currentPage != PageType.Impostazioni)
+                {
+                    MenuSelection(PageType.Impostazioni, impostazioni_MenuItem);
+                    MessageBox.Show("Connessione al database assente. Controllare le impostazioni.",
+                                    "Errore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
