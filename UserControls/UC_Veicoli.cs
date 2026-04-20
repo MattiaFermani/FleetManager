@@ -17,16 +17,35 @@ namespace FleetManager
             InitializeComponent();
             dGw_Veicoli.AutoGenerateColumns = false;
 
-            // Configura la colonna Stato (deve essere DataGridViewComboBoxColumn nel Designer)
-            var colStato = (DataGridViewComboBoxColumn)dGw_Veicoli.Columns["Stato"];
-            colStato.DataPropertyName = "Stato"; // Lega al campo del DB
+            //// Configura la colonna Stato (deve essere DataGridViewComboBoxColumn nel Designer)
+            //var colStato = (DataGridViewComboBoxColumn)dGw_Veicoli.Columns["Stato"];
+            //colStato.DataPropertyName = "Stato"; // Lega al campo del DB
 
-            // Popola le opzioni della tendina
-            colStato.Items.Clear();
-            colStato.Items.AddRange(new string[] { "Disponibile", "In Uso", "In Manutenzione" });
+            //// Popola le opzioni della tendina
+            //colStato.Items.Clear();
+            //colStato.Items.AddRange(new string[] { "Disponibile", "In Uso", "In Manutenzione" });
 
-            // Rendi la tendina subito reattiva
-            dGw_Veicoli.EditMode = DataGridViewEditMode.EditOnEnter;
+            //// Rendi la tendina subito reattiva
+            //dGw_Veicoli.EditMode = DataGridViewEditMode.EditOnEnter;
+
+            // Filtro Anno
+            cmb_FilterYearProd.Items.Clear();
+            cmb_FilterYearProd.Items.Add("Tutti gli anni");
+            cmb_FilterYearProd.Items.AddRange(MethodsDB.GetDistintiAnni().ToArray());
+            cmb_FilterYearProd.SelectedIndex = 0;
+
+            // Filtro Modello
+            cmb_FilterModello.Items.Clear();
+            cmb_FilterModello.Items.Add("Tutti i modelli");
+            cmb_FilterModello.Items.AddRange(MethodsDB.GetDistintiModelli().ToArray());
+            cmb_FilterModello.SelectedIndex = 0;
+
+            // Filtro Stato (Fisso o dal DB)
+            cmb_FilterStato.Items.Clear();
+            cmb_FilterStato.Items.Add("Tutti gli stati");
+            cmb_FilterStato.Items.AddRange(new string[] { "Disponibile", "In Uso", "In Manutenzione" });
+            cmb_FilterStato.SelectedIndex = 0;
+
         }
 
         public void LoadData()
@@ -34,7 +53,7 @@ namespace FleetManager
             try
             {
 
-                var veicoli = MethodsDB.GetVeicoliCompleti().ToList();
+                var veicoli = MethodsDB.RicercaVeicoli().ToList();
                 dGw_Veicoli.DataSource = veicoli;
             }
             catch (Exception ex)
@@ -82,13 +101,29 @@ namespace FleetManager
                 try
                 {
                     MethodsDB.AggiornaVeicolo(idVeicolo, km, nuovoStato);
-                    LoadData();
+                    Filter();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Errore durante l'aggiornamento dello stato: " + ex.Message);
                 }
             }
+        }
+
+        private void txb_FilterTarga_TextChanged(object sender, EventArgs e) => Filter();
+        private void cmb_FilterYearProd_SelectedIndexChanged(object sender, EventArgs e) => Filter();
+        private void cmb_FilterModello_SelectedIndexChanged(object sender, EventArgs e) => Filter();
+        private void cmb_FilterStato_SelectedIndexChanged(object sender, EventArgs e) => Filter();
+
+        private void Filter()
+        {
+            string targa = string.IsNullOrWhiteSpace(txb_FilterTarga.Text) ? null : txb_FilterTarga.Text.Trim();
+            string modello = cmb_FilterModello.SelectedIndex <= 0 ? null : cmb_FilterModello.SelectedItem.ToString();
+            string stato = cmb_FilterStato.SelectedIndex <= 0 ? null : cmb_FilterStato.SelectedItem.ToString();
+
+            string annoStr = cmb_FilterYearProd.SelectedIndex <= 0 ? null : cmb_FilterYearProd.SelectedItem.ToString();
+
+            dGw_Veicoli.DataSource = MethodsDB.RicercaVeicoli(targa: targa, modello: modello, stato: stato, annoProduzione: annoStr).ToList();
         }
     }
 
