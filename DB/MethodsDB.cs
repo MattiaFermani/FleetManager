@@ -29,8 +29,9 @@ namespace FleetManager.DB
                 connection.Execute(query, v);
             }
         }
-
-        // --- METODI PER KPI ---
+        #region DASHBOARD
+        #region CONTATORI
+        // --- METODI PER COUNTERS ---
 
         public static int GetTotaleVeicoli()
         {
@@ -56,8 +57,9 @@ namespace FleetManager.DB
                 return connection.ExecuteScalar<int>(query);
             }
         }
-
-        // --- METODI PER GRAFICI ---
+        #endregion CONTATORI
+        #region GRAFICI
+        // --- METODI PER I GRAFICI ---
 
         public static IEnumerable<dynamic> GetStatisticheStatoVeicoli()
         {
@@ -75,7 +77,6 @@ namespace FleetManager.DB
         {
             using (var connection = Database.Connection())
             {
-                // Usiamo DataIntervento come da tua tabella
                 string query = @"SELECT 
                             FORMAT(DataIntervento, 'MMM', 'it-IT') as Mese, 
                             SUM(Costo) as Totale 
@@ -86,32 +87,66 @@ namespace FleetManager.DB
                 return connection.Query(query);
             }
         }
+        #endregion GRAFICI
+        #region TABELLE
+        // --- METODI PER LE TABELLE ---
 
-        // --- METODI PER TABELLE ---
-
-        public static IEnumerable<dynamic> GetUltimeManutenzioni()
+        public static IEnumerable<dynamic> GetUltimeManutenzioni(int top)
         {
             using (var connection = Database.Connection())
             {
-                string query = @"SELECT TOP 5 V.Targa, M.DataIntervento, M.Costo 
+                string query = @"SELECT TOP (@man) V.Targa, M.DataIntervento, M.Costo 
                                  FROM MANUTENZIONI M 
                                  JOIN VEICOLI V ON M.FK_Veicolo = V.ID_Veicolo 
                                  ORDER BY M.DataIntervento DESC";
-                return connection.Query(query);
+                return connection.Query(query, new { man = top });
             }
         }
 
-        public static IEnumerable<dynamic> GetTop3Incidentati()
+        public static IEnumerable<dynamic> GetTopIncidentati(int top)
         {
             using (var connection = Database.Connection())
             {
-                string query = @"SELECT TOP 3 G.Cognome, G.Nome, COUNT(I.ID_Incidente) as Conteggio 
+                string query = @"SELECT TOP (@inc) G.Cognome, G.Nome, COUNT(I.ID_Incidente) as Conteggio 
                                  FROM GUIDATORI G 
                                  JOIN INCIDENTI I ON G.ID_Guidatore = I.FK_Guidatore 
                                  GROUP BY G.Cognome, G.Nome 
                                  ORDER BY Conteggio DESC";
+                return connection.Query(query, new { inc = top });
+            }
+        }
+        #endregion TABELLE
+        #endregion
+
+        #region FLOTTA
+        public static IEnumerable<dynamic> GetVeicoliCompleti()
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, 
+                                V.AnnoProduzione, V.Chilometraggio, V.Stato
+                         FROM VEICOLI V
+                         JOIN MODELLI M ON V.FK_Modello = M.ID_Modello";
                 return connection.Query(query);
             }
         }
+
+        public static IEnumerable<Modello> GetListaModelli()
+        {
+            using (var connection = Database.Connection())
+            {
+                return connection.Query<Modello>("SELECT * FROM MODELLI ORDER BY Marca, NomeModello");
+            }
+        }
+
+        public static void AggiornaVeicolo(int id, int km, string stato)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = "UPDATE VEICOLI SET Chilometraggio = @km, Stato = @stato WHERE ID_Veicolo = @id";
+                connection.Execute(query, new { id, km, stato });
+            }
+        }
+        #endregion FLOTTA
     }
 }

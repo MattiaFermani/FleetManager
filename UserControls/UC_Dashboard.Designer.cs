@@ -45,6 +45,12 @@ namespace FleetManager
             chart1 = new Chart();
             dGw_Man = new DataGridView();
             dGw_Top3Inc = new DataGridView();
+            label2 = new Label();
+            label5 = new Label();
+            lsw_Man = new ListView();
+            lsw_TopInc = new ListView();
+            label6 = new Label();
+            label7 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -152,43 +158,129 @@ namespace FleetManager
             // 
             // chart2
             // 
+            chart2.BackColor = SystemColors.Control;
             chart2.BackGradientStyle = GradientStyle.Center;
             chartArea1.Name = "MainArea2";
             chart2.ChartAreas.Add(chartArea1);
-            chart2.Location = new Point(119, 170);
+            chart2.Location = new Point(14, 428);
             chart2.Name = "chart2";
             chart2.Palette = ChartColorPalette.Bright;
-            chart2.Size = new Size(300, 244);
+            chart2.Size = new Size(405, 244);
             chart2.TabIndex = 4;
             chart2.Text = "chart2";
             // 
             // chart1
             // 
+            chart1.BackColor = SystemColors.Control;
             chart1.BackGradientStyle = GradientStyle.Center;
             chartArea2.Name = "MainArea1";
             chart1.ChartAreas.Add(chartArea2);
-            chart1.Location = new Point(447, 170);
+            chart1.Location = new Point(447, 428);
             chart1.Name = "chart1";
-            chart1.Palette = ChartColorPalette.Bright;
-            chart1.Size = new Size(300, 244);
+            chart1.Size = new Size(405, 244);
             chart1.TabIndex = 5;
             chart1.Text = "chart1";
             // 
             // dGw_Man
             // 
+            dGw_Man.BackgroundColor = SystemColors.Control;
+            dGw_Man.BorderStyle = BorderStyle.None;
+            dGw_Man.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
             dGw_Man.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dGw_Man.Location = new Point(14, 477);
+            dGw_Man.Location = new Point(14, 198);
             dGw_Man.Name = "dGw_Man";
-            dGw_Man.Size = new Size(405, 150);
+            dGw_Man.Size = new Size(225, 177);
             dGw_Man.TabIndex = 6;
             // 
             // dGw_Top3Inc
             // 
+            dGw_Top3Inc.BackgroundColor = SystemColors.Control;
+            dGw_Top3Inc.BorderStyle = BorderStyle.None;
             dGw_Top3Inc.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dGw_Top3Inc.Location = new Point(447, 477);
+            dGw_Top3Inc.Location = new Point(447, 198);
             dGw_Top3Inc.Name = "dGw_Top3Inc";
-            dGw_Top3Inc.Size = new Size(413, 150);
+            dGw_Top3Inc.Size = new Size(413, 177);
             dGw_Top3Inc.TabIndex = 6;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            label2.Location = new Point(77, 158);
+            label2.Name = "label2";
+            label2.Size = new Size(288, 37);
+            label2.TabIndex = 2;
+            label2.Text = "Ultime Manutenzioni";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            label5.Location = new Point(555, 158);
+            label5.Name = "label5";
+            label5.Size = new Size(210, 37);
+            label5.TabIndex = 2;
+            label5.Text = "Top incidentati";
+            label5.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lsw_Man
+            // 
+            lsw_Man.Activation = ItemActivation.TwoClick;
+            lsw_Man.Alignment = ListViewAlignment.Default;
+            lsw_Man.AutoArrange = false;
+            lsw_Man.BorderStyle = BorderStyle.None;
+            lsw_Man.Enabled = false;
+            lsw_Man.Font = new Font("Segoe UI", 12F);
+            lsw_Man.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            lsw_Man.HideSelection = true;
+            lsw_Man.LabelWrap = false;
+            lsw_Man.Location = new Point(14, 198);
+            lsw_Man.MultiSelect = false;
+            lsw_Man.Name = "lsw_Man";
+            lsw_Man.ShowGroups = false;
+            lsw_Man.Size = new Size(405, 177);
+            lsw_Man.TabIndex = 7;
+            lsw_Man.UseCompatibleStateImageBehavior = false;
+            lsw_Man.View = View.Details;
+            // 
+            // lsw_TopInc
+            // 
+            lsw_TopInc.Alignment = ListViewAlignment.Default;
+            lsw_TopInc.BorderStyle = BorderStyle.None;
+            lsw_TopInc.Enabled = false;
+            lsw_TopInc.Font = new Font("Segoe UI", 12F);
+            lsw_TopInc.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            lsw_TopInc.LabelWrap = false;
+            lsw_TopInc.Location = new Point(447, 198);
+            lsw_TopInc.MultiSelect = false;
+            lsw_TopInc.Name = "lsw_TopInc";
+            lsw_TopInc.Size = new Size(405, 177);
+            lsw_TopInc.TabIndex = 7;
+            lsw_TopInc.UseCompatibleStateImageBehavior = false;
+            lsw_TopInc.View = View.Details;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            label6.Location = new Point(570, 388);
+            label6.Name = "label6";
+            label6.Size = new Size(177, 37);
+            label6.TabIndex = 2;
+            label6.Text = "Stato Veicoli";
+            label6.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            label7.Location = new Point(26, 388);
+            label7.Name = "label7";
+            label7.Size = new Size(382, 37);
+            label7.TabIndex = 2;
+            label7.Text = "Spese Mensili Manutenzione";
+            label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // UC_Dashboard
             // 
@@ -196,6 +288,12 @@ namespace FleetManager
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = SystemColors.Control;
+            Controls.Add(lsw_TopInc);
+            Controls.Add(lsw_Man);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(label7);
+            Controls.Add(label2);
             Controls.Add(dGw_Top3Inc);
             Controls.Add(dGw_Man);
             Controls.Add(chart1);
@@ -204,7 +302,7 @@ namespace FleetManager
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "UC_Dashboard";
-            Size = new Size(877, 675);
+            Size = new Size(877, 685);
             Load += UC_Dashboard_Load;
             Paint += UC_Dashboard_Paint;
             panel1.ResumeLayout(false);
@@ -218,6 +316,7 @@ namespace FleetManager
             ((System.ComponentModel.ISupportInitialize)dGw_Man).EndInit();
             ((System.ComponentModel.ISupportInitialize)dGw_Top3Inc).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -235,5 +334,11 @@ namespace FleetManager
         private FastReport.DataVisualization.Charting.Chart chart1;
         private DataGridView dGw_Man;
         private DataGridView dGw_Top3Inc;
+        private Label label2;
+        private Label label5;
+        private ListView lsw_Man;
+        private ListView lsw_TopInc;
+        private Label label6;
+        private Label label7;
     }
 }

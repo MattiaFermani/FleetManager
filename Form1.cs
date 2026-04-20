@@ -72,7 +72,6 @@ namespace FleetManager
 
         private void ResetMenuColors()
         {
-            // Nota: Se SideBar è un MenuStrip, usa SideBar.Items
             foreach (ToolStripItem item in SideBar.Items)
             {
                 item.BackColor = SystemColors.Control;
@@ -111,6 +110,14 @@ namespace FleetManager
                 if (!this.IsDisposed)
                 {
                     this.Invoke(new Action(() => AggiornaStatoApplicazione(connessioneValida)));
+                    if(_currentPage == PageType.Dashboard && connessioneValida)
+                    {
+                        if (_userControls.ContainsKey(PageType.Dashboard))
+                        {
+                            var dashboardControl = _userControls[PageType.Dashboard] as UC_Dashboard;
+                            dashboardControl?.AggiornaDati();
+                        }
+                    }
                 }
 
                 await Task.Delay(5000);
