@@ -172,3 +172,9 @@ INSERT INTO ASSEGNAZIONI (FK_Veicolo, FK_Guidatore, DataInizio, DataFine) VALUES
 SELECT ID_Modello FROM MODELLI ORDER BY ID_Modello;
 SELECT ID_Veicolo FROM VEICOLI ORDER BY ID_Veicolo;
 SELECT ID_Guidatore FROM GUIDATORI ORDER BY ID_Guidatore;
+
+
+
+SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, V.AnnoProduzione, V.Chilometraggio, V.Stato
+FROM VEICOLI V
+JOIN MODELLI M ON V.FK_Modello = M.ID_Modello

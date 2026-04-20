@@ -28,7 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            dGw_Veicoli = new DataGridView();
+            ID = new DataGridViewTextBoxColumn();
+            Targa = new DataGridViewTextBoxColumn();
+            Marca = new DataGridViewTextBoxColumn();
+            NomeModello = new DataGridViewTextBoxColumn();
+            AnnoProduzione = new DataGridViewTextBoxColumn();
+            Chilometraggio = new DataGridViewTextBoxColumn();
+            Stato = new DataGridViewComboBoxColumn();
             txb_FilterTarga = new TextBox();
             cmb_Modello = new ComboBox();
             panel1 = new Panel();
@@ -36,18 +43,82 @@
             cmb_FilterModello = new ComboBox();
             cmb_FilterYearProd = new ComboBox();
             cmb_FilterStato = new ComboBox();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dGw_Veicoli).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dGw_Veicoli
             // 
-            dataGridView1.BackgroundColor = SystemColors.Control;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(18, 162);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(620, 150);
-            dataGridView1.TabIndex = 0;
+            dGw_Veicoli.AllowUserToAddRows = false;
+            dGw_Veicoli.AllowUserToDeleteRows = false;
+            dGw_Veicoli.AllowUserToResizeColumns = false;
+            dGw_Veicoli.AllowUserToResizeRows = false;
+            dGw_Veicoli.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dGw_Veicoli.BackgroundColor = SystemColors.Control;
+            dGw_Veicoli.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dGw_Veicoli.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dGw_Veicoli.Columns.AddRange(new DataGridViewColumn[] { ID, Targa, Marca, NomeModello, AnnoProduzione, Chilometraggio, Stato });
+            dGw_Veicoli.EditMode = DataGridViewEditMode.EditOnEnter;
+            dGw_Veicoli.Location = new Point(18, 162);
+            dGw_Veicoli.MultiSelect = false;
+            dGw_Veicoli.Name = "dGw_Veicoli";
+            dGw_Veicoli.RowHeadersVisible = false;
+            dGw_Veicoli.ScrollBars = ScrollBars.Vertical;
+            dGw_Veicoli.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dGw_Veicoli.Size = new Size(620, 264);
+            dGw_Veicoli.TabIndex = 0;
+            dGw_Veicoli.CellClick += dGw_Veicoli_CellClick;
+            dGw_Veicoli.CellValueChanged += dGw_Veicoli_CellValueChanged;
+            // 
+            // ID
+            // 
+            ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            ID.DataPropertyName = "ID_Veicolo";
+            ID.Frozen = true;
+            ID.HeaderText = "ID";
+            ID.Name = "ID";
+            ID.Visible = false;
+            // 
+            // Targa
+            // 
+            Targa.DataPropertyName = "Targa";
+            Targa.HeaderText = "Targa";
+            Targa.Name = "Targa";
+            // 
+            // Marca
+            // 
+            Marca.DataPropertyName = "Marca";
+            Marca.HeaderText = "Marca";
+            Marca.Name = "Marca";
+            // 
+            // NomeModello
+            // 
+            NomeModello.DataPropertyName = "NomeModello";
+            NomeModello.HeaderText = "NomeModello";
+            NomeModello.Name = "NomeModello";
+            // 
+            // AnnoProduzione
+            // 
+            AnnoProduzione.DataPropertyName = "AnnoProduzione";
+            AnnoProduzione.HeaderText = "Anno Produzione";
+            AnnoProduzione.Name = "AnnoProduzione";
+            // 
+            // Chilometraggio
+            // 
+            Chilometraggio.DataPropertyName = "Chilometraggio";
+            Chilometraggio.HeaderText = "Chilometraggio";
+            Chilometraggio.Name = "Chilometraggio";
+            // 
+            // Stato
+            // 
+            Stato.DataPropertyName = "Stato";
+            Stato.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+            Stato.FlatStyle = FlatStyle.Popup;
+            Stato.HeaderText = "Stato";
+            Stato.Items.AddRange(new object[] { "Disponibile", "Non Disponibile", "In Uso", "In Manutenzione" });
+            Stato.MaxDropDownItems = 4;
+            Stato.Name = "Stato";
+            Stato.ToolTipText = "Gestisci lo stato del veicolo";
             // 
             // txb_FilterTarga
             // 
@@ -68,7 +139,7 @@
             // 
             panel1.Controls.Add(label1);
             panel1.Controls.Add(cmb_Modello);
-            panel1.Location = new Point(644, 0);
+            panel1.Location = new Point(644, 114);
             panel1.Name = "panel1";
             panel1.Size = new Size(233, 312);
             panel1.TabIndex = 3;
@@ -117,10 +188,11 @@
             Controls.Add(cmb_FilterStato);
             Controls.Add(cmb_FilterModello);
             Controls.Add(txb_FilterTarga);
-            Controls.Add(dataGridView1);
+            Controls.Add(dGw_Veicoli);
             Name = "UC_Veicoli";
             Size = new Size(877, 685);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Load += UC_Veicoli_Load;
+            ((System.ComponentModel.ISupportInitialize)dGw_Veicoli).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -129,7 +201,7 @@
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView dGw_Veicoli;
         private TextBox txb_FilterTarga;
         private ComboBox cmb_Modello;
         private Panel panel1;
@@ -137,5 +209,12 @@
         private ComboBox cmb_FilterModello;
         private ComboBox cmb_FilterYearProd;
         private ComboBox cmb_FilterStato;
+        private DataGridViewTextBoxColumn ID;
+        private DataGridViewTextBoxColumn Targa;
+        private DataGridViewTextBoxColumn Marca;
+        private DataGridViewTextBoxColumn NomeModello;
+        private DataGridViewTextBoxColumn AnnoProduzione;
+        private DataGridViewTextBoxColumn Chilometraggio;
+        private DataGridViewComboBoxColumn Stato;
     }
 }
