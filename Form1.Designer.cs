@@ -68,7 +68,7 @@
             SideBar.Location = new Point(0, 0);
             SideBar.Name = "SideBar";
             SideBar.RenderMode = ToolStripRenderMode.Professional;
-            SideBar.Size = new Size(132, 466);
+            SideBar.Size = new Size(132, 689);
             SideBar.TabIndex = 0;
             SideBar.Text = "menuStrip1";
             // 
@@ -96,7 +96,7 @@
             pnlContainer.Dock = DockStyle.Fill;
             pnlContainer.Location = new Point(132, 0);
             pnlContainer.Name = "pnlContainer";
-            pnlContainer.Size = new Size(886, 466);
+            pnlContainer.Size = new Size(886, 689);
             pnlContainer.TabIndex = 1;
             // 
             // Form1
@@ -104,7 +104,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(1018, 466);
+            ClientSize = new Size(1018, 689);
             Controls.Add(pnlContainer);
             Controls.Add(SideBar);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);

@@ -147,6 +147,37 @@ namespace FleetManager.DB
                 connection.Execute(query, new { id, km, stato });
             }
         }
+
+        public static IEnumerable<dynamic> RicercaVeicoli(string targa = null, string marca = null, string annoProduzione = null, string modello = null, string stato = null)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, 
+                                V.AnnoProduzione, V.Chilometraggio, V.Stato
+                                 FROM VEICOLI V
+                                 JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
+                                 WHERE (@targa IS NULL OR V.Targa LIKE '%' + @targa + '%')
+                                   AND (@marca IS NULL OR M.Marca LIKE '%' + @marca + '%')
+                                   AND (@annoProduzione IS NULL OR V.AnnoProduzione = @annoProduzione)
+                                   AND (@modello IS NULL OR M.NomeModello LIKE '%' + @modello + '%')
+                                   AND (@stato IS NULL OR V.Stato = @stato)";
+
+                return connection.Query(query, new { targa, marca, annoProduzione, modello, stato }).ToList();
+            }
+        }
+
+        public static List<string> GetDistintiAnni()
+        {
+            using (var connection = Database.Connection())
+                return connection.Query<string>("SELECT DISTINCT CAST(AnnoProduzione AS VARCHAR) FROM VEICOLI WHERE AnnoProduzione IS NOT NULL ORDER BY 1").ToList();
+        }
+
+        public static List<string> GetDistintiModelli()
+        {
+            using (var connection = Database.Connection())
+                return connection.Query<string>("SELECT DISTINCT M.NomeModello FROM VEICOLI V JOIN MODELLI M ON V.FK_Modello = M.ID_Modello ORDER BY 1").ToList();
+        }
+
         #endregion FLOTTA
     }
 }
