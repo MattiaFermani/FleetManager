@@ -74,7 +74,7 @@ namespace FleetManager
             // 
             lbl_dash_Vehicles.AutoSize = true;
             lbl_dash_Vehicles.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lbl_dash_Vehicles.Location = new Point(105, 45);
+            lbl_dash_Vehicles.Location = new Point(104, 45);
             lbl_dash_Vehicles.Name = "lbl_dash_Vehicles";
             lbl_dash_Vehicles.Size = new Size(33, 37);
             lbl_dash_Vehicles.TabIndex = 1;
@@ -106,7 +106,7 @@ namespace FleetManager
             // 
             lbl_dash_AsgAvl.AutoSize = true;
             lbl_dash_AsgAvl.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lbl_dash_AsgAvl.Location = new Point(118, 45);
+            lbl_dash_AsgAvl.Location = new Point(116, 45);
             lbl_dash_AsgAvl.Name = "lbl_dash_AsgAvl";
             lbl_dash_AsgAvl.Size = new Size(33, 37);
             lbl_dash_AsgAvl.TabIndex = 1;
@@ -149,11 +149,11 @@ namespace FleetManager
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            label4.Location = new Point(69, 0);
+            label4.Location = new Point(16, 0);
             label4.Name = "label4";
-            label4.Size = new Size(136, 37);
+            label4.Size = new Size(235, 37);
             label4.TabIndex = 0;
-            label4.Text = "Scadenze";
+            label4.Text = "Scadenze Patenti";
             label4.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // chart2

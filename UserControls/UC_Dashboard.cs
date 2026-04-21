@@ -60,7 +60,7 @@ namespace FleetManager
                 s1.YValueMembers = "Qta";
                 s1.ChartType = SeriesChartType.Pie;
 
-                s1.Label = "#PERCENT{P0} (#VALY)";
+                s1.Label = "#PERCENT{P2} (#VALY)";
                 s1.LegendText = "#VALX"; 
 
                 chart1.DataBind();
@@ -74,8 +74,6 @@ namespace FleetManager
             if (dsSpese.Any())
             {
                 chart2.DataSource = dsSpese;
-                var legend2 = chart2.Legends.Add("SpeseManutenzioneLegend");
-                legend2.Docking = Docking.Bottom;
 
                 var s2 = chart2.Series.Add("Spese");
                 if (chart2.ChartAreas.Count > 0)
@@ -87,7 +85,7 @@ namespace FleetManager
 
                 s2.Label = "#VALY{C2}";
 
-                s2.Palette = ChartColorPalette.SeaGreen;
+                s2.Palette = ChartColorPalette.EarthTones;
 
                 chart2.DataBind();
             }

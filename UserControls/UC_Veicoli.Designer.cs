@@ -37,9 +37,6 @@
             Chilometraggio = new DataGridViewTextBoxColumn();
             Stato = new DataGridViewComboBoxColumn();
             txb_FilterTarga = new TextBox();
-            cmb_Modello = new ComboBox();
-            panel1 = new Panel();
-            label1 = new Label();
             cmb_FilterModello = new ComboBox();
             cmb_FilterYearProd = new ComboBox();
             cmb_FilterStato = new ComboBox();
@@ -47,8 +44,13 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
+            nUd_FilterKm = new NumericUpDown();
+            label6 = new Label();
+            btn_FilterUnderOver = new Button();
+            label1 = new Label();
+            cmb_FilterMarca = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dGw_Veicoli).BeginInit();
-            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nUd_FilterKm).BeginInit();
             SuspendLayout();
             // 
             // dGw_Veicoli
@@ -59,17 +61,17 @@
             dGw_Veicoli.AllowUserToResizeRows = false;
             dGw_Veicoli.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dGw_Veicoli.BackgroundColor = SystemColors.Control;
-            dGw_Veicoli.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dGw_Veicoli.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dGw_Veicoli.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dGw_Veicoli.Columns.AddRange(new DataGridViewColumn[] { ID, Targa, Marca, NomeModello, AnnoProduzione, Chilometraggio, Stato });
             dGw_Veicoli.EditMode = DataGridViewEditMode.EditOnEnter;
-            dGw_Veicoli.Location = new Point(18, 83);
+            dGw_Veicoli.Location = new Point(10, 119);
             dGw_Veicoli.MultiSelect = false;
             dGw_Veicoli.Name = "dGw_Veicoli";
             dGw_Veicoli.RowHeadersVisible = false;
             dGw_Veicoli.ScrollBars = ScrollBars.Vertical;
             dGw_Veicoli.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dGw_Veicoli.Size = new Size(620, 599);
+            dGw_Veicoli.Size = new Size(609, 563);
             dGw_Veicoli.TabIndex = 0;
             dGw_Veicoli.CellClick += dGw_Veicoli_CellClick;
             dGw_Veicoli.CellValueChanged += dGw_Veicoli_CellValueChanged;
@@ -131,70 +133,43 @@
             // 
             // txb_FilterTarga
             // 
-            txb_FilterTarga.Location = new Point(18, 54);
+            txb_FilterTarga.Location = new Point(10, 31);
             txb_FilterTarga.Name = "txb_FilterTarga";
-            txb_FilterTarga.Size = new Size(100, 23);
+            txb_FilterTarga.Size = new Size(137, 23);
             txb_FilterTarga.TabIndex = 1;
             txb_FilterTarga.TextChanged += txb_FilterTarga_TextChanged;
-            // 
-            // cmb_Modello
-            // 
-            cmb_Modello.FormattingEnabled = true;
-            cmb_Modello.Location = new Point(54, 68);
-            cmb_Modello.Name = "cmb_Modello";
-            cmb_Modello.Size = new Size(121, 23);
-            cmb_Modello.TabIndex = 2;
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(cmb_Modello);
-            panel1.Location = new Point(644, 3);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(233, 679);
-            panel1.TabIndex = 3;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label1.Location = new Point(32, 17);
-            label1.Name = "label1";
-            label1.Size = new Size(173, 28);
-            label1.TabIndex = 0;
-            label1.Text = "Aggiungi Veicolo";
             // 
             // cmb_FilterModello
             // 
             cmb_FilterModello.FormattingEnabled = true;
-            cmb_FilterModello.Location = new Point(253, 54);
+            cmb_FilterModello.Location = new Point(155, 74);
             cmb_FilterModello.Name = "cmb_FilterModello";
-            cmb_FilterModello.Size = new Size(121, 23);
+            cmb_FilterModello.Size = new Size(135, 23);
             cmb_FilterModello.TabIndex = 2;
             cmb_FilterModello.SelectedIndexChanged += cmb_FilterModello_SelectedIndexChanged;
             // 
             // cmb_FilterYearProd
             // 
             cmb_FilterYearProd.FormattingEnabled = true;
-            cmb_FilterYearProd.Location = new Point(124, 54);
+            cmb_FilterYearProd.Location = new Point(155, 30);
             cmb_FilterYearProd.Name = "cmb_FilterYearProd";
-            cmb_FilterYearProd.Size = new Size(123, 23);
+            cmb_FilterYearProd.Size = new Size(132, 23);
             cmb_FilterYearProd.TabIndex = 2;
             cmb_FilterYearProd.SelectedIndexChanged += cmb_FilterYearProd_SelectedIndexChanged;
             // 
             // cmb_FilterStato
             // 
             cmb_FilterStato.FormattingEnabled = true;
-            cmb_FilterStato.Location = new Point(380, 54);
+            cmb_FilterStato.Location = new Point(296, 74);
             cmb_FilterStato.Name = "cmb_FilterStato";
-            cmb_FilterStato.Size = new Size(121, 23);
+            cmb_FilterStato.Size = new Size(143, 23);
             cmb_FilterStato.TabIndex = 2;
             cmb_FilterStato.SelectedIndexChanged += cmb_FilterStato_SelectedIndexChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(18, 33);
+            label2.Location = new Point(10, 13);
             label2.Name = "label2";
             label2.Size = new Size(36, 15);
             label2.TabIndex = 4;
@@ -203,7 +178,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(124, 36);
+            label3.Location = new Point(155, 12);
             label3.Name = "label3";
             label3.Size = new Size(112, 15);
             label3.TabIndex = 4;
@@ -212,7 +187,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(253, 36);
+            label4.Location = new Point(155, 56);
             label4.Name = "label4";
             label4.Size = new Size(51, 15);
             label4.TabIndex = 4;
@@ -221,24 +196,75 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(380, 36);
+            label5.Location = new Point(296, 58);
             label5.Name = "label5";
             label5.Size = new Size(34, 15);
             label5.TabIndex = 4;
             label5.Text = "Stato";
+            // 
+            // nUd_FilterKm
+            // 
+            nUd_FilterKm.Location = new Point(336, 30);
+            nUd_FilterKm.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nUd_FilterKm.Name = "nUd_FilterKm";
+            nUd_FilterKm.Size = new Size(103, 23);
+            nUd_FilterKm.TabIndex = 5;
+            nUd_FilterKm.ValueChanged += nUd_FiltroKm_ValueChanged;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(295, 13);
+            label6.Name = "label6";
+            label6.Size = new Size(90, 15);
+            label6.TabIndex = 4;
+            label6.Text = "Chilometraggio";
+            // 
+            // btn_FilterUnderOver
+            // 
+            btn_FilterUnderOver.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btn_FilterUnderOver.Location = new Point(295, 30);
+            btn_FilterUnderOver.Name = "btn_FilterUnderOver";
+            btn_FilterUnderOver.Size = new Size(35, 23);
+            btn_FilterUnderOver.TabIndex = 6;
+            btn_FilterUnderOver.Text = ">";
+            btn_FilterUnderOver.UseVisualStyleBackColor = true;
+            btn_FilterUnderOver.MouseDown += btn_FilterUnderOver_MouseDown;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(10, 56);
+            label1.Name = "label1";
+            label1.Size = new Size(40, 15);
+            label1.TabIndex = 4;
+            label1.Text = "Marca";
+            // 
+            // cmb_FilterMarca
+            // 
+            cmb_FilterMarca.FormattingEnabled = true;
+            cmb_FilterMarca.Location = new Point(10, 74);
+            cmb_FilterMarca.Name = "cmb_FilterMarca";
+            cmb_FilterMarca.Size = new Size(139, 23);
+            cmb_FilterMarca.TabIndex = 2;
+            cmb_FilterMarca.SelectedIndexChanged += cmb_FilterMarca_SelectedIndexChanged;
             // 
             // UC_Veicoli
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Tan;
+            Controls.Add(btn_FilterUnderOver);
+            Controls.Add(nUd_FilterKm);
+            Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
+            Controls.Add(label1);
             Controls.Add(label2);
-            Controls.Add(panel1);
             Controls.Add(cmb_FilterYearProd);
             Controls.Add(cmb_FilterStato);
+            Controls.Add(cmb_FilterMarca);
             Controls.Add(cmb_FilterModello);
             Controls.Add(txb_FilterTarga);
             Controls.Add(dGw_Veicoli);
@@ -246,8 +272,7 @@
             Size = new Size(877, 685);
             Load += UC_Veicoli_Load;
             ((System.ComponentModel.ISupportInitialize)dGw_Veicoli).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nUd_FilterKm).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -256,9 +281,6 @@
 
         private DataGridView dGw_Veicoli;
         private TextBox txb_FilterTarga;
-        private ComboBox cmb_Modello;
-        private Panel panel1;
-        private Label label1;
         private ComboBox cmb_FilterModello;
         private ComboBox cmb_FilterYearProd;
         private ComboBox cmb_FilterStato;
@@ -273,5 +295,10 @@
         private Label label3;
         private Label label4;
         private Label label5;
+        private NumericUpDown nUd_FilterKm;
+        private Label label6;
+        private Button btn_FilterUnderOver;
+        private Label label1;
+        private ComboBox cmb_FilterMarca;
     }
 }

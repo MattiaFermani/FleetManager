@@ -10,8 +10,18 @@ using System.Windows.Forms;
 
 namespace FleetManager
 {
+    public enum KmFilterType
+    {
+        Under,
+        Over,
+        Equal
+    }
+
     public partial class UC_Veicoli : UserControl
     {
+
+        KmFilterType KmfilterType = KmFilterType.Over;
+
         public UC_Veicoli()
         {
             InitializeComponent();
@@ -27,6 +37,18 @@ namespace FleetManager
 
             //// Rendi la tendina subito reattiva
             //dGw_Veicoli.EditMode = DataGridViewEditMode.EditOnEnter;
+            
+            // Filtro Marca
+            cmb_FilterMarca.Items.Clear();
+            cmb_FilterMarca.Items.Add("Tutte le marche");
+            cmb_FilterMarca.Items.AddRange(MethodsDB.GetDistinteMarche().ToArray());
+            cmb_FilterMarca.SelectedIndex = 0;
+            
+            // Filtro Modello
+            cmb_FilterModello.Items.Clear();
+            cmb_FilterModello.Items.Add("Tutti i modelli");
+            cmb_FilterModello.Items.AddRange(MethodsDB.GetDistintiModelli().ToArray());
+            cmb_FilterModello.SelectedIndex = 0;
 
             // Filtro Anno
             cmb_FilterYearProd.Items.Clear();
@@ -34,16 +56,10 @@ namespace FleetManager
             cmb_FilterYearProd.Items.AddRange(MethodsDB.GetDistintiAnni().ToArray());
             cmb_FilterYearProd.SelectedIndex = 0;
 
-            // Filtro Modello
-            cmb_FilterModello.Items.Clear();
-            cmb_FilterModello.Items.Add("Tutti i modelli");
-            cmb_FilterModello.Items.AddRange(MethodsDB.GetDistintiModelli().ToArray());
-            cmb_FilterModello.SelectedIndex = 0;
-
             // Filtro Stato (Fisso o dal DB)
             cmb_FilterStato.Items.Clear();
             cmb_FilterStato.Items.Add("Tutti gli stati");
-            cmb_FilterStato.Items.AddRange(new string[] { "Disponibile", "In Uso", "In Manutenzione" });
+            cmb_FilterStato.Items.AddRange(new string[] { "Disponibile", "Non Disponibile", "In Uso", "In Manutenzione" });
             cmb_FilterStato.SelectedIndex = 0;
 
         }
@@ -70,7 +86,7 @@ namespace FleetManager
 
         private void FormattaGrid(DataGridView dgw)
         {
-            dgw.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgw.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgw.RowHeadersVisible = false;
         }
 
@@ -111,20 +127,42 @@ namespace FleetManager
         }
 
         private void txb_FilterTarga_TextChanged(object sender, EventArgs e) => Filter();
-        private void cmb_FilterYearProd_SelectedIndexChanged(object sender, EventArgs e) => Filter();
+        private void cmb_FilterMarca_SelectedIndexChanged(object sender, EventArgs e) => Filter();
         private void cmb_FilterModello_SelectedIndexChanged(object sender, EventArgs e) => Filter();
+        private void cmb_FilterYearProd_SelectedIndexChanged(object sender, EventArgs e) => Filter();
+        private void nUd_FiltroKm_ValueChanged(object sender, EventArgs e) => Filter();
         private void cmb_FilterStato_SelectedIndexChanged(object sender, EventArgs e) => Filter();
 
         private void Filter()
         {
             string targa = string.IsNullOrWhiteSpace(txb_FilterTarga.Text) ? null : txb_FilterTarga.Text.Trim();
+            string marca = cmb_FilterMarca.SelectedIndex <= 0 ? null : cmb_FilterMarca.SelectedItem.ToString();
+            string annoStr = cmb_FilterYearProd.SelectedIndex <= 0 ? null : cmb_FilterYearProd.SelectedItem.ToString();
             string modello = cmb_FilterModello.SelectedIndex <= 0 ? null : cmb_FilterModello.SelectedItem.ToString();
+            int chilometraggio = (int)nUd_FilterKm.Value;
+            KmFilterType kmFilterType = KmfilterType;
             string stato = cmb_FilterStato.SelectedIndex <= 0 ? null : cmb_FilterStato.SelectedItem.ToString();
 
-            string annoStr = cmb_FilterYearProd.SelectedIndex <= 0 ? null : cmb_FilterYearProd.SelectedItem.ToString();
-
-            dGw_Veicoli.DataSource = MethodsDB.RicercaVeicoli(targa: targa, modello: modello, stato: stato, annoProduzione: annoStr).ToList();
+            dGw_Veicoli.DataSource = MethodsDB.RicercaVeicoli(targa: targa, marca: marca, modello: modello, stato: stato, annoProduzione: annoStr, chilometraggio: chilometraggio, KmfilterType: kmFilterType).ToList();
         }
+
+        private void btn_FilterUnderOver_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                KmfilterType = KmfilterType == KmFilterType.Over ? KmFilterType.Under : KmFilterType.Over;
+
+                if (KmfilterType == KmFilterType.Over) btn_FilterUnderOver.Text = ">";
+                else btn_FilterUnderOver.Text = "<";
+            }
+            else
+            {
+                KmfilterType = KmFilterType.Equal;
+                btn_FilterUnderOver.Text = "=";
+            }
+            Filter();
+        }
+
     }
 
 

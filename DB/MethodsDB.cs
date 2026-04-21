@@ -8,27 +8,7 @@ using System.Linq;
 namespace FleetManager.DB
 {
     public static class MethodsDB
-    {
-        // --- METODI DI CONTROLLO E INSERIMENTO ---
-
-        public static bool CheckVeicolo(string targa)
-        {
-            using (var connection = Database.Connection())
-            {
-                string query = "SELECT COUNT(*) FROM VEICOLI WHERE Targa = @targa";
-                return connection.ExecuteScalar<int>(query, new { targa }) > 0;
-            }
-        }
-
-        public static void InserisciVeicolo(Veicolo v)
-        {
-            using (var connection = Database.Connection())
-            {
-                string query = @"INSERT INTO VEICOLI (Targa, FK_Modello, AnnoProduzione, Chilometraggio, Stato) 
-                               VALUES (@Targa, @FK_Modello, @AnnoProduzione, @Chilometraggio, @Stato)";
-                connection.Execute(query, v);
-            }
-        }
+    {        
         #region DASHBOARD
         #region CONTATORI
         // --- METODI PER COUNTERS ---
@@ -78,12 +58,12 @@ namespace FleetManager.DB
             using (var connection = Database.Connection())
             {
                 string query = @"SELECT 
-                            FORMAT(DataIntervento, 'MMM', 'it-IT') as Mese, 
-                            SUM(Costo) as Totale 
-                         FROM MANUTENZIONI 
-                         WHERE DataIntervento > DATEADD(year, -1, GETDATE())
-                         GROUP BY MONTH(DataIntervento), FORMAT(DataIntervento, 'MMM', 'it-IT')
-                         ORDER BY MONTH(DataIntervento)";
+                                FORMAT(DataIntervento, 'MMM yyyy', 'us-US') as Mese, 
+                                SUM(Costo) as Totale 
+                                FROM MANUTENZIONI 
+                                WHERE DataIntervento > DATEADD(year, -1, GETDATE())
+                                GROUP BY YEAR(DataIntervento), MONTH(DataIntervento), FORMAT(DataIntervento, 'MMM yyyy', 'us-US')
+                                ORDER BY YEAR(DataIntervento), MONTH(DataIntervento)";
                 return connection.Query(query);
             }
         }
@@ -119,26 +99,16 @@ namespace FleetManager.DB
         #endregion
 
         #region FLOTTA
-        public static IEnumerable<dynamic> GetVeicoliCompleti()
+        #region VEICOLI
+        public static void InserisciVeicolo(Veicolo v)
         {
             using (var connection = Database.Connection())
             {
-                string query = @"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, 
-                                V.AnnoProduzione, V.Chilometraggio, V.Stato
-                         FROM VEICOLI V
-                         JOIN MODELLI M ON V.FK_Modello = M.ID_Modello";
-                return connection.Query(query);
+                string query = @"INSERT INTO VEICOLI (Targa, FK_Modello, AnnoProduzione, Chilometraggio, Stato) 
+                               VALUES (@Targa, @FK_Modello, @AnnoProduzione, @Chilometraggio, @Stato)";
+                connection.Execute(query, v);
             }
         }
-
-        public static IEnumerable<Modello> GetListaModelli()
-        {
-            using (var connection = Database.Connection())
-            {
-                return connection.Query<Modello>("SELECT * FROM MODELLI ORDER BY Marca, NomeModello");
-            }
-        }
-
         public static void AggiornaVeicolo(int id, int km, string stato)
         {
             using (var connection = Database.Connection())
@@ -147,6 +117,8 @@ namespace FleetManager.DB
                 connection.Execute(query, new { id, km, stato });
             }
         }
+        #endregion VEICOLI
+        #region FILTRI
         public static List<string> GetDistintiAnni()
         {
             using (var connection = Database.Connection())
@@ -159,12 +131,24 @@ namespace FleetManager.DB
                 return connection.Query<string>("SELECT DISTINCT M.NomeModello FROM VEICOLI V JOIN MODELLI M ON V.FK_Modello = M.ID_Modello ORDER BY 1").ToList();
         }
 
-        public static IEnumerable<dynamic> RicercaVeicoli(string targa = null,string annoProduzione = null, string marca = null, string modello = null, string stato = null)
+        public static List<string> GetDistinteMarche()
+        {
+            using (var connection = Database.Connection())
+                return connection.Query<string>("SELECT DISTINCT M.Marca FROM VEICOLI V JOIN MODELLI M ON V.FK_Modello = M.ID_Modello ORDER BY 1").ToList();
+        }
+
+        public static IEnumerable<dynamic> RicercaVeicoli(string? targa = null, string? annoProduzione = null, string? marca = null, string? modello = null, KmFilterType? KmfilterType = null, int? chilometraggio = null, string? stato = null)
         {
             using (var connection = Database.Connection())
             {
-                // La query rimane identica, i controlli IS NULL gestiranno i parametri non passati
-                string query = @"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, 
+                string operatore = KmfilterType switch
+                {
+                    KmFilterType.Under => "<",
+                    KmFilterType.Over => ">",
+                    KmFilterType.Equal => "=",
+                    _ => ">",
+                };
+                string query = $@"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, 
                                 V.AnnoProduzione, V.Chilometraggio, V.Stato
                          FROM VEICOLI V
                          JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
@@ -172,12 +156,13 @@ namespace FleetManager.DB
                            AND (@annoProduzione IS NULL OR V.AnnoProduzione = @annoProduzione)
                            AND (@marca IS NULL OR M.Marca LIKE '%' + @marca + '%')
                            AND (@modello IS NULL OR M.NomeModello LIKE '%' + @modello + '%')
+                           AND (@chilometraggio IS NULL OR V.Chilometraggio {operatore} @chilometraggio)
                            AND (@stato IS NULL OR V.Stato = @stato)";
 
-                return connection.Query(query, new { targa, annoProduzione, marca, modello, stato }).ToList();
-
+                return connection.Query(query, new { targa, annoProduzione, marca, modello, chilometraggio, stato }).ToList();
             }
         }
+        #endregion FILTRI
         #endregion FLOTTA
     }
 }
