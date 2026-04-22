@@ -117,6 +117,15 @@ namespace FleetManager.DB
                 connection.Execute(query, new { id, km, stato });
             }
         }
+        public static void InserisciModello(Modello m)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"INSERT INTO MODELLI (NomeModello, Marca) 
+                               VALUES (@NomeModello, @Marca)";
+                connection.Execute(query, m);
+            }
+        }
         #endregion VEICOLI
         #region FILTRI
         public static List<string> GetDistintiAnni()
@@ -125,29 +134,68 @@ namespace FleetManager.DB
                 return connection.Query<string>("SELECT DISTINCT CAST(AnnoProduzione AS VARCHAR) FROM VEICOLI WHERE AnnoProduzione IS NOT NULL ORDER BY 1").ToList();
         }
 
-        public static List<string> GetDistintiModelli()
-        {
-            using (var connection = Database.Connection())
-                return connection.Query<string>("SELECT DISTINCT M.NomeModello FROM VEICOLI V JOIN MODELLI M ON V.FK_Modello = M.ID_Modello ORDER BY 1").ToList();
-        }
-
-        public static List<string> GetDistinteMarche()
-        {
-            using (var connection = Database.Connection())
-                return connection.Query<string>("SELECT DISTINCT M.Marca FROM VEICOLI V JOIN MODELLI M ON V.FK_Modello = M.ID_Modello ORDER BY 1").ToList();
-        }
-
-        public static IEnumerable<dynamic> RicercaVeicoli(string? targa = null, string? annoProduzione = null, string? marca = null, string? modello = null, KmFilterType? KmfilterType = null, int? chilometraggio = null, string? stato = null)
+        public static List<string> GetDistintiModelli(string marca = null)
         {
             using (var connection = Database.Connection())
             {
+                string query = @"SELECT '(' + CAST(COUNT(*) AS VARCHAR) + ') ' + M.NomeModello 
+                         FROM VEICOLI V
+                         JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
+                         WHERE (@marca IS NULL OR M.Marca = @marca)
+                         GROUP BY M.NomeModello
+                         ORDER BY M.NomeModello";
+                return connection.Query<string>(query, new { marca }).ToList();
+            }
+        }
+
+        public static List<string> GetDistinteMarche(string modello = null)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"SELECT '(' + CAST(COUNT(*) AS VARCHAR) + ') ' + M.Marca 
+                         FROM VEICOLI V
+                         JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
+                         WHERE (@modello IS NULL OR M.NomeModello = @modello)
+                         GROUP BY M.Marca
+                         ORDER BY M.Marca";
+                return connection.Query<string>(query, new { modello }).ToList();
+            }
+        }
+
+        public static IEnumerable<dynamic> RicercaVeicoli(string? targa = null, OrderType? annoProduzioneOrder = null, string? annoProduzione = null, OrderType? marcaOrder = null, string? marca = null, OrderType? modelloOrder = null, string? modello = null, OrderType? kmOrder = null, KmFilterType? KmfilterType = null, int? chilometraggio = null, OrderType? statusOrder = null, string? stato = null)
+        {
+            using (var connection = Database.Connection())
+            {
+                // 1. Gestione operatore KM
                 string operatore = KmfilterType switch
                 {
                     KmFilterType.Under => "<",
                     KmFilterType.Over => ">",
                     KmFilterType.Equal => "=",
-                    _ => ">",
+                    _ => ">"
                 };
+
+                List<string> orders = new List<string>();
+
+                if (marcaOrder != OrderType.None && marcaOrder != null)
+                    orders.Add($"M.Marca {(marcaOrder == OrderType.Ascending ? "ASC" : "DESC")}");
+
+                if (modelloOrder != OrderType.None && modelloOrder != null)
+                    orders.Add($"M.NomeModello {(modelloOrder == OrderType.Ascending ? "ASC" : "DESC")}");
+
+                if (annoProduzioneOrder != OrderType.None && annoProduzioneOrder != null)
+                    orders.Add($"V.AnnoProduzione {(annoProduzioneOrder == OrderType.Ascending ? "ASC" : "DESC")}");
+
+                if (kmOrder != OrderType.None && kmOrder != null)
+                    orders.Add($"V.Chilometraggio {(kmOrder == OrderType.Ascending ? "ASC" : "DESC")}");
+
+                if (statusOrder != OrderType.None && statusOrder != null)
+                    orders.Add($"V.Stato {(statusOrder == OrderType.Ascending ? "ASC" : "DESC")}");
+
+                string orderBy = orders.Count > 0
+                    ? "ORDER BY " + string.Join(", ", orders)
+                    : "ORDER BY V.Targa ASC"; //Ordine Default
+
                 string query = $@"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, 
                                 V.AnnoProduzione, V.Chilometraggio, V.Stato
                          FROM VEICOLI V
@@ -157,7 +205,8 @@ namespace FleetManager.DB
                            AND (@marca IS NULL OR M.Marca LIKE '%' + @marca + '%')
                            AND (@modello IS NULL OR M.NomeModello LIKE '%' + @modello + '%')
                            AND (@chilometraggio IS NULL OR V.Chilometraggio {operatore} @chilometraggio)
-                           AND (@stato IS NULL OR V.Stato = @stato)";
+                           AND (@stato IS NULL OR V.Stato = @stato)
+                         {orderBy}";
 
                 return connection.Query(query, new { targa, annoProduzione, marca, modello, chilometraggio, stato }).ToList();
             }

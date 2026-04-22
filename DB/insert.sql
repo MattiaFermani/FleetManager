@@ -14,61 +14,61 @@
 --DBCC CHECKIDENT ('INCIDENTI', RESEED, 0);
 --DBCC CHECKIDENT ('ASSEGNAZIONI', RESEED, 0);
 
----- MODELLI (40)
---INSERT INTO MODELLI (Marca, NomeModello) VALUES 
---('Fiat','500'),('Fiat','Panda'),('Fiat','Tipo'),('Alfa Romeo','Giulia'),('Alfa Romeo','Stelvio'),
---('Lancia','Ypsilon'),('Volkswagen','Golf'),('Volkswagen','Polo'),('Volkswagen','Passat'),('Audi','A3'),
---('Audi','A4'),('Audi','Q5'),('BMW','Serie 3'),('BMW','X3'),('Mercedes','Classe A'),
---('Mercedes','Classe C'),('Ford','Fiesta'),('Ford','Focus'),('Ford','Puma'),('Toyota','Yaris'),
---('Toyota','Corolla'),('Toyota','RAV4'),('Renault','Clio'),('Renault','Captur'),('Peugeot','208'),
---('Peugeot','3008'),('Citroen','C3'),('Citroen','C5'),('Opel','Corsa'),('Opel','Astra'),
---('Hyundai','i30'),('Hyundai','Tucson'),('Kia','Sportage'),('Kia','Rio'),('Volvo','XC40'),
---('Volvo','V60'),('Jeep','Renegade'),('Jeep','Compass'),('Dacia','Sandero'),('Dacia','Duster');
+-- MODELLI (40)
+INSERT INTO MODELLI (Marca, NomeModello) VALUES 
+('Fiat','500'),('Fiat','Panda'),('Fiat','Tipo'),('Alfa Romeo','Giulia'),('Alfa Romeo','Stelvio'),
+('Lancia','Ypsilon'),('Volkswagen','Golf'),('Volkswagen','Polo'),('Volkswagen','Passat'),('Audi','A3'),
+('Audi','A4'),('Audi','Q5'),('BMW','Serie 3'),('BMW','X3'),('Mercedes','Classe A'),
+('Mercedes','Classe C'),('Ford','Fiesta'),('Ford','Focus'),('Ford','Puma'),('Toyota','Yaris'),
+('Toyota','Corolla'),('Toyota','RAV4'),('Renault','Clio'),('Renault','Captur'),('Peugeot','208'),
+('Peugeot','3008'),('Citroen','C3'),('Citroen','C5'),('Opel','Corsa'),('Opel','Astra'),
+('Hyundai','i30'),('Hyundai','Tucson'),('Kia','Sportage'),('Kia','Rio'),('Volvo','XC40'),
+('Volvo','V60'),('Jeep','Renegade'),('Jeep','Compass'),('Dacia','Sandero'),('Dacia','Duster');
 
----- VEICOLI (40) - Puntano a ID_Modello 1-40
---INSERT INTO VEICOLI (Targa, FK_Modello, AnnoProduzione, Chilometraggio, Stato) VALUES 
---('AA001AA',1,2022,10000,'Disponibile'),('AA002BB',2,2021,25000,'In Uso'),('AA003CC',3,2020,40000,'In Manutenzione'),
---('AA004DD',4,2022,5000,'Disponibile'),('AA005EE',5,2021,32000,'In Uso'),('AA006FF',6,2019,65000,'Disponibile'),
---('AA007GG',7,2020,42000,'In Uso'),('AA008HH',8,2021,21000,'Disponibile'),('AA009II',9,2018,95000,'Disponibile'),
---('AA010JJ',10,2022,8000,'In Uso'),('AA011KK',11,2021,27000,'Disponibile'),('AA012LL',12,2020,55000,'In Uso'),
---('AA013MM',13,2019,72000,'Disponibile'),('AA014NN',14,2022,15000,'In Uso'),('AA015OO',15,2021,31000,'In Uso'),
---('AA016PP',16,2018,88000,'Disponibile'),('AA017QQ',17,2020,44000,'In Uso'),('AA018RR',18,2021,24000,'Disponibile'),
---('AA019SS',19,2022,9000,'In Uso'),('AA020TT',20,2019,62000,'Disponibile'),('AA021UU',21,2021,33000,'In Uso'),
---('AA022VV',22,2020,49000,'Disponibile'),('AA023WW',23,2018,81000,'Disponibile'),('AA024XX',24,2022,11000,'In Uso'),
---('AA025YY',25,2021,29000,'In Uso'),('AA026ZZ',26,2020,51000,'Disponibile'),('AA027AB',27,2019,77000,'Disponibile'),
---('AA028CD',28,2022,12000,'In Uso'),('AA029EF',29,2021,34000,'Disponibile'),('AA030GH',30,2018,99000,'In Manutenzione'),
---('AA031IJ',31,2020,41000,'In Uso'),('AA032KL',32,2021,22000,'Disponibile'),('AA033MN',33,2022,6000,'In Uso'),
---('AA034OP',34,2019,67000,'Disponibile'),('AA035QR',35,2021,30000,'In Uso'),('AA036ST',36,2020,53000,'Disponibile'),
---('AA037UV',37,2018,91000,'Disponibile'),('AA038WX',38,2022,14000,'In Uso'),('AA039YZ',39,2021,36000,'Disponibile'),
---('AA040ZA',40,2020,59000,'In Uso');
+-- VEICOLI (40) - Puntano a ID_Modello 1-40
+INSERT INTO VEICOLI (Targa, FK_Modello, AnnoProduzione, Chilometraggio, Stato) VALUES 
+('AA001AA',1,2022,10000,'Disponibile'),('AA002BB',2,2021,25000,'In Uso'),('AA003CC',3,2020,40000,'In Manutenzione'),
+('AA004DD',4,2022,5000,'Disponibile'),('AA005EE',5,2021,32000,'In Uso'),('AA006FF',6,2019,65000,'Disponibile'),
+('AA007GG',7,2020,42000,'In Uso'),('AA008HH',8,2021,21000,'Disponibile'),('AA009II',9,2018,95000,'Disponibile'),
+('AA010JJ',10,2022,8000,'In Uso'),('AA011KK',11,2021,27000,'Disponibile'),('AA012LL',12,2020,55000,'In Uso'),
+('AA013MM',13,2019,72000,'Disponibile'),('AA014NN',14,2022,15000,'In Uso'),('AA015OO',15,2021,31000,'In Uso'),
+('AA016PP',16,2018,88000,'Disponibile'),('AA017QQ',17,2020,44000,'In Uso'),('AA018RR',18,2021,24000,'Disponibile'),
+('AA019SS',19,2022,9000,'In Uso'),('AA020TT',20,2019,62000,'Disponibile'),('AA021UU',21,2021,33000,'In Uso'),
+('AA022VV',22,2020,49000,'Disponibile'),('AA023WW',23,2018,81000,'Disponibile'),('AA024XX',24,2022,11000,'In Uso'),
+('AA025YY',25,2021,29000,'In Uso'),('AA026ZZ',26,2020,51000,'Disponibile'),('AA027AB',27,2019,77000,'Disponibile'),
+('AA028CD',28,2022,12000,'In Uso'),('AA029EF',29,2021,34000,'Disponibile'),('AA030GH',30,2018,99000,'In Manutenzione'),
+('AA031IJ',31,2020,41000,'In Uso'),('AA032KL',32,2021,22000,'Disponibile'),('AA033MN',33,2022,6000,'In Uso'),
+('AA034OP',34,2019,67000,'Disponibile'),('AA035QR',35,2021,30000,'In Uso'),('AA036ST',36,2020,53000,'Disponibile'),
+('AA037UV',37,2018,91000,'Disponibile'),('AA038WX',38,2022,14000,'In Uso'),('AA039YZ',39,2021,36000,'Disponibile'),
+('AA040ZA',40,2020,59000,'In Uso');
 
----- GUIDATORI (40)
---INSERT INTO GUIDATORI (Nome, Cognome, CodiceFiscale, ScadenzaPatente) VALUES 
---('Mario','Rossi','RSSMRA80A01H501U','2030-01-01'),('Luca','Bianchi','BNCLCU85C03F205A','2029-05-12'),('Sara','Verdi','VRDSRA90D44H501M','2031-07-22'),
---('Anna','Neri','NRERBT81S12L219I','2030-04-20'),('Paolo','Gialli','GLLPLA75R06F205W','2028-11-11'),('Elena','Rosa','RSELEN92S50H501X','2032-06-18'),
---('Marco','Blu','BLUMRC88E05L736P','2027-12-05'),('Giulia','Marroni','MRNGLI95P55H501D','2033-02-14'),('Fabio','Grigio','GRGFBA77M15F205R','2026-09-09'),
---('Roberto','Costa','CSTRBT81S12L219J','2030-10-10'),('Laura','Brambilla','BRMLRA84T48F205T','2029-08-15'),('Davide','Esposito','ESPDVD89A12H501Y','2031-11-25'),
---('Alice','Ricci','RCCLCA94T68H501N','2034-09-08'),('Simone','Fontana','FNTSMN87B22L219K','2027-10-05'),('Chiara','Russo','RSSCHR94S65F205P','2034-03-22'),
---('Antonio','Ferrari','FRRNTN79M25H501S','2026-06-15'),('Marta','Greco','GRCMRT96A41L219V','2035-12-01'),('Giovanni','Rizzo','RZZGNN82D10F205G','2029-04-14'),
---('Silvia','Lombardi','LMBSLV85E45H501J','2030-08-30'),('Daniele','Barbieri','BRBDNL88R15L219X','2031-02-18'),('Erika','Moretti','MRTARK90T55F205Y','2032-07-07'),
---('Pietro','Pellegrini','PLLPTR76M28H501L','2026-11-19'),('Nicola','Martini','MRTNCL81S20F205E','2030-01-12'),('Federico','Gatti','GTTFRC87A11L219F','2028-12-30'),
---('Giorgia','Ferraro','FRRGRG97M50F205B','2035-03-14'),('Lorenzo','Santi','SNTLNZ84D14H501K','2029-06-25'),('Ilaria','Valenti','VLNLRN91P48L219A','2032-10-02'),
---('Enrico','Fabbri','FBBNRC78E19F205V','2026-02-28'),('Beatrice','Villa','VLLBTC95R52H501Z','2034-11-11'),('Claudio','Parisi','PRSCLD83A12L219M','2028-07-20'),
---('Simona','D’Angelo','DNGSMN89S58F205S','2031-04-15'),('Matteo','Rinaldi','RNLMTT80B15H501R','2030-09-30'),('Sofia','Donati','DNTSFO92D55L219E','2032-12-12'),
---('Andrea','Guerra','GRRNDR86M10F205Q','2027-05-05'),('Paola','Vitali','VTLPLA98R41H501T','2035-01-20'),('Stefano','Moro','MRSTFN82A01H501W','2029-03-15'),
---('Cristina','Bruni','BRNCRN85B42L219K','2030-02-28'),('Filippo','Galli','GLLFLP88C12F205D','2031-06-10'),('Monica','Sanna','SNNMNC90D50H501G','2032-09-18'),('Alessio','Piras','PRSLSS93E15L219F','2033-11-25');
+-- GUIDATORI (40)
+INSERT INTO GUIDATORI (Nome, Cognome, CodiceFiscale, ScadenzaPatente) VALUES 
+('Mario','Rossi','RSSMRA80A01H501U','2030-01-01'),('Luca','Bianchi','BNCLCU85C03F205A','2029-05-12'),('Sara','Verdi','VRDSRA90D44H501M','2031-07-22'),
+('Anna','Neri','NRERBT81S12L219I','2030-04-20'),('Paolo','Gialli','GLLPLA75R06F205W','2028-11-11'),('Elena','Rosa','RSELEN92S50H501X','2032-06-18'),
+('Marco','Blu','BLUMRC88E05L736P','2027-12-05'),('Giulia','Marroni','MRNGLI95P55H501D','2033-02-14'),('Fabio','Grigio','GRGFBA77M15F205R','2026-09-09'),
+('Roberto','Costa','CSTRBT81S12L219J','2030-10-10'),('Laura','Brambilla','BRMLRA84T48F205T','2029-08-15'),('Davide','Esposito','ESPDVD89A12H501Y','2031-11-25'),
+('Alice','Ricci','RCCLCA94T68H501N','2034-09-08'),('Simone','Fontana','FNTSMN87B22L219K','2027-10-05'),('Chiara','Russo','RSSCHR94S65F205P','2034-03-22'),
+('Antonio','Ferrari','FRRNTN79M25H501S','2026-06-15'),('Marta','Greco','GRCMRT96A41L219V','2035-12-01'),('Giovanni','Rizzo','RZZGNN82D10F205G','2029-04-14'),
+('Silvia','Lombardi','LMBSLV85E45H501J','2030-08-30'),('Daniele','Barbieri','BRBDNL88R15L219X','2031-02-18'),('Erika','Moretti','MRTARK90T55F205Y','2032-07-07'),
+('Pietro','Pellegrini','PLLPTR76M28H501L','2026-11-19'),('Nicola','Martini','MRTNCL81S20F205E','2030-01-12'),('Federico','Gatti','GTTFRC87A11L219F','2028-12-30'),
+('Giorgia','Ferraro','FRRGRG97M50F205B','2035-03-14'),('Lorenzo','Santi','SNTLNZ84D14H501K','2029-06-25'),('Ilaria','Valenti','VLNLRN91P48L219A','2032-10-02'),
+('Enrico','Fabbri','FBBNRC78E19F205V','2026-02-28'),('Beatrice','Villa','VLLBTC95R52H501Z','2034-11-11'),('Claudio','Parisi','PRSCLD83A12L219M','2028-07-20'),
+('Simona','D’Angelo','DNGSMN89S58F205S','2031-04-15'),('Matteo','Rinaldi','RNLMTT80B15H501R','2030-09-30'),('Sofia','Donati','DNTSFO92D55L219E','2032-12-12'),
+('Andrea','Guerra','GRRNDR86M10F205Q','2027-05-05'),('Paola','Vitali','VTLPLA98R41H501T','2035-01-20'),('Stefano','Moro','MRSTFN82A01H501W','2029-03-15'),
+('Cristina','Bruni','BRNCRN85B42L219K','2030-02-28'),('Filippo','Galli','GLLFLP88C12F205D','2031-06-10'),('Monica','Sanna','SNNMNC90D50H501G','2032-09-18'),('Alessio','Piras','PRSLSS93E15L219F','2033-11-25');
 
----- MANUTENZIONI (40)
---INSERT INTO MANUTENZIONI (FK_Veicolo, DataIntervento, Costo, Descrizione)
---SELECT ID_Veicolo, '2024-01-10', 250.00, 'Tagliando ordinario' FROM VEICOLI;
+-- MANUTENZIONI (40)
+INSERT INTO MANUTENZIONI (FK_Veicolo, DataIntervento, Costo, Descrizione)
+SELECT ID_Veicolo, '2024-01-10', 250.00, 'Tagliando ordinario' FROM VEICOLI;
 
----- INCIDENTI (40)
---INSERT INTO INCIDENTI (FK_Veicolo, FK_Guidatore, DataIncidente, DescrizioneDanni)
---SELECT ID_Veicolo, ID_Veicolo, '2024-02-15', 'Urto lieve parcheggio' FROM VEICOLI;
+-- INCIDENTI (40)
+INSERT INTO INCIDENTI (FK_Veicolo, FK_Guidatore, DataIncidente, DescrizioneDanni)
+SELECT ID_Veicolo, ID_Veicolo, '2024-02-15', 'Urto lieve parcheggio' FROM VEICOLI;
 
----- ASSEGNAZIONI (40)
---INSERT INTO ASSEGNAZIONI (FK_Veicolo, FK_Guidatore, DataInizio, DataFine)
---SELECT ID_Veicolo, ID_Veicolo, '2024-01-01', NULL FROM VEICOLI;
+-- ASSEGNAZIONI (40)
+INSERT INTO ASSEGNAZIONI (FK_Veicolo, FK_Guidatore, DataInizio, DataFine)
+SELECT ID_Veicolo, ID_Veicolo, '2024-01-01', NULL FROM VEICOLI;
 
 -------------------------------------------------------
 -- 1. VEICOLI (50 nuovi record)
