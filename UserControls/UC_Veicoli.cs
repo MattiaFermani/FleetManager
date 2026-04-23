@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using FleetManager.DB;
+using FleetManager.Entita;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -49,29 +50,7 @@ namespace FleetManager
             //// Rendi la tendina subito reattiva
             //dGw_Veicoli.EditMode = DataGridViewEditMode.EditOnEnter;
 
-            // Filtro Marca
-            cmb_FilterMarca.Items.Clear();
-            cmb_FilterMarca.Items.Add("Tutte le marche");
-            cmb_FilterMarca.Items.AddRange(MethodsDB.GetDistinteMarche().ToArray());
-            cmb_FilterMarca.SelectedIndex = 0;
-
-            // Filtro Modello
-            cmb_FilterModello.Items.Clear();
-            cmb_FilterModello.Items.Add("Tutti i modelli");
-            cmb_FilterModello.Items.AddRange(MethodsDB.GetDistintiModelli().ToArray());
-            cmb_FilterModello.SelectedIndex = 0;
-
-            // Filtro Anno
-            cmb_FilterYearProd.Items.Clear();
-            cmb_FilterYearProd.Items.Add("Tutti gli anni");
-            cmb_FilterYearProd.Items.AddRange(MethodsDB.GetDistintiAnni().ToArray());
-            cmb_FilterYearProd.SelectedIndex = 0;
-
-            // Filtro Stato
-            cmb_FilterStato.Items.Clear();
-            cmb_FilterStato.Items.Add("Tutti gli stati");
-            cmb_FilterStato.Items.AddRange(new string[] { "Disponibile", "Non Disponibile", "In Uso", "In Manutenzione" });
-            cmb_FilterStato.SelectedIndex = 0;
+            RefreshData();
 
         }
 
@@ -87,6 +66,60 @@ namespace FleetManager
             {
                 MessageBox.Show("Errore nel caricamento dei veicoli: " + ex.Message);
             }
+        }
+
+        private void RefreshData()
+        {
+            // Filtro Marca
+            cmb_FilterMarca.Items.Clear();
+            cmb_FilterMarca.Items.Add("Tutte le marche");
+            cmb_FilterMarca.Items.AddRange(MethodsDB.GetDistinteMarche().ToArray());
+            cmb_FilterMarca.SelectedIndex = 0;
+
+            // Aggiungi Veicolo Marca
+            string[] _marche;
+            cmb_AddMarca.Items.Clear();
+            cmb_AddMarca.Items.Add("Tutte le marche");
+            _marche = MethodsDB.GetDistinteMarche().ToArray();
+            foreach (string _marca in _marche)
+            {
+                _marche[_marche.IndexOf(_marca)] = Clean(_marca);
+            }
+            cmb_AddMarca.Items.AddRange(_marche);
+            cmb_AddMarca.SelectedIndex = 0;
+
+            // Filtro Modello
+            cmb_FilterModello.Items.Clear();
+            cmb_FilterModello.Items.Add("Tutti i modelli");
+            cmb_FilterModello.Items.AddRange(MethodsDB.GetDistintiModelli().ToArray());
+            cmb_FilterModello.SelectedIndex = 0;
+
+            // Aggiungi Veicolo Modello
+            string[] _modelli;
+            cmb_AddModello.Items.Clear();
+            _modelli = MethodsDB.GetDistintiModelli().ToArray();
+            foreach (string _modello in _modelli)
+            {
+                _modelli[_modelli.IndexOf(_modello)] = Clean(_modello);
+            }
+            cmb_AddModello.Items.AddRange(_modelli);
+            cmb_AddModello.SelectedIndex = -1;
+
+            // Filtro Anno
+            cmb_FilterYearProd.Items.Clear();
+            cmb_FilterYearProd.Items.Add("Tutti gli anni");
+            cmb_FilterYearProd.Items.AddRange(MethodsDB.GetDistintiAnni().ToArray());
+            cmb_FilterYearProd.SelectedIndex = 0;
+
+            // Aggiungi Veicolo Anno
+            nUd_AddAnnoProd.Maximum = DateTime.Now.Year;
+            nUd_AddAnnoProd.Minimum = 1886;
+
+            // Filtro Stato
+            cmb_FilterStato.Items.Clear();
+            cmb_FilterStato.Items.Add("Tutti gli stati");
+            cmb_FilterStato.Items.AddRange(new string[] { "Disponibile", "Non Disponibile", "In Uso", "In Manutenzione" });
+            cmb_FilterStato.SelectedIndex = 0;
         }
 
         //private void LoadFilters(string? marca = null, string? modello = null, string? annoProduzione = null, string? stato = null)
@@ -208,6 +241,11 @@ namespace FleetManager
             string s = cb.SelectedItem.ToString();
             int pos = s.IndexOf(") ");
             return pos > -1 ? s.Substring(pos + 2) : s;
+        }
+        private string Clean(string str)
+        {
+            int pos = str.IndexOf(") ");
+            return pos > -1 ? str.Substring(pos + 2) : str;
         }
 
         private void Filter()
@@ -380,6 +418,107 @@ namespace FleetManager
                 "══════════════════════════════";
 
             MessageBox.Show(messaggio, "Funzionamento dei Filtri", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btn_AddVeicolo_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txb_AddTarga.Text) ||
+                cmb_AddMarca.SelectedIndex <= 0 ||
+                cmb_AddModello.SelectedIndex <= 0)
+            {
+                MessageBox.Show("Devi compilare tutti i campi correttamente", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int idModello = MethodsDB.GetIdModelloPerNome(Clean(cmb_AddModello));
+
+            if (idModello == -1)
+            {
+                MessageBox.Show("Errore: Modello non trovato nel sistema.");
+                return;
+            }
+
+            string _targa = txb_AddTarga.Text.Trim().ToUpper();
+            int _annoProd = Convert.ToInt32(nUd_AddAnnoProd.Value);
+            int _chilometraggio = Convert.ToInt32(nUd_AddChilometraggio.Value);
+
+            Veicolo v = new Veicolo(_targa, idModello, _annoProd, _chilometraggio, "Disponibile");
+
+            try
+            {
+                MethodsDB.InserisciVeicolo(v);
+
+                txb_AddTarga.Text = "";
+                cmb_AddMarca.SelectedIndex = 0;
+                cmb_AddModello.SelectedIndex = 0;
+                nUd_AddAnnoProd.Value = nUd_AddAnnoProd.Minimum;
+                nUd_AddChilometraggio.Value = nUd_AddChilometraggio.Minimum;
+
+                MessageBox.Show("Veicolo inserito correttamente!", "Successo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                RefreshData();
+                Filter();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errore durante l'inserimento: " + ex.Message);
+            }
+        }
+
+        private void cmb_AddMarca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cmb_AddModello.Items.Clear();
+            if (cmb_AddMarca.SelectedIndex > 0)
+            {
+                string marca = Clean(cmb_AddMarca);
+                string[] _modelli;
+                _modelli = MethodsDB.GetDistintiModelli(marca).ToArray();
+                foreach (string _modello in _modelli)
+                {
+                    _modelli[_modelli.IndexOf(_modello)] = Clean(_modello);
+                }
+                cmb_AddModello.Items.AddRange(_modelli);
+            }
+            else
+            {
+                string[] _modelli;
+                _modelli = MethodsDB.GetDistintiModelli().ToArray();
+                foreach (string _modello in _modelli)
+                {
+                    _modelli[_modelli.IndexOf(_modello)] = Clean(_modello);
+                }
+                cmb_AddModello.Items.AddRange(_modelli);
+            }
+            cmb_AddModello.Text = string.Empty;
+            cmb_AddModello.SelectedIndex = -1;
+        }
+
+        private void dGw_Veicoli_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dGw_Veicoli.ClearSelection();
+                dGw_Veicoli.Rows[e.RowIndex].Selected = true;
+
+                dGw_Veicoli.CurrentCell = dGw_Veicoli.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                Veicoli_ContextMenu.Show(Cursor.Position);
+            }
+        }
+
+        private void Fleet_ContextMenu_EliminaVeicolo_Click(object sender, EventArgs e)
+        {
+            if (dGw_Veicoli.SelectedRows.Count > 0)
+            {
+                var idVeicolo = dGw_Veicoli.SelectedRows[0].Cells["ID_Veicolo"].Value;
+                var targaVeicolo = dGw_Veicoli.SelectedRows[0].Cells["Targa"].Value;
+
+                if (MessageBox.Show($"Eliminare il veicolo con targa {targaVeicolo}?", "Conferma", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                     MethodsDB.EliminaVeicolo((int)idVeicolo);
+                    Filter(); // Ricarica la griglia
+                }
+            }
         }
     }
 

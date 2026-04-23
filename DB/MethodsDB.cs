@@ -117,6 +117,15 @@ namespace FleetManager.DB
                 connection.Execute(query, new { id, km, stato });
             }
         }
+        public static void EliminaVeicolo(int id)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = "DELETE FROM VEICOLI WHERE ID_Veicolo = @id";
+
+                connection.Execute(query, new { id });
+            }
+        }
         public static void InserisciModello(Modello m)
         {
             using (var connection = Database.Connection())
@@ -124,6 +133,27 @@ namespace FleetManager.DB
                 string query = @"INSERT INTO MODELLI (NomeModello, Marca) 
                                VALUES (@NomeModello, @Marca)";
                 connection.Execute(query, m);
+            }
+        }
+        public static int GetIdModelloPerNome(string nomeModello)
+        {
+            using (var connection = Database.Connection())
+            {
+                // Cerchiamo l'ID corrispondente al nome pulito
+                return connection.ExecuteScalar<int>(
+                    "SELECT ID_Modello FROM MODELLI WHERE NomeModello = @nome",
+                    new { nome = nomeModello }
+                );
+            }
+        }
+        public static bool TargaEsistente(string targa)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = "SELECT COUNT(1) FROM VEICOLI WHERE Targa = @targa";
+
+                int count = connection.ExecuteScalar<int>(query, new { targa });
+                return count > 0;
             }
         }
         #endregion VEICOLI
