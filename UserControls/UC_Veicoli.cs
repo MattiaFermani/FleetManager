@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace FleetManager
 {
@@ -38,6 +39,8 @@ namespace FleetManager
         {
             InitializeComponent();
             dGw_Veicoli.AutoGenerateColumns = false;
+
+            TabResize();
 
             //// Configura la colonna Stato (deve essere DataGridViewComboBoxColumn nel Designer)
             //var colStato = (DataGridViewComboBoxColumn)dGw_Veicoli.Columns["Stato"];
@@ -430,6 +433,39 @@ namespace FleetManager
                 return;
             }
 
+            string _targa_ = txb_AddTarga.Text.Trim().ToUpper();
+
+            // Definizione del pattern Regex per le targhe italiane
+            // ^[A-Z]{2} -> Inizia con 2 lettere
+            // [0-9]{3}  -> Seguono 3 numeri
+            // [A-Z]{2}$ -> Finisce con 2 lettere (escludendo I, O, Q, U per precisione estrema servirebbe un pattern più complesso, ma questo è lo standard)
+            string patternTarga = @"^[A-Z]{2}[0-9]{3}[A-Z]{2}$";
+
+            string targaInput = txb_AddTarga.Text.Trim().ToUpper();
+
+            if (!Regex.IsMatch(targaInput, patternTarga))
+            {
+                MessageBox.Show("Il formato della targa non è valido (Esempio corretto: AA123BB).",
+                                "Formato Errato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Se il formato è corretto, controlliamo se esiste già nel DB
+            if (MethodsDB.TargaEsistente(targaInput) == true)
+            {
+                MessageBox.Show("Questa targa è già presente nel database!",
+                                "Duplicato", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
+            // Se passa entrambi i controlli, procede con linserimento
+
+            if (_targa_.Length > 7)
+            {
+                MessageBox.Show("La targa non può superare i 7 caratteri.", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             int idModello = MethodsDB.GetIdModelloPerNome(Clean(cmb_AddModello));
 
             if (idModello == -1)
@@ -515,9 +551,24 @@ namespace FleetManager
 
                 if (MessageBox.Show($"Eliminare il veicolo con targa {targaVeicolo}?", "Conferma", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                     MethodsDB.EliminaVeicolo((int)idVeicolo);
-                    Filter(); // Ricarica la griglia
+                    MethodsDB.EliminaVeicolo((int)idVeicolo);
+                    Filter();
                 }
+            }
+        }
+
+        private void tabControl1_Resize(object sender, EventArgs e)
+        {
+        }
+
+        private void TabResize()
+        {
+            if (tabControl1.TabCount > 0)
+            {
+                int width = (tabControl1.Size.Width / tabControl1.TabCount) - 3;
+
+                tabControl1.SizeMode = TabSizeMode.Fixed;
+                tabControl1.ItemSize = new Size(width, 30);
             }
         }
     }

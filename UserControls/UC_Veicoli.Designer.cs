@@ -30,7 +30,15 @@
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dGw_Veicoli = new DataGridView();
+            ID_Veicolo = new DataGridViewTextBoxColumn();
+            Targa = new DataGridViewTextBoxColumn();
+            Marca = new DataGridViewTextBoxColumn();
+            NomeModello = new DataGridViewTextBoxColumn();
+            AnnoProduzione = new DataGridViewTextBoxColumn();
+            Chilometraggio = new DataGridViewTextBoxColumn();
+            Stato = new DataGridViewComboBoxColumn();
             Veicoli_ContextMenu = new ContextMenuStrip(components);
             Fleet_ContextMenu_EliminaVeicolo = new ToolStripMenuItem();
             txb_FilterTarga = new TextBox();
@@ -71,19 +79,27 @@
             btn_FilterStatoOrder = new Button();
             btn_FilterChilometraggioOrder = new Button();
             btn_FilterInfo = new Button();
-            ID_Veicolo = new DataGridViewTextBoxColumn();
-            Targa = new DataGridViewTextBoxColumn();
-            Marca = new DataGridViewTextBoxColumn();
-            NomeModello = new DataGridViewTextBoxColumn();
-            AnnoProduzione = new DataGridViewTextBoxColumn();
-            Chilometraggio = new DataGridViewTextBoxColumn();
-            Stato = new DataGridViewComboBoxColumn();
+            tabControl1 = new TabControl();
+            tabPage1 = new TabPage();
+            tabPage2 = new TabPage();
+            dataGridView1 = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
+            dataGridViewComboBoxColumn1 = new DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dGw_Veicoli).BeginInit();
             Veicoli_ContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nUd_FilterKm).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nUd_AddAnnoProd).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nUd_AddChilometraggio).BeginInit();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dGw_Veicoli
@@ -100,17 +116,72 @@
             dGw_Veicoli.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dGw_Veicoli.Columns.AddRange(new DataGridViewColumn[] { ID_Veicolo, Targa, Marca, NomeModello, AnnoProduzione, Chilometraggio, Stato });
             dGw_Veicoli.EditMode = DataGridViewEditMode.EditOnEnter;
-            dGw_Veicoli.Location = new Point(10, 103);
+            dGw_Veicoli.Location = new Point(3, 93);
             dGw_Veicoli.MultiSelect = false;
             dGw_Veicoli.Name = "dGw_Veicoli";
             dGw_Veicoli.RowHeadersVisible = false;
             dGw_Veicoli.ScrollBars = ScrollBars.Vertical;
             dGw_Veicoli.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dGw_Veicoli.Size = new Size(650, 579);
+            dGw_Veicoli.Size = new Size(670, 565);
             dGw_Veicoli.TabIndex = 0;
             dGw_Veicoli.CellClick += dGw_Veicoli_CellClick;
             dGw_Veicoli.CellMouseDown += dGw_Veicoli_CellMouseDown;
             dGw_Veicoli.CellValueChanged += dGw_Veicoli_CellValueChanged;
+            // 
+            // ID_Veicolo
+            // 
+            ID_Veicolo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            ID_Veicolo.DataPropertyName = "ID_Veicolo";
+            ID_Veicolo.Frozen = true;
+            ID_Veicolo.HeaderText = "ID";
+            ID_Veicolo.Name = "ID_Veicolo";
+            ID_Veicolo.ReadOnly = true;
+            ID_Veicolo.Visible = false;
+            // 
+            // Targa
+            // 
+            Targa.DataPropertyName = "Targa";
+            Targa.HeaderText = "Targa";
+            Targa.Name = "Targa";
+            Targa.ReadOnly = true;
+            // 
+            // Marca
+            // 
+            Marca.DataPropertyName = "Marca";
+            Marca.HeaderText = "Marca";
+            Marca.Name = "Marca";
+            Marca.ReadOnly = true;
+            // 
+            // NomeModello
+            // 
+            NomeModello.DataPropertyName = "NomeModello";
+            NomeModello.HeaderText = "NomeModello";
+            NomeModello.Name = "NomeModello";
+            NomeModello.ReadOnly = true;
+            // 
+            // AnnoProduzione
+            // 
+            AnnoProduzione.DataPropertyName = "AnnoProduzione";
+            AnnoProduzione.HeaderText = "Anno Produzione";
+            AnnoProduzione.Name = "AnnoProduzione";
+            AnnoProduzione.ReadOnly = true;
+            // 
+            // Chilometraggio
+            // 
+            Chilometraggio.DataPropertyName = "Chilometraggio";
+            Chilometraggio.HeaderText = "Chilometraggio";
+            Chilometraggio.Name = "Chilometraggio";
+            // 
+            // Stato
+            // 
+            Stato.DataPropertyName = "Stato";
+            Stato.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+            Stato.FlatStyle = FlatStyle.Popup;
+            Stato.HeaderText = "Stato";
+            Stato.Items.AddRange(new object[] { "Disponibile", "Non Disponibile", "In Uso", "In Manutenzione" });
+            Stato.MaxDropDownItems = 4;
+            Stato.Name = "Stato";
+            Stato.ToolTipText = "Gestisci lo stato del veicolo";
             // 
             // Veicoli_ContextMenu
             // 
@@ -127,7 +198,7 @@
             // 
             // txb_FilterTarga
             // 
-            txb_FilterTarga.Location = new Point(10, 31);
+            txb_FilterTarga.Location = new Point(3, 21);
             txb_FilterTarga.Name = "txb_FilterTarga";
             txb_FilterTarga.Size = new Size(137, 23);
             txb_FilterTarga.TabIndex = 1;
@@ -136,7 +207,7 @@
             // cmb_FilterModello
             // 
             cmb_FilterModello.FormattingEnabled = true;
-            cmb_FilterModello.Location = new Point(195, 74);
+            cmb_FilterModello.Location = new Point(188, 64);
             cmb_FilterModello.Name = "cmb_FilterModello";
             cmb_FilterModello.Size = new Size(135, 23);
             cmb_FilterModello.TabIndex = 2;
@@ -145,7 +216,7 @@
             // cmb_FilterYearProd
             // 
             cmb_FilterYearProd.FormattingEnabled = true;
-            cmb_FilterYearProd.Location = new Point(195, 30);
+            cmb_FilterYearProd.Location = new Point(188, 20);
             cmb_FilterYearProd.Name = "cmb_FilterYearProd";
             cmb_FilterYearProd.Size = new Size(132, 23);
             cmb_FilterYearProd.TabIndex = 2;
@@ -154,7 +225,7 @@
             // cmb_FilterStato
             // 
             cmb_FilterStato.FormattingEnabled = true;
-            cmb_FilterStato.Location = new Point(377, 74);
+            cmb_FilterStato.Location = new Point(370, 64);
             cmb_FilterStato.Name = "cmb_FilterStato";
             cmb_FilterStato.Size = new Size(143, 23);
             cmb_FilterStato.TabIndex = 2;
@@ -163,7 +234,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(10, 13);
+            label2.Location = new Point(3, 3);
             label2.Name = "label2";
             label2.Size = new Size(36, 15);
             label2.TabIndex = 4;
@@ -172,7 +243,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(195, 12);
+            label3.Location = new Point(188, 2);
             label3.Name = "label3";
             label3.Size = new Size(112, 15);
             label3.TabIndex = 4;
@@ -181,7 +252,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(195, 56);
+            label4.Location = new Point(188, 46);
             label4.Name = "label4";
             label4.Size = new Size(51, 15);
             label4.TabIndex = 4;
@@ -190,7 +261,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(377, 58);
+            label5.Location = new Point(370, 48);
             label5.Name = "label5";
             label5.Size = new Size(34, 15);
             label5.TabIndex = 4;
@@ -198,7 +269,7 @@
             // 
             // nUd_FilterKm
             // 
-            nUd_FilterKm.Location = new Point(417, 30);
+            nUd_FilterKm.Location = new Point(410, 20);
             nUd_FilterKm.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
             nUd_FilterKm.Name = "nUd_FilterKm";
             nUd_FilterKm.Size = new Size(103, 23);
@@ -209,7 +280,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(376, 13);
+            label6.Location = new Point(369, 3);
             label6.Name = "label6";
             label6.Size = new Size(90, 15);
             label6.TabIndex = 4;
@@ -218,7 +289,7 @@
             // btn_FilterUnderOver
             // 
             btn_FilterUnderOver.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btn_FilterUnderOver.Location = new Point(376, 30);
+            btn_FilterUnderOver.Location = new Point(369, 20);
             btn_FilterUnderOver.Name = "btn_FilterUnderOver";
             btn_FilterUnderOver.Size = new Size(35, 23);
             btn_FilterUnderOver.TabIndex = 6;
@@ -229,7 +300,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(10, 56);
+            label1.Location = new Point(3, 46);
             label1.Name = "label1";
             label1.Size = new Size(40, 15);
             label1.TabIndex = 4;
@@ -238,7 +309,7 @@
             // cmb_FilterMarca
             // 
             cmb_FilterMarca.FormattingEnabled = true;
-            cmb_FilterMarca.Location = new Point(10, 74);
+            cmb_FilterMarca.Location = new Point(3, 64);
             cmb_FilterMarca.Name = "cmb_FilterMarca";
             cmb_FilterMarca.Size = new Size(139, 23);
             cmb_FilterMarca.TabIndex = 2;
@@ -264,9 +335,10 @@
             panel1.Controls.Add(nUd_AddChilometraggio);
             panel1.Controls.Add(label11);
             panel1.Controls.Add(label12);
-            panel1.Location = new Point(666, 3);
+            panel1.Dock = DockStyle.Right;
+            panel1.Location = new Point(669, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(208, 679);
+            panel1.Size = new Size(208, 685);
             panel1.TabIndex = 7;
             // 
             // btn_AddVeicolo
@@ -431,7 +503,7 @@
             // btn_FilterMarcaOrder
             // 
             btn_FilterMarcaOrder.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btn_FilterMarcaOrder.Location = new Point(148, 74);
+            btn_FilterMarcaOrder.Location = new Point(141, 64);
             btn_FilterMarcaOrder.Name = "btn_FilterMarcaOrder";
             btn_FilterMarcaOrder.Size = new Size(35, 23);
             btn_FilterMarcaOrder.TabIndex = 6;
@@ -442,7 +514,7 @@
             // btn_FilterModelloOrder
             // 
             btn_FilterModelloOrder.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btn_FilterModelloOrder.Location = new Point(327, 74);
+            btn_FilterModelloOrder.Location = new Point(320, 64);
             btn_FilterModelloOrder.Name = "btn_FilterModelloOrder";
             btn_FilterModelloOrder.Size = new Size(35, 23);
             btn_FilterModelloOrder.TabIndex = 6;
@@ -453,7 +525,7 @@
             // btn_FilterAnnoProduzioneOrder
             // 
             btn_FilterAnnoProduzioneOrder.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btn_FilterAnnoProduzioneOrder.Location = new Point(327, 30);
+            btn_FilterAnnoProduzioneOrder.Location = new Point(320, 20);
             btn_FilterAnnoProduzioneOrder.Name = "btn_FilterAnnoProduzioneOrder";
             btn_FilterAnnoProduzioneOrder.Size = new Size(35, 24);
             btn_FilterAnnoProduzioneOrder.TabIndex = 6;
@@ -464,7 +536,7 @@
             // btn_FilterStatoOrder
             // 
             btn_FilterStatoOrder.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btn_FilterStatoOrder.Location = new Point(519, 74);
+            btn_FilterStatoOrder.Location = new Point(512, 64);
             btn_FilterStatoOrder.Name = "btn_FilterStatoOrder";
             btn_FilterStatoOrder.Size = new Size(35, 23);
             btn_FilterStatoOrder.TabIndex = 6;
@@ -475,7 +547,7 @@
             // btn_FilterChilometraggioOrder
             // 
             btn_FilterChilometraggioOrder.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btn_FilterChilometraggioOrder.Location = new Point(519, 30);
+            btn_FilterChilometraggioOrder.Location = new Point(512, 20);
             btn_FilterChilometraggioOrder.Name = "btn_FilterChilometraggioOrder";
             btn_FilterChilometraggioOrder.Size = new Size(35, 24);
             btn_FilterChilometraggioOrder.TabIndex = 6;
@@ -485,7 +557,7 @@
             // 
             // btn_FilterInfo
             // 
-            btn_FilterInfo.Location = new Point(576, 46);
+            btn_FilterInfo.Location = new Point(569, 36);
             btn_FilterInfo.Name = "btn_FilterInfo";
             btn_FilterInfo.Size = new Size(75, 39);
             btn_FilterInfo.TabIndex = 8;
@@ -493,87 +565,146 @@
             btn_FilterInfo.UseVisualStyleBackColor = true;
             btn_FilterInfo.Click += btn_FilterInfo_Click;
             // 
-            // ID_Veicolo
+            // tabControl1
             // 
-            ID_Veicolo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ID_Veicolo.DataPropertyName = "ID_Veicolo";
-            ID_Veicolo.Frozen = true;
-            ID_Veicolo.HeaderText = "ID";
-            ID_Veicolo.Name = "ID_Veicolo";
-            ID_Veicolo.ReadOnly = true;
-            ID_Veicolo.Visible = false;
+            tabControl1.Appearance = TabAppearance.Buttons;
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Location = new Point(0, 0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(669, 685);
+            tabControl1.SizeMode = TabSizeMode.Fixed;
+            tabControl1.TabIndex = 9;
             // 
-            // Targa
+            // tabPage1
             // 
-            Targa.DataPropertyName = "Targa";
-            Targa.HeaderText = "Targa";
-            Targa.Name = "Targa";
-            Targa.ReadOnly = true;
+            tabPage1.BackColor = Color.Tan;
+            tabPage1.BackgroundImageLayout = ImageLayout.None;
+            tabPage1.Controls.Add(label2);
+            tabPage1.Controls.Add(dGw_Veicoli);
+            tabPage1.Controls.Add(btn_FilterInfo);
+            tabPage1.Controls.Add(txb_FilterTarga);
+            tabPage1.Controls.Add(cmb_FilterModello);
+            tabPage1.Controls.Add(btn_FilterChilometraggioOrder);
+            tabPage1.Controls.Add(cmb_FilterMarca);
+            tabPage1.Controls.Add(btn_FilterAnnoProduzioneOrder);
+            tabPage1.Controls.Add(cmb_FilterStato);
+            tabPage1.Controls.Add(btn_FilterStatoOrder);
+            tabPage1.Controls.Add(cmb_FilterYearProd);
+            tabPage1.Controls.Add(btn_FilterModelloOrder);
+            tabPage1.Controls.Add(label1);
+            tabPage1.Controls.Add(btn_FilterMarcaOrder);
+            tabPage1.Controls.Add(label3);
+            tabPage1.Controls.Add(btn_FilterUnderOver);
+            tabPage1.Controls.Add(label4);
+            tabPage1.Controls.Add(nUd_FilterKm);
+            tabPage1.Controls.Add(label5);
+            tabPage1.Controls.Add(label6);
+            tabPage1.Location = new Point(4, 27);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(661, 654);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Veicoli";
             // 
-            // Marca
+            // tabPage2
             // 
-            Marca.DataPropertyName = "Marca";
-            Marca.HeaderText = "Marca";
-            Marca.Name = "Marca";
-            Marca.ReadOnly = true;
+            tabPage2.BackColor = Color.Tan;
+            tabPage2.Controls.Add(dataGridView1);
+            tabPage2.Location = new Point(4, 27);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(661, 654);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "tabPage2";
             // 
-            // NomeModello
+            // dataGridView1
             // 
-            NomeModello.DataPropertyName = "NomeModello";
-            NomeModello.HeaderText = "NomeModello";
-            NomeModello.Name = "NomeModello";
-            NomeModello.ReadOnly = true;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToResizeColumns = false;
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.BackgroundColor = SystemColors.Control;
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewComboBoxColumn1 });
+            dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
+            dataGridView1.Location = new Point(-5, 45);
+            dataGridView1.MultiSelect = false;
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.ScrollBars = ScrollBars.Vertical;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.Size = new Size(670, 565);
+            dataGridView1.TabIndex = 1;
             // 
-            // AnnoProduzione
+            // dataGridViewTextBoxColumn1
             // 
-            AnnoProduzione.DataPropertyName = "AnnoProduzione";
-            AnnoProduzione.HeaderText = "Anno Produzione";
-            AnnoProduzione.Name = "AnnoProduzione";
-            AnnoProduzione.ReadOnly = true;
+            dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridViewTextBoxColumn1.DataPropertyName = "ID_Veicolo";
+            dataGridViewTextBoxColumn1.Frozen = true;
+            dataGridViewTextBoxColumn1.HeaderText = "ID";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Visible = false;
             // 
-            // Chilometraggio
+            // dataGridViewTextBoxColumn2
             // 
-            Chilometraggio.DataPropertyName = "Chilometraggio";
-            Chilometraggio.HeaderText = "Chilometraggio";
-            Chilometraggio.Name = "Chilometraggio";
+            dataGridViewTextBoxColumn2.DataPropertyName = "Targa";
+            dataGridViewTextBoxColumn2.HeaderText = "Targa";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
-            // Stato
+            // dataGridViewTextBoxColumn3
             // 
-            Stato.DataPropertyName = "Stato";
-            Stato.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-            Stato.FlatStyle = FlatStyle.Popup;
-            Stato.HeaderText = "Stato";
-            Stato.Items.AddRange(new object[] { "Disponibile", "Non Disponibile", "In Uso", "In Manutenzione" });
-            Stato.MaxDropDownItems = 4;
-            Stato.Name = "Stato";
-            Stato.ToolTipText = "Gestisci lo stato del veicolo";
+            dataGridViewTextBoxColumn3.DataPropertyName = "Marca";
+            dataGridViewTextBoxColumn3.HeaderText = "Marca";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.DataPropertyName = "NomeModello";
+            dataGridViewTextBoxColumn4.HeaderText = "NomeModello";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            dataGridViewTextBoxColumn5.DataPropertyName = "AnnoProduzione";
+            dataGridViewTextBoxColumn5.HeaderText = "Anno Produzione";
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            dataGridViewTextBoxColumn6.DataPropertyName = "Chilometraggio";
+            dataGridViewTextBoxColumn6.HeaderText = "Chilometraggio";
+            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            dataGridViewComboBoxColumn1.DataPropertyName = "Stato";
+            dataGridViewComboBoxColumn1.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+            dataGridViewComboBoxColumn1.FlatStyle = FlatStyle.Popup;
+            dataGridViewComboBoxColumn1.HeaderText = "Stato";
+            dataGridViewComboBoxColumn1.Items.AddRange(new object[] { "Disponibile", "Non Disponibile", "In Uso", "In Manutenzione" });
+            dataGridViewComboBoxColumn1.MaxDropDownItems = 4;
+            dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            dataGridViewComboBoxColumn1.ToolTipText = "Gestisci lo stato del veicolo";
             // 
             // UC_Veicoli
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Tan;
-            Controls.Add(btn_FilterInfo);
+            Controls.Add(tabControl1);
             Controls.Add(panel1);
-            Controls.Add(btn_FilterChilometraggioOrder);
-            Controls.Add(btn_FilterAnnoProduzioneOrder);
-            Controls.Add(btn_FilterStatoOrder);
-            Controls.Add(btn_FilterModelloOrder);
-            Controls.Add(btn_FilterMarcaOrder);
-            Controls.Add(btn_FilterUnderOver);
-            Controls.Add(nUd_FilterKm);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label1);
-            Controls.Add(label2);
-            Controls.Add(cmb_FilterYearProd);
-            Controls.Add(cmb_FilterStato);
-            Controls.Add(cmb_FilterMarca);
-            Controls.Add(cmb_FilterModello);
-            Controls.Add(txb_FilterTarga);
-            Controls.Add(dGw_Veicoli);
             Name = "UC_Veicoli";
             Size = new Size(877, 685);
             Load += UC_Veicoli_Load;
@@ -584,8 +715,12 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nUd_AddAnnoProd).EndInit();
             ((System.ComponentModel.ISupportInitialize)nUd_AddChilometraggio).EndInit();
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -638,5 +773,16 @@
         private DataGridViewTextBoxColumn AnnoProduzione;
         private DataGridViewTextBoxColumn Chilometraggio;
         private DataGridViewComboBoxColumn Stato;
+        private TabControl tabControl1;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
     }
 }
