@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             dGw_Veicoli = new DataGridView();
             ID_Veicolo = new DataGridViewTextBoxColumn();
             Targa = new DataGridViewTextBoxColumn();
@@ -56,13 +56,13 @@
             cmb_FilterMarca = new ComboBox();
             panel1 = new Panel();
             btn_AddVeicolo = new Button();
-            button1 = new Button();
+            btn_addModello = new Button();
             nUd_AddAnnoProd = new NumericUpDown();
             cmb_AddModello = new ComboBox();
-            comboBox3 = new ComboBox();
+            cmb_NewMarca = new ComboBox();
             cmb_AddMarca = new ComboBox();
             txb_AddTarga = new TextBox();
-            textBox1 = new TextBox();
+            txt_NewModello = new TextBox();
             label13 = new Label();
             label7 = new Label();
             label8 = new Label();
@@ -82,14 +82,11 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
-            dataGridView1 = new DataGridView();
+            dGw_Modelli = new DataGridView();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
-            dataGridViewComboBoxColumn1 = new DataGridViewComboBoxColumn();
+            Modelli_Modello = new DataGridViewTextBoxColumn();
+            Modelli_Marca = new DataGridViewTextBoxColumn();
+            Vehicles_Number = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dGw_Veicoli).BeginInit();
             Veicoli_ContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nUd_FilterKm).BeginInit();
@@ -99,7 +96,7 @@
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dGw_Modelli).BeginInit();
             SuspendLayout();
             // 
             // dGw_Veicoli
@@ -108,8 +105,8 @@
             dGw_Veicoli.AllowUserToDeleteRows = false;
             dGw_Veicoli.AllowUserToResizeColumns = false;
             dGw_Veicoli.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
-            dGw_Veicoli.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(224, 224, 224);
+            dGw_Veicoli.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             dGw_Veicoli.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dGw_Veicoli.BackgroundColor = SystemColors.Control;
             dGw_Veicoli.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -318,13 +315,13 @@
             // panel1
             // 
             panel1.Controls.Add(btn_AddVeicolo);
-            panel1.Controls.Add(button1);
+            panel1.Controls.Add(btn_addModello);
             panel1.Controls.Add(nUd_AddAnnoProd);
             panel1.Controls.Add(cmb_AddModello);
-            panel1.Controls.Add(comboBox3);
+            panel1.Controls.Add(cmb_NewMarca);
             panel1.Controls.Add(cmb_AddMarca);
             panel1.Controls.Add(txb_AddTarga);
-            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(txt_NewModello);
             panel1.Controls.Add(label13);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label8);
@@ -351,14 +348,15 @@
             btn_AddVeicolo.UseVisualStyleBackColor = true;
             btn_AddVeicolo.Click += btn_AddVeicolo_Click;
             // 
-            // button1
+            // btn_addModello
             // 
-            button1.Location = new Point(18, 497);
-            button1.Name = "button1";
-            button1.Size = new Size(172, 23);
-            button1.TabIndex = 7;
-            button1.Text = "Aggiungi Modello";
-            button1.UseVisualStyleBackColor = true;
+            btn_addModello.Location = new Point(18, 497);
+            btn_addModello.Name = "btn_addModello";
+            btn_addModello.Size = new Size(172, 23);
+            btn_addModello.TabIndex = 7;
+            btn_addModello.Text = "Aggiungi Modello";
+            btn_addModello.UseVisualStyleBackColor = true;
+            btn_addModello.Click += btn_addModello_Click;
             // 
             // nUd_AddAnnoProd
             // 
@@ -375,13 +373,13 @@
             cmb_AddModello.Size = new Size(172, 23);
             cmb_AddModello.TabIndex = 5;
             // 
-            // comboBox3
+            // cmb_NewMarca
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(18, 424);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(172, 23);
-            comboBox3.TabIndex = 5;
+            cmb_NewMarca.FormattingEnabled = true;
+            cmb_NewMarca.Location = new Point(18, 424);
+            cmb_NewMarca.Name = "cmb_NewMarca";
+            cmb_NewMarca.Size = new Size(172, 23);
+            cmb_NewMarca.TabIndex = 5;
             // 
             // cmb_AddMarca
             // 
@@ -399,12 +397,12 @@
             txb_AddTarga.Size = new Size(172, 23);
             txb_AddTarga.TabIndex = 1;
             // 
-            // textBox1
+            // txt_NewModello
             // 
-            textBox1.Location = new Point(18, 468);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(172, 23);
-            textBox1.TabIndex = 1;
+            txt_NewModello.Location = new Point(18, 468);
+            txt_NewModello.Name = "txt_NewModello";
+            txt_NewModello.Size = new Size(172, 23);
+            txt_NewModello.TabIndex = 1;
             // 
             // label13
             // 
@@ -612,7 +610,7 @@
             // tabPage2
             // 
             tabPage2.BackColor = Color.Tan;
-            tabPage2.Controls.Add(dataGridView1);
+            tabPage2.Controls.Add(dGw_Modelli);
             tabPage2.Location = new Point(4, 27);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -620,83 +618,60 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             // 
-            // dataGridView1
+            // dGw_Modelli
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AllowUserToResizeColumns = false;
-            dataGridView1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.BackgroundColor = SystemColors.Control;
-            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewComboBoxColumn1 });
-            dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
-            dataGridView1.Location = new Point(-5, 45);
-            dataGridView1.MultiSelect = false;
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.ScrollBars = ScrollBars.Vertical;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(670, 565);
-            dataGridView1.TabIndex = 1;
+            dGw_Modelli.AllowUserToAddRows = false;
+            dGw_Modelli.AllowUserToDeleteRows = false;
+            dGw_Modelli.AllowUserToResizeColumns = false;
+            dGw_Modelli.AllowUserToResizeRows = false;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(224, 224, 224);
+            dGw_Modelli.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dGw_Modelli.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dGw_Modelli.BackgroundColor = SystemColors.Control;
+            dGw_Modelli.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dGw_Modelli.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dGw_Modelli.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, Modelli_Modello, Modelli_Marca, Vehicles_Number });
+            dGw_Modelli.EditMode = DataGridViewEditMode.EditOnEnter;
+            dGw_Modelli.Location = new Point(-1, 3);
+            dGw_Modelli.MultiSelect = false;
+            dGw_Modelli.Name = "dGw_Modelli";
+            dGw_Modelli.ReadOnly = true;
+            dGw_Modelli.RowHeadersVisible = false;
+            dGw_Modelli.ScrollBars = ScrollBars.Vertical;
+            dGw_Modelli.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dGw_Modelli.Size = new Size(666, 655);
+            dGw_Modelli.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1
             // 
             dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dataGridViewTextBoxColumn1.DataPropertyName = "ID_Veicolo";
+            dataGridViewTextBoxColumn1.DataPropertyName = "ID_Modello";
             dataGridViewTextBoxColumn1.Frozen = true;
             dataGridViewTextBoxColumn1.HeaderText = "ID";
             dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             dataGridViewTextBoxColumn1.ReadOnly = true;
             dataGridViewTextBoxColumn1.Visible = false;
             // 
-            // dataGridViewTextBoxColumn2
+            // Modelli_Modello
             // 
-            dataGridViewTextBoxColumn2.DataPropertyName = "Targa";
-            dataGridViewTextBoxColumn2.HeaderText = "Targa";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
+            Modelli_Modello.DataPropertyName = "NomeModello";
+            Modelli_Modello.HeaderText = "Modello";
+            Modelli_Modello.Name = "Modelli_Modello";
+            Modelli_Modello.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn3
+            // Modelli_Marca
             // 
-            dataGridViewTextBoxColumn3.DataPropertyName = "Marca";
-            dataGridViewTextBoxColumn3.HeaderText = "Marca";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
+            Modelli_Marca.DataPropertyName = "Marca";
+            Modelli_Marca.HeaderText = "Marca";
+            Modelli_Marca.Name = "Modelli_Marca";
+            Modelli_Marca.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn4
+            // Vehicles_Number
             // 
-            dataGridViewTextBoxColumn4.DataPropertyName = "NomeModello";
-            dataGridViewTextBoxColumn4.HeaderText = "NomeModello";
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            dataGridViewTextBoxColumn4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            dataGridViewTextBoxColumn5.DataPropertyName = "AnnoProduzione";
-            dataGridViewTextBoxColumn5.HeaderText = "Anno Produzione";
-            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            dataGridViewTextBoxColumn6.DataPropertyName = "Chilometraggio";
-            dataGridViewTextBoxColumn6.HeaderText = "Chilometraggio";
-            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            dataGridViewComboBoxColumn1.DataPropertyName = "Stato";
-            dataGridViewComboBoxColumn1.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-            dataGridViewComboBoxColumn1.FlatStyle = FlatStyle.Popup;
-            dataGridViewComboBoxColumn1.HeaderText = "Stato";
-            dataGridViewComboBoxColumn1.Items.AddRange(new object[] { "Disponibile", "Non Disponibile", "In Uso", "In Manutenzione" });
-            dataGridViewComboBoxColumn1.MaxDropDownItems = 4;
-            dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            dataGridViewComboBoxColumn1.ToolTipText = "Gestisci lo stato del veicolo";
+            Vehicles_Number.DataPropertyName = "NumeroVeicoli";
+            Vehicles_Number.HeaderText = "Numero Beicoli";
+            Vehicles_Number.Name = "Vehicles_Number";
+            Vehicles_Number.ReadOnly = true;
             // 
             // UC_Veicoli
             // 
@@ -719,7 +694,7 @@
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dGw_Modelli).EndInit();
             ResumeLayout(false);
         }
 
@@ -749,15 +724,15 @@
         private NumericUpDown nUd_AddAnnoProd;
         private ComboBox cmb_AddModello;
         private ComboBox cmb_AddMarca;
-        private TextBox textBox1;
+        private TextBox txt_NewModello;
         private Label label7;
         private Label label8;
         private Label label9;
         private Label label10;
         private Label label11;
         private Label label12;
-        private Button button1;
-        private ComboBox comboBox3;
+        private Button btn_addModello;
+        private ComboBox cmb_NewMarca;
         private Label label13;
         private NumericUpDown nUd_AddChilometraggio;
         private Label label14;
@@ -776,13 +751,10 @@
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private DataGridView dataGridView1;
+        private DataGridView dGw_Modelli;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
+        private DataGridViewTextBoxColumn Modelli_Modello;
+        private DataGridViewTextBoxColumn Modelli_Marca;
+        private DataGridViewTextBoxColumn Vehicles_Number;
     }
 }

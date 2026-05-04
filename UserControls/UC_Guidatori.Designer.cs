@@ -36,6 +36,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Violet;
             Name = "UC_Guidatori";
+            Size = new Size(877, 685);
             ResumeLayout(false);
         }
 

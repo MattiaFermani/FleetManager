@@ -9,5 +9,12 @@ namespace FleetManager.Entita
         public int ID_Modello { get; set; }
         public string NomeModello { get; set; }
         public string Marca { get; set; }
+
+        public Modello(string nome, string marca)
+        {
+            NomeModello = nome;
+            Marca = marca;
+        }
+
     }
 }

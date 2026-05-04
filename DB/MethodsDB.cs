@@ -157,6 +157,24 @@ namespace FleetManager.DB
             }
         }
         #endregion VEICOLI
+        #region MODELLI
+
+        public static IEnumerable<dynamic> GetTuttiModelli()
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"
+                SELECT M.ID_Modello, M.NomeModello, M.Marca, COUNT(V.ID_Veicolo) AS NumeroVeicoli
+                FROM MODELLI M
+                LEFT JOIN VEICOLI V ON M.ID_Modello = V.FK_Modello
+                GROUP BY M.ID_Modello, M.NomeModello, M.Marca
+                ORDER BY M.Marca, M.NomeModello";
+
+                return connection.Query(query).ToList();
+            }
+        }
+
+        #endregion MODELLI
         #region FILTRI
         public static List<string> GetDistintiAnni()
         {
@@ -243,5 +261,21 @@ namespace FleetManager.DB
         }
         #endregion FILTRI
         #endregion FLOTTA
+
+        #region GUIDATORI
+
+        public static IEnumerable<dynamic> GetTuttiGuidatori()
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"SELECT *, 
+                         DATEDIFF(day, GETDATE(), ScadenzaPatente) as GiorniAllaScadenza 
+                         FROM GUIDATORI 
+                         ORDER BY Cognome, Nome";
+                return connection.Query(query).ToList();
+            }
+        }
+
+        #endregion GUIDATORI
     }
 }

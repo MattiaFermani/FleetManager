@@ -39,6 +39,7 @@ namespace FleetManager
         {
             InitializeComponent();
             dGw_Veicoli.AutoGenerateColumns = false;
+            dGw_Modelli.AutoGenerateColumns = false;
 
             TabResize();
 
@@ -73,6 +74,7 @@ namespace FleetManager
 
         private void RefreshData()
         {
+            #region Data Veicoli
             // Filtro Marca
             cmb_FilterMarca.Items.Clear();
             cmb_FilterMarca.Items.Add("Tutte le marche");
@@ -123,6 +125,15 @@ namespace FleetManager
             cmb_FilterStato.Items.Add("Tutti gli stati");
             cmb_FilterStato.Items.AddRange(new string[] { "Disponibile", "Non Disponibile", "In Uso", "In Manutenzione" });
             cmb_FilterStato.SelectedIndex = 0;
+
+            #endregion Data Veicoli
+
+            #region Data Modelli
+
+            var Modelli = MethodsDB.GetTuttiModelli().ToList();
+            dGw_Modelli.DataSource = Modelli;
+
+            #endregion Data Modelli
         }
 
         //private void LoadFilters(string? marca = null, string? modello = null, string? annoProduzione = null, string? stato = null)
@@ -480,6 +491,7 @@ namespace FleetManager
 
             Veicolo v = new Veicolo(_targa, idModello, _annoProd, _chilometraggio, "Disponibile");
 
+            // prova a inserire il veicolo nel database e gestisce eventuali errori
             try
             {
                 MethodsDB.InserisciVeicolo(v);
@@ -492,6 +504,7 @@ namespace FleetManager
 
                 MessageBox.Show("Veicolo inserito correttamente!", "Successo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                // Dopo l'inserimento, aggiorna i filtri e la visualizzazione
                 RefreshData();
                 Filter();
             }
@@ -571,7 +584,35 @@ namespace FleetManager
                 tabControl1.ItemSize = new Size(width, 30);
             }
         }
-    }
 
+        private void btn_addModello_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txt_NewModello.Text) || cmb_AddMarca.SelectedIndex <= 0)
+            {
+                MessageBox.Show("Devi compilare tutti i campi correttamente", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string modello = txt_NewModello.Text.Trim();
+            string marca = cmb_AddMarca.Text.Trim();
+
+            Modello m = new Modello(modello, marca);
+
+            try
+            {
+                MethodsDB.InserisciModello(m);
+                txt_NewModello.Text = "";
+                cmb_AddMarca.SelectedIndex = 0;
+                MessageBox.Show("Modello inserito correttamente!", "Successo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RefreshData();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errore durante l'inserimento: " + ex.Message);
+
+            }
+        }
+    }
 
 }
