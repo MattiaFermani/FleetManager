@@ -264,15 +264,12 @@ namespace FleetManager.DB
 
         #region GUIDATORI
 
-        public static IEnumerable<dynamic> GetTuttiGuidatori()
+        public static IEnumerable<Guidatore> GetTuttiGuidatori()
         {
             using (var connection = Database.Connection())
             {
-                string query = @"SELECT *, 
-                         DATEDIFF(day, GETDATE(), ScadenzaPatente) as GiorniAllaScadenza 
-                         FROM GUIDATORI 
-                         ORDER BY Cognome, Nome";
-                return connection.Query(query).ToList();
+                string query = "SELECT * FROM GUIDATORI ORDER BY Cognome, Nome";
+                return connection.Query<Guidatore>(query).ToList();
             }
         }
 
