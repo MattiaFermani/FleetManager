@@ -150,3 +150,36 @@ SELECT TOP 50 V.ID_Veicolo, G.ID_Guidatore,
 FROM VEICOLI V CROSS JOIN GUIDATORI G
 WHERE V.Stato = 'In Uso' OR V.Stato = 'Disponibile'
 ORDER BY NEWID();
+
+
+TRUNCATE TABLE ASSEGNAZIONI;
+
+-- Assegnazioni concluse (Storico)
+INSERT INTO ASSEGNAZIONI (FK_Veicolo, FK_Guidatore, DataInizio, DataFine) VALUES 
+(2, 5, '2023-01-10', '2023-02-10'),
+(5, 12, '2023-03-15', '2023-04-15'),
+(10, 1, '2023-05-01', '2023-06-01'),
+(15, 20, '2023-01-20', '2023-03-20'),
+(24, 33, '2023-06-10', '2023-07-10');
+
+-- Assegnazioni ATTIVE (Coerenti con i veicoli 'In Uso' nella tua tabella)
+-- Nota: DataFine è lasciata NULL perché il veicolo è attualmente in uso
+INSERT INTO ASSEGNAZIONI (FK_Veicolo, FK_Guidatore, DataInizio, DataFine) VALUES 
+(2, 2, '2024-01-01', NULL),   -- Luca Bianchi su AA002BB
+(5, 5, '2024-01-15', NULL),   -- Paolo Gialli su AA005EE
+(10, 10, '2024-02-01', NULL), -- Roberto Costa su AA010JJ
+(12, 12, '2024-02-10', NULL), -- Davide Esposito su AA012LL
+(14, 14, '2024-02-20', NULL), -- Simone Fontana su AA014NN
+(15, 15, '2024-03-01', NULL), -- Chiara Russo su AA015OO
+(17, 17, '2024-03-05', NULL), -- Marta Greco su AA017QQ
+(19, 19, '2024-03-10', NULL), -- Silvia Lombardi su AA019SS
+(21, 21, '2024-03-15', NULL), -- Erika Moretti su AA021UU
+(24, 24, '2024-03-20', NULL), -- Federico Gatti su AA024XX
+(25, 25, '2024-03-25', NULL); -- Giorgia Ferraro su AA025YY
+
+-- Altre assegnazioni varie su veicoli con targhe speciali
+INSERT INTO ASSEGNAZIONI (FK_Veicolo, FK_Guidatore, DataInizio, DataFine) VALUES 
+(86, 3, '2024-04-01', NULL),  -- Sara Verdi su CI952HV (Stato 'In Uso')
+(31, 40, '2024-04-05', NULL), -- Alessio Piras su AA031IJ
+(38, 38, '2024-04-10', NULL), -- Filippo Galli su AA038WX
+(40, 45, '2024-04-15', NULL); -- Enrica Melis su AA040ZA

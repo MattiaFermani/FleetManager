@@ -55,7 +55,7 @@ namespace FleetManager
 
                 using (FormDettaglioGuidatore frm = new FormDettaglioGuidatore(guidatoreSelezionato))
                 {
-                    frm.Show();
+                    frm.ShowDialog();
                     RefreshData();
                 }
             }

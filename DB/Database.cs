@@ -15,7 +15,7 @@ namespace FleetManager.DB
             set
             {
                 Properties.Settings.Default.DbConnectionString = value;
-                Properties.Settings.Default.Save(); // Salva su disco in AppData/Local
+                Properties.Settings.Default.Save(); // Salva in AppData/Local/Progetto
             }
         }
 

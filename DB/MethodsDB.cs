@@ -272,6 +272,22 @@ namespace FleetManager.DB
                 return connection.Query<Guidatore>(query).ToList();
             }
         }
+        public static IEnumerable<Assegnazione> GetAssegnazioniPerGuidatore(int idGuidatore)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"
+                SELECT A.DataInizio, A.DataFine, V.Targa, M.Marca, M.NomeModello
+                FROM ASSEGNAZIONI A
+                JOIN VEICOLI V ON A.FK_Veicolo = V.ID_Veicolo
+                JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
+                WHERE A.FK_Guidatore = @idGuidatore
+                ORDER BY A.DataInizio DESC";
+
+                // Specifichiamo la classe nel Query<T>
+                return connection.Query<Assegnazione>(query, new { idGuidatore }).ToList();
+            }
+        }
 
         #endregion GUIDATORI
     }
