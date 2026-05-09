@@ -40,26 +40,28 @@
             Targa = new DataGridViewTextBoxColumn();
             Marca = new DataGridViewTextBoxColumn();
             Modello = new DataGridViewTextBoxColumn();
+            btn_ApplyEdits = new Button();
+            btn_CancelEdits = new Button();
             ((System.ComponentModel.ISupportInitialize)dGw_Assegnazioni).BeginInit();
             SuspendLayout();
             // 
             // txb_Nome
             // 
-            txb_Nome.Location = new Point(12, 63);
+            txb_Nome.Location = new Point(12, 42);
             txb_Nome.Name = "txb_Nome";
             txb_Nome.Size = new Size(170, 23);
             txb_Nome.TabIndex = 0;
             // 
             // txb_Cognome
             // 
-            txb_Cognome.Location = new Point(188, 63);
+            txb_Cognome.Location = new Point(188, 42);
             txb_Cognome.Name = "txb_Cognome";
             txb_Cognome.Size = new Size(167, 23);
             txb_Cognome.TabIndex = 0;
             // 
             // txb_CF
             // 
-            txb_CF.Location = new Point(12, 120);
+            txb_CF.Location = new Point(12, 112);
             txb_CF.Name = "txb_CF";
             txb_CF.Size = new Size(170, 23);
             txb_CF.TabIndex = 0;
@@ -67,7 +69,7 @@
             // dtp_Scadenza
             // 
             dtp_Scadenza.Format = DateTimePickerFormat.Short;
-            dtp_Scadenza.Location = new Point(188, 120);
+            dtp_Scadenza.Location = new Point(188, 109);
             dtp_Scadenza.Name = "dtp_Scadenza";
             dtp_Scadenza.Size = new Size(167, 23);
             dtp_Scadenza.TabIndex = 1;
@@ -86,7 +88,7 @@
             dGw_Assegnazioni.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dGw_Assegnazioni.Columns.AddRange(new DataGridViewColumn[] { DataInizio, DataFine, Targa, Marca, Modello });
             dGw_Assegnazioni.EditMode = DataGridViewEditMode.EditOnEnter;
-            dGw_Assegnazioni.Location = new Point(12, 170);
+            dGw_Assegnazioni.Location = new Point(12, 160);
             dGw_Assegnazioni.MultiSelect = false;
             dGw_Assegnazioni.Name = "dGw_Assegnazioni";
             dGw_Assegnazioni.ReadOnly = true;
@@ -95,7 +97,7 @@
             dGw_Assegnazioni.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dGw_Assegnazioni.ScrollBars = ScrollBars.Vertical;
             dGw_Assegnazioni.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dGw_Assegnazioni.Size = new Size(343, 407);
+            dGw_Assegnazioni.Size = new Size(343, 459);
             dGw_Assegnazioni.TabIndex = 2;
             // 
             // DataInizio
@@ -133,11 +135,33 @@
             Modello.Name = "Modello";
             Modello.ReadOnly = true;
             // 
+            // btn_ApplyEdits
+            // 
+            btn_ApplyEdits.BackColor = Color.PaleGreen;
+            btn_ApplyEdits.Location = new Point(188, 625);
+            btn_ApplyEdits.Name = "btn_ApplyEdits";
+            btn_ApplyEdits.Size = new Size(167, 23);
+            btn_ApplyEdits.TabIndex = 3;
+            btn_ApplyEdits.Text = "Applica Modifiche";
+            btn_ApplyEdits.UseVisualStyleBackColor = false;
+            // 
+            // btn_CancelEdits
+            // 
+            btn_CancelEdits.BackColor = Color.Tomato;
+            btn_CancelEdits.Location = new Point(12, 625);
+            btn_CancelEdits.Name = "btn_CancelEdits";
+            btn_CancelEdits.Size = new Size(170, 23);
+            btn_CancelEdits.TabIndex = 4;
+            btn_CancelEdits.Text = "Cancel";
+            btn_CancelEdits.UseVisualStyleBackColor = false;
+            // 
             // FormDettaglioGuidatore
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(367, 589);
+            ClientSize = new Size(367, 656);
+            Controls.Add(btn_CancelEdits);
+            Controls.Add(btn_ApplyEdits);
             Controls.Add(dGw_Assegnazioni);
             Controls.Add(dtp_Scadenza);
             Controls.Add(txb_Cognome);
@@ -162,5 +186,7 @@
         private DataGridViewTextBoxColumn Targa;
         private DataGridViewTextBoxColumn Marca;
         private DataGridViewTextBoxColumn Modello;
+        private Button btn_ApplyEdits;
+        private Button btn_CancelEdits;
     }
 }

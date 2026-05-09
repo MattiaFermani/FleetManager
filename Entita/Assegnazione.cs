@@ -7,7 +7,7 @@ namespace FleetManager.Entita
     public class Assegnazione
     {
         public DateTime DataInizio { get; set; }
-        public DateTime? DataFine { get; set; } // Nullable se il veicolo è ancora in uso
+        public DateTime? DataFine { get; set; }
         public string Targa { get; set; }
         public string Marca { get; set; }
         public string NomeModello { get; set; }
