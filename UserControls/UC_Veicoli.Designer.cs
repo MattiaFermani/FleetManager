@@ -654,15 +654,16 @@
             dGw_Modelli.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dGw_Modelli.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dGw_Modelli.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, Modelli_Modello, Modelli_Marca, Vehicles_Number });
+            dGw_Modelli.Dock = DockStyle.Fill;
             dGw_Modelli.EditMode = DataGridViewEditMode.EditOnEnter;
-            dGw_Modelli.Location = new Point(-1, 3);
+            dGw_Modelli.Location = new Point(3, 3);
             dGw_Modelli.MultiSelect = false;
             dGw_Modelli.Name = "dGw_Modelli";
             dGw_Modelli.ReadOnly = true;
             dGw_Modelli.RowHeadersVisible = false;
             dGw_Modelli.ScrollBars = ScrollBars.Vertical;
             dGw_Modelli.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dGw_Modelli.Size = new Size(666, 655);
+            dGw_Modelli.Size = new Size(655, 648);
             dGw_Modelli.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1
