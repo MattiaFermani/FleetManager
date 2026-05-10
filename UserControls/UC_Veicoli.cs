@@ -133,6 +133,17 @@ namespace FleetManager
             var Modelli = MethodsDB.GetTuttiModelli().ToList();
             dGw_Modelli.DataSource = Modelli;
 
+            cmb_NewMarca.Items.Clear();
+            cmb_NewMarca.Items.Add("");
+            _marche = MethodsDB.GetDistinteMarche().ToArray();
+            foreach (string _marca in _marche)
+            {
+                _marche[_marche.IndexOf(_marca)] = Clean(_marca);
+            }
+            cmb_NewMarca.Items.AddRange(_marche);
+            cmb_NewMarca.SelectedIndex = 0;
+
+
             #endregion Data Modelli
         }
 
@@ -587,14 +598,14 @@ namespace FleetManager
 
         private void btn_addModello_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txt_NewModello.Text) || cmb_AddMarca.SelectedIndex <= 0)
+            if (string.IsNullOrWhiteSpace(txt_NewModello.Text) || cmb_NewMarca.Text == string.Empty)
             {
                 MessageBox.Show("Devi compilare tutti i campi correttamente", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             string modello = txt_NewModello.Text.Trim();
-            string marca = cmb_AddMarca.Text.Trim();
+            string marca = cmb_NewMarca.Text.Trim();
 
             Modello m = new Modello(modello, marca);
 
@@ -602,7 +613,7 @@ namespace FleetManager
             {
                 MethodsDB.InserisciModello(m);
                 txt_NewModello.Text = "";
-                cmb_AddMarca.SelectedIndex = 0;
+                cmb_NewMarca.SelectedIndex = 0;
                 MessageBox.Show("Modello inserito correttamente!", "Successo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 RefreshData();
 
@@ -612,6 +623,8 @@ namespace FleetManager
                 MessageBox.Show("Errore durante l'inserimento: " + ex.Message);
 
             }
+
+            RefreshData();
         }
     }
 

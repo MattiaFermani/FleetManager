@@ -54,7 +54,6 @@ namespace FleetManager
                 case PageType.Flotta: return new UC_Veicoli();
                 case PageType.Personale: return new UC_Guidatori();
                 case PageType.Impostazioni: return new UC_DbConnection();
-                // Aggiungi i casi mancanti per evitare eccezioni
                 case PageType.Incidenti: return new UC_Incidenti();
                 case PageType.Statistiche: return new UC_Statistiche();
                 default: throw new ArgumentException("Pagina non gestita");
@@ -160,7 +159,7 @@ namespace FleetManager
         }
     }
 
-public enum PageType
+    public enum PageType
     {
         Dashboard,
         Flotta,

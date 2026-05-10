@@ -93,7 +93,8 @@
             // 
             // pnlContainer
             // 
-            pnlContainer.Dock = DockStyle.Fill;
+            pnlContainer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pnlContainer.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             pnlContainer.Location = new Point(132, 0);
             pnlContainer.Name = "pnlContainer";
             pnlContainer.Size = new Size(886, 698);
@@ -110,10 +111,11 @@
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = SideBar;
-            MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Fleet Manager";
+            WindowState = FormWindowState.Maximized;
             SideBar.ResumeLayout(false);
             SideBar.PerformLayout();
             ResumeLayout(false);
