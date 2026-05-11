@@ -29,7 +29,12 @@ namespace FleetManager
             if (dGw_Guidatori.Columns[e.ColumnIndex].Name == "Stato")
             {
                 string valore = e.Value?.ToString();
-
+                if (valore == "LICENZIATO")
+                {
+                    e.CellStyle.ForeColor = Color.White;
+                    e.CellStyle.BackColor = Color.Gray;
+                    e.CellStyle.SelectionBackColor = Color.DarkGray;
+                }
                 if (valore == "SOSPESO (Scaduta)")
                 {
                     e.CellStyle.ForeColor = Color.White;
@@ -40,10 +45,13 @@ namespace FleetManager
                 {
                     e.CellStyle.BackColor = Color.Gold;
                 }
-                else
+                else if (valore == "ATTIVO")
                 {
                     e.CellStyle.ForeColor = Color.DarkGreen;
                 }
+                int id = (int)dGw_Guidatori.Rows[e.RowIndex].Cells["ID_Guidatore"].Value;
+
+                MethodsDB.AggiornaStatoGuidatore(id, valore);
             }
         }
 

@@ -16,6 +16,8 @@ namespace FleetManager.Entita
         {
             get
             {
+                if (Stato == "LICENZIATO")
+                    return "LICENZIATO";
                 if (ScadenzaPatente.Date < DateTime.Now.Date)
                     return "SOSPESO (Scaduta)";
                 if (ScadenzaPatente.Date <= DateTime.Now.Date.AddDays(30))

@@ -41,7 +41,7 @@ namespace FleetManager.DB
         #region GRAFICI
         // --- METODI PER I GRAFICI ---
 
-        public static IEnumerable<dynamic> GetStatisticheStatoVeicoli()
+        public static List<dynamic> GetStatisticheStatoVeicoli()
         {
             using (var connection = Database.Connection())
             {
@@ -49,11 +49,11 @@ namespace FleetManager.DB
                 string query = @"SELECT Stato as Descrizione, COUNT(*) as Qta 
                                  FROM VEICOLI 
                                  GROUP BY Stato";
-                return connection.Query(query);
+                return connection.Query(query).ToList();
             }
         }
 
-        public static IEnumerable<dynamic> GetSpeseManutenzioneMensili()
+        public static List<dynamic> GetSpeseManutenzioneMensili()
         {
             using (var connection = Database.Connection())
             {
@@ -64,14 +64,14 @@ namespace FleetManager.DB
                                 WHERE DataIntervento > DATEADD(year, -1, GETDATE())
                                 GROUP BY YEAR(DataIntervento), MONTH(DataIntervento), FORMAT(DataIntervento, 'MMM yyyy', 'us-US')
                                 ORDER BY YEAR(DataIntervento), MONTH(DataIntervento)";
-                return connection.Query(query);
+                return connection.Query(query).ToList();
             }
         }
         #endregion GRAFICI
         #region TABELLE
         // --- METODI PER LE TABELLE ---
 
-        public static IEnumerable<dynamic> GetUltimeManutenzioni(int top)
+        public static List<dynamic> GetUltimeManutenzioni(int top)
         {
             using (var connection = Database.Connection())
             {
@@ -79,11 +79,11 @@ namespace FleetManager.DB
                                  FROM MANUTENZIONI M 
                                  JOIN VEICOLI V ON M.FK_Veicolo = V.ID_Veicolo 
                                  ORDER BY M.DataIntervento DESC";
-                return connection.Query(query, new { man = top });
+                return connection.Query(query, new { man = top }).ToList();
             }
         }
 
-        public static IEnumerable<dynamic> GetTopIncidentati(int top)
+        public static List<dynamic> GetTopIncidentati(int top)
         {
             using (var connection = Database.Connection())
             {
@@ -92,7 +92,7 @@ namespace FleetManager.DB
                                  JOIN INCIDENTI I ON G.ID_Guidatore = I.FK_Guidatore 
                                  GROUP BY G.Cognome, G.Nome 
                                  ORDER BY Conteggio DESC";
-                return connection.Query(query, new { inc = top });
+                return connection.Query(query, new { inc = top }).ToList();
             }
         }
         #endregion TABELLE
@@ -121,9 +121,19 @@ namespace FleetManager.DB
         {
             using (var connection = Database.Connection())
             {
-                string query = "DELETE FROM VEICOLI WHERE ID_Veicolo = @id";
+                string checkQuery = "SELECT COUNT(1) FROM ASSEGNAZIONI WHERE ID_Veicolo = @id";
+                int count = connection.ExecuteScalar<int>(checkQuery, new { id });
 
-                connection.Execute(query, new { id });
+                if (count > 0)
+                {
+                    string updateQuery = "UPDATE VEICOLI SET Stato = 'Non Disponibile' WHERE ID_Veicolo = @id";
+                    connection.Execute(updateQuery, new { id });
+                }
+                else
+                {
+                    string deleteQuery = "DELETE FROM VEICOLI WHERE ID_Veicolo = @id";
+                    connection.Execute(deleteQuery, new { id });
+                }
             }
         }
         public static void InserisciModello(Modello m)
@@ -159,7 +169,7 @@ namespace FleetManager.DB
         #endregion VEICOLI
         #region MODELLI
 
-        public static IEnumerable<dynamic> GetTuttiModelli()
+        public static List<dynamic> GetTuttiModelli()
         {
             using (var connection = Database.Connection())
             {
@@ -210,7 +220,7 @@ namespace FleetManager.DB
             }
         }
 
-        public static IEnumerable<dynamic> RicercaVeicoli(string? targa = null, OrderType? annoProduzioneOrder = null, string? annoProduzione = null, OrderType? marcaOrder = null, string? marca = null, OrderType? modelloOrder = null, string? modello = null, OrderType? kmOrder = null, KmFilterType? KmfilterType = null, int? chilometraggio = null, OrderType? statusOrder = null, string? stato = null)
+        public static List<dynamic> RicercaVeicoli(string? targa = null, OrderType? annoProduzioneOrder = null, string? annoProduzione = null, OrderType? marcaOrder = null, string? marca = null, OrderType? modelloOrder = null, string? modello = null, OrderType? kmOrder = null, KmFilterType? KmfilterType = null, int? chilometraggio = null, OrderType? statusOrder = null, string? stato = null)
         {
             using (var connection = Database.Connection())
             {
@@ -259,12 +269,43 @@ namespace FleetManager.DB
                 return connection.Query(query, new { targa, annoProduzione, marca, modello, chilometraggio, stato }).ToList();
             }
         }
+
+        public static List<dynamic> RicercaModelli(OrderType? marcaOrder = null, string? marca = null, OrderType? modelloOrder = null, string? modello = null)
+        {
+            using (var connection = Database.Connection())
+            {
+
+                List<string> orders = new List<string>();
+
+                if (marcaOrder != OrderType.None && marcaOrder != null)
+                    orders.Add($"M.Marca {(marcaOrder == OrderType.Ascending ? "ASC" : "DESC")}");
+
+                if (modelloOrder != OrderType.None && modelloOrder != null)
+                    orders.Add($"M.NomeModello {(modelloOrder == OrderType.Ascending ? "ASC" : "DESC")}");
+
+                string orderBy = orders.Count > 0
+                    ? "ORDER BY " + string.Join(", ", orders)
+                    : "ORDER BY M.Marca ASC";
+
+                string query = $@"SELECT  M.Marca, M.NomeModello, COUNT(V.ID_Veicolo) AS NumeroVeicoli
+                         FROM MODELLI M
+                         LEFT JOIN VEICOLI V ON M.ID_Modello = V.FK_Modello
+                         WHERE (@marca IS NULL OR M.Marca LIKE '%' + @marca + '%')
+                           AND (@modello IS NULL OR M.NomeModello LIKE '%' + @modello + '%')
+                            GROUP BY M.Marca, M.NomeModello
+                         {orderBy}";
+
+                return connection.Query(query, new { marca, modello}).ToList();
+            }
+        }
+
+
         #endregion FILTRI
         #endregion FLOTTA
 
         #region GUIDATORI
 
-        public static IEnumerable<Guidatore> GetTuttiGuidatori()
+        public static List<Guidatore> GetTuttiGuidatori()
         {
             using (var connection = Database.Connection())
             {
@@ -272,7 +313,7 @@ namespace FleetManager.DB
                 return connection.Query<Guidatore>(query).ToList();
             }
         }
-        public static IEnumerable<Assegnazione> GetAssegnazioniPerGuidatore(int idGuidatore)
+        public static List<Assegnazione> GetAssegnazioniPerGuidatore(int idGuidatore)
         {
             using (var connection = Database.Connection())
             {
@@ -286,6 +327,14 @@ namespace FleetManager.DB
 
                 // Specifichiamo la classe nel Query<T>
                 return connection.Query<Assegnazione>(query, new { idGuidatore }).ToList();
+            }
+        }
+        public static void AggiornaStatoGuidatore(int id, string nuovoStato)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = "UPDATE GUIDATORI SET Stato = @nuovoStato WHERE ID_Guidatore = @id";
+                connection.Execute(query, new { id, nuovoStato });
             }
         }
 

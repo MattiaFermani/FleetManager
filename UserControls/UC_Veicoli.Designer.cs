@@ -83,6 +83,13 @@
             tabPage1 = new TabPage();
             splitContainer1 = new SplitContainer();
             tabPage2 = new TabPage();
+            splitContainer2 = new SplitContainer();
+            cmb_Modelli_FilterModello = new ComboBox();
+            label16 = new Label();
+            cmb_Modelli_FilterMarca = new ComboBox();
+            btn_Modelli_FilterMarcaOrder = new Button();
+            label17 = new Label();
+            btn_Modelli_FilterModelloOrder = new Button();
             dGw_Modelli = new DataGridView();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             Modelli_Modello = new DataGridViewTextBoxColumn();
@@ -101,6 +108,10 @@
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
+            splitContainer2.Panel1.SuspendLayout();
+            splitContainer2.Panel2.SuspendLayout();
+            splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dGw_Modelli).BeginInit();
             SuspendLayout();
             // 
@@ -633,13 +644,94 @@
             // tabPage2
             // 
             tabPage2.BackColor = Color.Tan;
-            tabPage2.Controls.Add(dGw_Modelli);
+            tabPage2.Controls.Add(splitContainer2);
             tabPage2.Location = new Point(4, 27);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(661, 654);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Modelli";
+            // 
+            // splitContainer2
+            // 
+            splitContainer2.Dock = DockStyle.Fill;
+            splitContainer2.Location = new Point(3, 3);
+            splitContainer2.Name = "splitContainer2";
+            splitContainer2.Orientation = Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            splitContainer2.Panel1.Controls.Add(cmb_Modelli_FilterModello);
+            splitContainer2.Panel1.Controls.Add(label16);
+            splitContainer2.Panel1.Controls.Add(cmb_Modelli_FilterMarca);
+            splitContainer2.Panel1.Controls.Add(btn_Modelli_FilterMarcaOrder);
+            splitContainer2.Panel1.Controls.Add(label17);
+            splitContainer2.Panel1.Controls.Add(btn_Modelli_FilterModelloOrder);
+            // 
+            // splitContainer2.Panel2
+            // 
+            splitContainer2.Panel2.Controls.Add(dGw_Modelli);
+            splitContainer2.Size = new Size(655, 648);
+            splitContainer2.SplitterDistance = 52;
+            splitContainer2.TabIndex = 2;
+            // 
+            // cmb_Modelli_FilterModello
+            // 
+            cmb_Modelli_FilterModello.FormattingEnabled = true;
+            cmb_Modelli_FilterModello.Location = new Point(187, 22);
+            cmb_Modelli_FilterModello.Name = "cmb_Modelli_FilterModello";
+            cmb_Modelli_FilterModello.Size = new Size(135, 23);
+            cmb_Modelli_FilterModello.TabIndex = 7;
+            cmb_Modelli_FilterModello.SelectedIndexChanged += cmb_Modelli_FilterModello_SelectedIndexChanged;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(233, 4);
+            label16.Name = "label16";
+            label16.Size = new Size(51, 15);
+            label16.TabIndex = 9;
+            label16.Text = "Modello";
+            // 
+            // cmb_Modelli_FilterMarca
+            // 
+            cmb_Modelli_FilterMarca.FormattingEnabled = true;
+            cmb_Modelli_FilterMarca.Location = new Point(2, 22);
+            cmb_Modelli_FilterMarca.Name = "cmb_Modelli_FilterMarca";
+            cmb_Modelli_FilterMarca.Size = new Size(139, 23);
+            cmb_Modelli_FilterMarca.TabIndex = 8;
+            cmb_Modelli_FilterMarca.SelectedIndexChanged += cmb_Modelli_FilterMarca_SelectedIndexChanged;
+            // 
+            // btn_Modelli_FilterMarcaOrder
+            // 
+            btn_Modelli_FilterMarcaOrder.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btn_Modelli_FilterMarcaOrder.Location = new Point(140, 22);
+            btn_Modelli_FilterMarcaOrder.Name = "btn_Modelli_FilterMarcaOrder";
+            btn_Modelli_FilterMarcaOrder.Size = new Size(35, 23);
+            btn_Modelli_FilterMarcaOrder.TabIndex = 11;
+            btn_Modelli_FilterMarcaOrder.Text = "↹";
+            btn_Modelli_FilterMarcaOrder.UseVisualStyleBackColor = true;
+            btn_Modelli_FilterMarcaOrder.MouseDown += btn_Modelli_FilterMarcaOrder_MouseDown;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(56, 4);
+            label17.Name = "label17";
+            label17.Size = new Size(40, 15);
+            label17.TabIndex = 10;
+            label17.Text = "Marca";
+            // 
+            // btn_Modelli_FilterModelloOrder
+            // 
+            btn_Modelli_FilterModelloOrder.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btn_Modelli_FilterModelloOrder.Location = new Point(319, 22);
+            btn_Modelli_FilterModelloOrder.Name = "btn_Modelli_FilterModelloOrder";
+            btn_Modelli_FilterModelloOrder.Size = new Size(35, 23);
+            btn_Modelli_FilterModelloOrder.TabIndex = 12;
+            btn_Modelli_FilterModelloOrder.Text = "↹";
+            btn_Modelli_FilterModelloOrder.UseVisualStyleBackColor = true;
+            btn_Modelli_FilterModelloOrder.MouseDown += btn_Modelli_FilterModelloOrder_MouseDown;
             // 
             // dGw_Modelli
             // 
@@ -656,14 +748,14 @@
             dGw_Modelli.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, Modelli_Modello, Modelli_Marca, Vehicles_Number });
             dGw_Modelli.Dock = DockStyle.Fill;
             dGw_Modelli.EditMode = DataGridViewEditMode.EditOnEnter;
-            dGw_Modelli.Location = new Point(3, 3);
+            dGw_Modelli.Location = new Point(0, 0);
             dGw_Modelli.MultiSelect = false;
             dGw_Modelli.Name = "dGw_Modelli";
             dGw_Modelli.ReadOnly = true;
             dGw_Modelli.RowHeadersVisible = false;
             dGw_Modelli.ScrollBars = ScrollBars.Vertical;
             dGw_Modelli.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dGw_Modelli.Size = new Size(655, 648);
+            dGw_Modelli.Size = new Size(655, 592);
             dGw_Modelli.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1
@@ -722,6 +814,11 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
+            splitContainer2.Panel1.ResumeLayout(false);
+            splitContainer2.Panel1.PerformLayout();
+            splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
+            splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dGw_Modelli).EndInit();
             ResumeLayout(false);
         }
@@ -785,5 +882,12 @@
         private DataGridViewTextBoxColumn Modelli_Marca;
         private DataGridViewTextBoxColumn Vehicles_Number;
         private SplitContainer splitContainer1;
+        private SplitContainer splitContainer2;
+        private ComboBox cmb_Modelli_FilterModello;
+        private Label label16;
+        private ComboBox cmb_Modelli_FilterMarca;
+        private Button btn_Modelli_FilterMarcaOrder;
+        private Label label17;
+        private Button btn_Modelli_FilterModelloOrder;
     }
 }

@@ -6,19 +6,17 @@ namespace FleetManager.Entita
 {
     public class Assegnazione
     {
-        public DateTime DataInizio { get; set; }
-        public DateTime? DataFine { get; set; }
-        public string Targa { get; set; }
-        public string Marca { get; set; }
-        public string NomeModello { get; set; }
+        string FK_Veicolo { get; set; }
+        string FK_Guidatore { get; set; }
+        DateTime DataInizio { get; set; }
+        DateTime? DataFine { get; set; }
 
-        public Assegnazione(DateTime dataInizio, DateTime? dataFine, string targa, string marca, string nomeModello)
+        public Assegnazione(string fK_Veicolo, string fK_Guidatore, DateTime dataInizio, DateTime? dataFine)
         {
+            FK_Veicolo = fK_Veicolo;
+            FK_Guidatore = fK_Guidatore;
             DataInizio = dataInizio;
             DataFine = dataFine;
-            Targa = targa;
-            Marca = marca;
-            NomeModello = nomeModello;
         }
     }
 }
