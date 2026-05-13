@@ -11,20 +11,6 @@ namespace FleetManager.Entita
         public string Cognome { get; set; }
         public string CodiceFiscale { get; set; }
         public DateTime ScadenzaPatente { get; set; }
-
-        public string Stato
-        {
-            get
-            {
-                if (Stato == "LICENZIATO")
-                    return "LICENZIATO";
-                if (ScadenzaPatente.Date < DateTime.Now.Date)
-                    return "SOSPESO (Scaduta)";
-                if (ScadenzaPatente.Date <= DateTime.Now.Date.AddDays(30))
-                    return "IN SCADENZA";
-
-                return "ATTIVO";
-            }
-        }
+        public string Stato { get; set; }
     }
 }

@@ -28,18 +28,19 @@ namespace FleetManager
             txb_Cognome.Text = _guidatore.Cognome;
             txb_CF.Text = _guidatore.CodiceFiscale;
             dtp_Scadenza.Value = _guidatore.ScadenzaPatente;
+
         }
 
         private void CaricaAssegnazioni()
         {
-            var list = MethodsDB.GetAssegnazioniPerGuidatore(_guidatore.ID_Guidatore);
-            dGw_Assegnazioni.DataSource = list;
+            Targa.DataPropertyName = "Targa";
+            Marca.DataPropertyName = "Marca";
+            Modello.DataPropertyName = "NomeModello"; 
+            DataInizio.DataPropertyName = "DataInizio";
+            DataFine.DataPropertyName = "DataFine";
 
-            if (dGw_Assegnazioni.Columns["DataInizio"] != null)
-                dGw_Assegnazioni.Columns["DataInizio"].DefaultCellStyle.Format = "dd/MM/yyyy";
-
-            if (dGw_Assegnazioni.Columns["DataFine"] != null)
-                dGw_Assegnazioni.Columns["DataFine"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            var dati = MethodsDB.GetDatiTabellaAssegnazioni(this._guidatore.ID_Guidatore);
+            dGw_Assegnazioni.DataSource = dati;
         }
     }
 }

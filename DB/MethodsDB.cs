@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using FleetManager.Classi;
 using FleetManager.Entita;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
@@ -318,7 +319,7 @@ namespace FleetManager.DB
             using (var connection = Database.Connection())
             {
                 string query = @"
-                SELECT A.DataInizio, A.DataFine, V.Targa, M.Marca, M.NomeModello
+                SELECT A.DataInizio, A.DataFine, V.Targa
                 FROM ASSEGNAZIONI A
                 JOIN VEICOLI V ON A.FK_Veicolo = V.ID_Veicolo
                 JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
@@ -335,6 +336,22 @@ namespace FleetManager.DB
             {
                 string query = "UPDATE GUIDATORI SET Stato = @nuovoStato WHERE ID_Guidatore = @id";
                 connection.Execute(query, new { id, nuovoStato });
+            }
+        }
+
+        public static List<AssegnazioneTabellaDTO> GetDatiTabellaAssegnazioni(int idGuidatore)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"
+                SELECT A.ID_Assegnazione, A.DataInizio, A.DataFine, V.Targa, M.Marca, M.NomeModello
+                FROM ASSEGNAZIONI A
+                JOIN VEICOLI V ON A.FK_Veicolo = V.ID_Veicolo
+                JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
+                WHERE A.FK_Guidatore = @idGuidatore
+                ORDER BY A.DataInizio DESC";
+
+                return connection.Query<AssegnazioneTabellaDTO>(query, new { idGuidatore }).ToList();
             }
         }
 
