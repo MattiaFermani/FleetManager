@@ -225,7 +225,7 @@ namespace FleetManager.DB
         {
             using (var connection = Database.Connection())
             {
-                // 1. Gestione operatore KM
+                //Gestione operatore KM
                 string operatore = KmfilterType switch
                 {
                     KmFilterType.Under => "<",
@@ -253,19 +253,19 @@ namespace FleetManager.DB
 
                 string orderBy = orders.Count > 0
                     ? "ORDER BY " + string.Join(", ", orders)
-                    : "ORDER BY V.Targa ASC"; //Ordine Default
+                    : "ORDER BY V.Targa ASC";
 
                 string query = $@"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, 
                                 V.AnnoProduzione, V.Chilometraggio, V.Stato
-                         FROM VEICOLI V
-                         JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
-                         WHERE (@targa IS NULL OR V.Targa LIKE '%' + @targa + '%')
-                           AND (@annoProduzione IS NULL OR V.AnnoProduzione = @annoProduzione)
-                           AND (@marca IS NULL OR M.Marca LIKE '%' + @marca + '%')
-                           AND (@modello IS NULL OR M.NomeModello LIKE '%' + @modello + '%')
-                           AND (@chilometraggio IS NULL OR V.Chilometraggio {operatore} @chilometraggio)
-                           AND (@stato IS NULL OR V.Stato = @stato)
-                         {orderBy}";
+                                FROM VEICOLI V
+                                JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
+                                WHERE (@targa IS NULL OR V.Targa LIKE '%' + @targa + '%')
+                                AND (@annoProduzione IS NULL OR V.AnnoProduzione = @annoProduzione)
+                                AND (@marca IS NULL OR M.Marca LIKE '%' + @marca + '%')
+                                AND (@modello IS NULL OR M.NomeModello LIKE '%' + @modello + '%')
+                                AND (@chilometraggio IS NULL OR V.Chilometraggio {operatore} @chilometraggio)
+                                AND (@stato IS NULL OR V.Stato = @stato)
+                                {orderBy}";
 
                 return connection.Query(query, new { targa, annoProduzione, marca, modello, chilometraggio, stato }).ToList();
             }
@@ -326,7 +326,6 @@ namespace FleetManager.DB
                 WHERE A.FK_Guidatore = @idGuidatore
                 ORDER BY A.DataInizio DESC";
 
-                // Specifichiamo la classe nel Query<T>
                 return connection.Query<Assegnazione>(query, new { idGuidatore }).ToList();
             }
         }
@@ -338,7 +337,14 @@ namespace FleetManager.DB
                 connection.Execute(query, new { id, nuovoStato });
             }
         }
-
+        public static void AggiornaInfoGuidatore(Guidatore g)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"UPDATE GUIDATORI SET Nome = @Nome, Cognome = @Cognome, CodiceFiscale = @CodiceFiscale, ScadenzaPatente = @ScadenzaPatente";
+                connection.Execute(query, new { g });
+            }
+        }
         public static List<AssegnazioneTabellaDTO> GetDatiTabellaAssegnazioni(int idGuidatore)
         {
             using (var connection = Database.Connection())
