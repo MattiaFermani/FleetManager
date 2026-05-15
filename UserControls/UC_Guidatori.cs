@@ -10,9 +10,17 @@ using System.Windows.Forms;
 
 namespace FleetManager
 {
+    public enum DateFilterType
+    {
+        Cresc,
+        Descr,
+        Equal,
+        None
+    }
     public partial class UC_Guidatori : UserControl
     {
         private static UC_Guidatori _instance;
+        private DateFilterType DatefilterType = DateFilterType.None;
         public static UC_Guidatori Instance
         {
             get
@@ -78,6 +86,33 @@ namespace FleetManager
 
                 frm.Show();
             }
+        }
+        private void Filter()
+        {
+            string nome = txb_GuidatoreNome.Text;
+            string cognome = txb_GuidatoreCognome.Text;
+            string codiceFiscale = txb_GuidatoreCF.Text;
+
+        }
+        private void txb_GuidatoreNome_TextChanged(object sender, EventArgs e) => Filter();
+
+        private void txb_GuidatoreCognome_TextChanged(object sender, EventArgs e) => Filter();
+
+        private void txb_GuidatoreCF_TextChanged(object sender, EventArgs e) => Filter();
+
+        private void btn_GuidatorePatente_CrescDescr_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                DatefilterType = DatefilterType == DateFilterType.Cresc ? DateFilterType.Descr : DateFilterType.Cresc;
+                btn_GuidatorePatente_CrescDescr.Text = DatefilterType == DateFilterType.Cresc ? ">" : "<";
+            }
+            else
+            {
+                DatefilterType = DatefilterType == DateFilterType.Equal ? DateFilterType.None : DateFilterType.Equal;
+                btn_GuidatorePatente_CrescDescr.Text = DatefilterType == DateFilterType.None ? "↹" : "=";
+            }
+            Filter();
         }
     }
 }

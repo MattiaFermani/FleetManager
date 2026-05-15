@@ -340,9 +340,6 @@ namespace FleetManager
         #endregion
 
         #region Eventi UI: Bottoni Ordinamento
-        // Logica dei bottoni con MouseDown: 
-        // Click Sinistro = Clicla tra Ascendente/Discendente o >/<
-        // Click Destro = Resetta lo stato (Nessun ordine o Uguale)
 
         private void btn_FilterUnderOver_MouseDown(object sender, MouseEventArgs e)
         {
