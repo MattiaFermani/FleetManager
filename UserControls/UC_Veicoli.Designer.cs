@@ -140,6 +140,7 @@
             dGw_Veicoli.TabIndex = 0;
             dGw_Veicoli.CellClick += dGw_Veicoli_CellClick;
             dGw_Veicoli.CellMouseDown += dGw_Veicoli_CellMouseDown;
+            dGw_Veicoli.CellPainting += dGw_Veicoli_CellPainting;
             dGw_Veicoli.CellValueChanged += dGw_Veicoli_CellValueChanged;
             // 
             // ID_Veicolo
@@ -592,6 +593,7 @@
             tabControl1.Size = new Size(669, 685);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 9;
+            tabControl1.DrawItem += tabControl1_DrawItem;
             // 
             // tabPage1
             // 
@@ -640,6 +642,7 @@
             splitContainer1.Size = new Size(655, 648);
             splitContainer1.SplitterDistance = 92;
             splitContainer1.TabIndex = 9;
+            splitContainer1.Paint += splitContainer1_Paint;
             // 
             // tabPage2
             // 

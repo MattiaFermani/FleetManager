@@ -9,6 +9,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Drawing.Drawing2D;
+
 
 namespace FleetManager
 {
@@ -51,14 +53,13 @@ namespace FleetManager
             ConfiguraStileGriglia(dGw_Veicoli);
             ConfiguraStileGriglia(dGw_Modelli);
 
-            // Disattivo l'auto-generazione delle colonne
+            tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControl1.DrawItem += tabControl1_DrawItem;
+
             dGw_Veicoli.AutoGenerateColumns = false;
             dGw_Modelli.AutoGenerateColumns = false;
 
-            // Adatto le schede del TabControl alla larghezza disponibile
             TabResize();
-
-            // Carico i dati nei menu a tendina e nelle griglie
             RefreshData();
         }
 
@@ -67,6 +68,7 @@ namespace FleetManager
             // Quando il controllo viene effettivamente caricato a schermo, popolo la griglia
             LoadData();
             FormattaGrid(dGw_Veicoli);
+            InizializzaStileEstetico();
         }
 
         /// <summary>
@@ -681,52 +683,311 @@ namespace FleetManager
         }
         #endregion
         #region STILE
+
+        // Palette "Lavagna & Ghiaccio" - Sfondo spento ad alto contrasto
+        private readonly Color ColoreSfondo = Color.FromArgb(30, 34, 42);          // Grigio lavagna scurissimo e opaco (sfondo principale)
+        private readonly Color ColoreCard = Color.FromArgb(41, 47, 58);            // Antracite leggermente più chiaro per i pannelli
+        private readonly Color ColoreTesto = Color.FromArgb(225, 230, 238);        // Grigio ghiaccio chiarissimo (contrasto netto sul fondo scuro)
+        private readonly Color ColoreAccento = Color.FromArgb(0, 180, 216);         // Azzurro ciano brillante per bottoni attivi e focus
+        private readonly Color ColoreTestoAccento = Color.FromArgb(20, 24, 33);     // Testo scuro da usare sopra i bottoni azzurri/chiari
+        private readonly Color ColoreSelezione = Color.FromArgb(61, 72, 92);        // Grigio-blu medio per evidenziare le righe selezionate
+        private readonly Color ColoreBordi = Color.FromArgb(52, 61, 75);           // Linee di divisione scure ma nette
+        private readonly Color ColoreGrigliaAlternata = Color.FromArgb(36, 41, 51); // Righe della griglia appena sfasate
+
+        private void InizializzaStileEstetico()
+        {
+            // Sfondo principale dell'UserControl e dei pannelli
+            this.BackColor = ColoreSfondo;
+            panel1.BackColor = ColoreCard;
+            tabPage1.BackColor = ColoreSfondo;
+            tabPage2.BackColor = ColoreSfondo;
+
+            // Configurazione TabControl
+            tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
+
+            // Ciclo sui controlli per applicare lo stile Flat a pulsanti e scritte
+            ApplicaStileControlliRicorsivo(this.Controls);
+
+            // Ottimizzazione Griglie (dGw_Veicoli e dGw_Modelli)
+            ConfiguraGraficaGriglia(dGw_Veicoli);
+            ConfiguraGraficaGriglia(dGw_Modelli);
+        }
+
+        private void ApplicaStileControlliRicorsivo(Control.ControlCollection controlli)
+        {
+            foreach (Control c in controlli)
+            {
+                c.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular);
+                if (c is Label lbl && lbl.Font.Size < 14)
+                {
+                    lbl.ForeColor = ColoreTesto;
+                }
+
+                if (c is Button btn)
+                {
+                    btn.FlatStyle = FlatStyle.Flat;
+                    btn.FlatAppearance.BorderSize = 0;
+
+                    // Assegnazione colori in base al nome del bottone
+                    bool isBottonePrincipale = btn.Name.Contains("Add") || btn.Name.Contains("FilterInfo");
+                    btn.BackColor = isBottonePrincipale ? ColoreAccento : ColoreCard;
+                    btn.ForeColor = isBottonePrincipale ? ColoreTestoAccento : ColoreTesto;
+
+                    btn.Cursor = Cursors.Hand;
+
+                    btn.Paint -= Bottoni_Paint;
+                    btn.Paint += Bottoni_Paint;
+                }
+
+                // Se vuoi arrotondare anche i pannelli (le "Card")
+                if (c is Panel pnl && pnl.Name == "panel1")
+                {
+                    pnl.Paint -= Pannelli_Paint;
+                    pnl.Paint += Pannelli_Paint;
+                }
+
+                if (c is TextBox || c is ComboBox)
+                {
+                    c.BackColor = ColoreCard;
+                    c.ForeColor = ColoreTesto;
+                    // Per TextBox e ComboBox l'arrotondamento è complesso in WinForms, 
+                    // ma lo stile piatto scuro è già molto moderno.
+                }
+
+                if (c.HasChildren)
+                {
+                    ApplicaStileControlliRicorsivo(c.Controls);
+                }
+            }
+        }
+        private void Bottoni_Paint(object sender, PaintEventArgs e)
+        {
+            Button btn = (Button)sender;
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            // Raggio di arrotondamento (es. 6 per un arrotondamento leggero, btn.Height/2 per effetto pillola)
+            int raggio = 6;
+            Rectangle rect = new Rectangle(0, 0, btn.Width - 1, btn.Height - 1);
+
+            using (System.Drawing.Drawing2D.GraphicsPath path = GetRoundedRectanglePath(rect, raggio))
+            {
+                // 1. Taglia gli spigoli visivi del bottone per non far sbordare il colore di sfondo quadrato
+                btn.Region = new Region(path);
+
+                // 2. Disegna il bordo arrotondato usando il colore dei bordi della tua palette
+                using (Pen pennaBordo = new Pen(ColoreBordi, 1.5f))
+                {
+                    e.Graphics.DrawPath(pennaBordo, path);
+                }
+            }
+        }
+
+        private void Pannelli_Paint(object sender, PaintEventArgs e)
+        {
+            Panel pnl = (Panel)sender;
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            int raggio = 8; // I pannelli stanno bene con un raggio leggermente più ampio
+            Rectangle rect = new Rectangle(0, 0, pnl.Width - 1, pnl.Height - 1);
+
+            using (System.Drawing.Drawing2D.GraphicsPath path = GetRoundedRectanglePath(rect, raggio))
+            {
+                using (Pen pennaBordo = new Pen(ColoreBordi, 1))
+                {
+                    e.Graphics.DrawPath(pennaBordo, path);
+                }
+            }
+        }
+
+        private void ConfiguraGraficaGriglia(DataGridView dgw)
+        {
+            dgw.BackgroundColor = ColoreCard;
+            dgw.GridColor = ColoreBordi;
+
+            // Stile celle predefinito
+            dgw.DefaultCellStyle.BackColor = ColoreCard;
+            dgw.DefaultCellStyle.ForeColor = ColoreTesto;
+            dgw.DefaultCellStyle.SelectionBackColor = ColoreSelezione;
+            dgw.DefaultCellStyle.SelectionForeColor = ColoreTesto;
+
+            // Righe alternate
+            dgw.AlternatingRowsDefaultCellStyle.BackColor = ColoreGrigliaAlternata;
+
+            // Intestazioni di colonna
+            dgw.ColumnHeadersDefaultCellStyle.BackColor = ColoreSfondo;
+            dgw.ColumnHeadersDefaultCellStyle.ForeColor = ColoreTesto;
+            dgw.ColumnHeadersDefaultCellStyle.SelectionBackColor = ColoreSfondo;
+            dgw.EnableHeadersVisualStyles = false;
+        }
+
         private void ConfiguraStileGriglia(DataGridView dgw)
         {
-            // 1. FONDAMENTALE: Permette di sovrascrivere lo stile nativo di Windows per le intestazioni
+            // Permette di sovrascrivere lo stile nativo di Windows
             dgw.EnableHeadersVisualStyles = false;
 
-            // 2. Proprietà di Struttura e Bordi
-            dgw.BackgroundColor = Color.FromArgb(249, 250, 251); // Sfondo grigio chiarissimo (Tailwind Gray 50)
-            dgw.GridColor = Color.FromArgb(243, 244, 246);       // Linee di divisione molto tenui (Gray 100)
-            dgw.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal; // Solo linee orizzontali, look più pulito
-            dgw.RowHeadersVisible = false;                       // Nasconde la colonna vuota a sinistra
+            // Proprietà di Struttura e Bordi (Morbidi, anti-abbagliamento)
+            dgw.BackgroundColor = Color.FromArgb(248, 249, 250);
+            dgw.GridColor = Color.FromArgb(231, 235, 240);       // Linee di divisione finissime
+            dgw.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgw.RowHeadersVisible = false;
             dgw.BorderStyle = BorderStyle.None;
 
-            // 3. Il "Respiro" (Righe più alte = interfaccia moderna)
-            dgw.RowTemplate.Height = 40;                         // Diamo spazio alle celle
-            dgw.ColumnHeadersHeight = 42;                        // Più spazio per i titoli
+            // Il "Respiro" dell'interfaccia
+            dgw.RowTemplate.Height = 40;
+            dgw.ColumnHeadersHeight = 42;
             dgw.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
-            // 4. Stile dell'Intestazione (Header) - Stile scuro "Pro"
+            // Stile dell'Intestazione (Header)
             DataGridViewCellStyle stileHeader = new DataGridViewCellStyle();
-            stileHeader.BackColor = Color.FromArgb(31, 41, 55);            // Antracite scuro (Gray 800)
-            stileHeader.SelectionBackColor = Color.FromArgb(31, 41, 55);   // Mantiene lo stesso colore anche in selezione
-            stileHeader.ForeColor = Color.White;                           // Testo bianco
+            stileHeader.BackColor = ColoreSfondo;
+            stileHeader.SelectionBackColor = ColoreSfondo;
+            stileHeader.ForeColor = ColoreTesto; // Testo chiaro su fondo scuro
             stileHeader.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             stileHeader.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgw.ColumnHeadersDefaultCellStyle = stileHeader;
 
-            // 5. Stile delle Righe Standard (Default)
+            // Stile delle Righe Standard (Default)
             DataGridViewCellStyle stileRighe = new DataGridViewCellStyle();
-            stileRighe.BackColor = Color.White;
-            stileRighe.ForeColor = Color.FromArgb(55, 65, 81);             // Grigio scuro (meno aggressivo del nero puro)
+            stileRighe.BackColor = Color.Gray;
+            stileRighe.ForeColor = Color.White;            // Grigio scuro ardesia
             stileRighe.Font = new Font("Segoe UI", 9.5f, FontStyle.Regular);
 
-            // Colore di selezione armonioso (Azzurro morbido con testo scuro, non il blu elettrico di Windows)
-            stileRighe.SelectionBackColor = Color.FromArgb(239, 246, 255); // Blue 50
-            stileRighe.SelectionForeColor = Color.FromArgb(29, 78, 216);   // Blue 700
+            // Selezione armoniosa (Grigio-azzurro opaco, addio blu elettrico)
+            stileRighe.SelectionBackColor = Color.FromArgb(226, 232, 240); // Slate 200
+            stileRighe.SelectionForeColor = Color.FromArgb(15, 23, 42);    // Slate 900
             stileRighe.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgw.DefaultCellStyle = stileRighe;
 
-            // 6. Stile Righe Alterne (Per migliorare la lettura dei dati)
+            // Stile Righe Alterne (Per facilitare la lettura senza appesantire)
             DataGridViewCellStyle stileRigheAlterne = new DataGridViewCellStyle();
-            stileRigheAlterne.BackColor = Color.FromArgb(249, 250, 251);   // Sfondo alternato Gray 50
-            stileRigheAlterne.ForeColor = Color.FromArgb(55, 65, 81);
-            stileRigheAlterne.SelectionBackColor = Color.FromArgb(239, 246, 255);
-            stileRigheAlterne.SelectionForeColor = Color.FromArgb(29, 78, 216);
+            stileRigheAlterne.BackColor = Color.FromArgb(241, 245, 249);   // Slate 50
+            stileRigheAlterne.ForeColor = Color.FromArgb(71, 85, 105);
+            stileRigheAlterne.SelectionBackColor = Color.FromArgb(226, 232, 240);
+            stileRigheAlterne.SelectionForeColor = Color.FromArgb(15, 23, 42);
             stileRigheAlterne.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgw.AlternatingRowsDefaultCellStyle = stileRigheAlterne;
+        }
+
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            TabPage pagina = tabControl1.TabPages[e.Index];
+            Rectangle areaTab = tabControl1.GetTabRect(e.Index);
+
+            bool istabSelezionato = (tabControl1.SelectedIndex == e.Index);
+
+            // Sfondo del singolo Tab
+            using (Brush pennelloSfondo = new SolidBrush(istabSelezionato ? ColoreCard : ColoreSfondo))
+            {
+                g.FillRectangle(pennelloSfondo, areaTab);
+            }
+
+            // Linea inferiore di accento se il tab è attivo
+            if (istabSelezionato)
+            {
+                using (Pen pennaAccento = new Pen(ColoreAccento, 2))
+                {
+                    g.DrawLine(pennaAccento, areaTab.Left + 4, areaTab.Bottom - 1, areaTab.Right - 4, areaTab.Bottom - 1);
+                }
+            }
+
+            // Disegno del testo centrato
+            TextFormatFlags allineamento = TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
+            Color coloreTestoTab = istabSelezionato ? ColoreAccento : ColoreTesto;
+
+            TextRenderer.DrawText(g, pagina.Text, tabControl1.Font, areaTab, coloreTestoTab, allineamento);
+        }
+
+        private void dGw_Veicoli_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            // 1. Gestione delle Intestazioni di Colonna (RowIndex == -1)
+            if (e.RowIndex == -1)
+            {
+                e.PaintBackground(e.CellBounds, true);
+
+                using (Brush pennelloHeader = new SolidBrush(ColoreSfondo))
+                {
+                    e.Graphics.FillRectangle(pennelloHeader, e.CellBounds);
+                }
+
+                using (Pen pennaLinea = new Pen(ColoreBordi, 1))
+                {
+                    e.Graphics.DrawLine(pennaLinea, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1);
+                    e.Graphics.DrawLine(pennaLinea, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
+                }
+
+                e.PaintContent(e.CellBounds);
+                e.Handled = true;
+            }
+            // 2. Gestione delle celle selezionate per rendere il focus morbido
+            else if (e.RowIndex >= 0 && (e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected)
+            {
+                e.PaintBackground(e.CellBounds, false);
+
+                using (Brush pennelloSelezione = new SolidBrush(ColoreSelezione))
+                {
+                    e.Graphics.FillRectangle(pennelloSelezione, e.CellBounds);
+                }
+
+                // Disegna solo la linea orizzontale inferiore di divisione cella
+                using (Pen pennaGriglia = new Pen(ColoreBordi, 1))
+                {
+                    e.Graphics.DrawLine(pennaGriglia, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1);
+                }
+
+                // Forza il disegno del testo/contenuto sopra il nostro sfondo personalizzato
+                e.PaintContent(e.CellBounds);
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Genera geometricamente un tracciato a rettangolo con angoli arrotondati (look a pillola).
+        /// </summary>
+        private System.Drawing.Drawing2D.GraphicsPath GetRoundedRectanglePath(Rectangle rect, int radius)
+        {
+            System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+            int diameter = radius * 2;
+
+            if (diameter > rect.Width) diameter = rect.Width;
+            if (diameter > rect.Height) diameter = rect.Height;
+
+            Size size = new Size(diameter, diameter);
+            Rectangle arc = new Rectangle(rect.Location, size);
+
+            if (diameter <= 0)
+            {
+                path.AddRectangle(rect);
+                return path;
+            }
+
+            // 1. Angolo in alto a sinistra
+            path.AddArc(arc, 180, 90);
+
+            // 2. Angolo in alto a destra
+            arc.X = rect.Right - diameter;
+            path.AddArc(arc, 270, 90);
+
+            // 3. Angolo in basso a destra
+            arc.Y = rect.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+
+            // 4. Angolo in basso a sinistra
+            arc.X = rect.Left;
+            path.AddArc(arc, 90, 90);
+
+            path.CloseFigure();
+            return path;
+        }
+
+        private void splitContainer1_Paint(object sender, PaintEventArgs e)
+        {
+            SplitContainer split = (SplitContainer)sender;
+            using (Pen pennaBordo = new Pen(ColoreBordi, 1))
+            {
+                // Essendo orizzontale, disegna la linea di divisione sulla coordinata del divisore
+                e.Graphics.DrawLine(pennaBordo, 0, split.SplitterDistance, split.Width, split.SplitterDistance);
+            }
         }
         #endregion
     }
