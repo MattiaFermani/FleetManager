@@ -81,7 +81,7 @@
             dGw_Guidatori.RowHeadersVisible = false;
             dGw_Guidatori.ScrollBars = ScrollBars.Vertical;
             dGw_Guidatori.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dGw_Guidatori.Size = new Size(877, 610);
+            dGw_Guidatori.Size = new Size(877, 621);
             dGw_Guidatori.TabIndex = 1;
             dGw_Guidatori.CellDoubleClick += dGw_Guidatori_CellDoubleClick;
             dGw_Guidatori.CellFormatting += dGw_Guidatori_CellFormatting;
@@ -146,7 +146,7 @@
             // 
             splitContainer1.Panel2.Controls.Add(dGw_Guidatori);
             splitContainer1.Size = new Size(877, 685);
-            splitContainer1.SplitterDistance = 71;
+            splitContainer1.SplitterDistance = 60;
             splitContainer1.TabIndex = 2;
             // 
             // tableLayoutPanel1
@@ -176,13 +176,13 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 40F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
-            tableLayoutPanel1.Size = new Size(877, 71);
+            tableLayoutPanel1.Size = new Size(877, 60);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // txb_GuidatoreNome
             // 
             txb_GuidatoreNome.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txb_GuidatoreNome.Location = new Point(3, 34);
+            txb_GuidatoreNome.Location = new Point(3, 30);
             txb_GuidatoreNome.Name = "txb_GuidatoreNome";
             txb_GuidatoreNome.Size = new Size(166, 23);
             txb_GuidatoreNome.TabIndex = 0;
@@ -191,7 +191,7 @@
             // txb_GuidatoreCognome
             // 
             txb_GuidatoreCognome.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txb_GuidatoreCognome.Location = new Point(175, 34);
+            txb_GuidatoreCognome.Location = new Point(175, 30);
             txb_GuidatoreCognome.Name = "txb_GuidatoreCognome";
             txb_GuidatoreCognome.Size = new Size(166, 23);
             txb_GuidatoreCognome.TabIndex = 1;
@@ -200,7 +200,7 @@
             // txb_GuidatoreCF
             // 
             txb_GuidatoreCF.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txb_GuidatoreCF.Location = new Point(347, 34);
+            txb_GuidatoreCF.Location = new Point(347, 30);
             txb_GuidatoreCF.Name = "txb_GuidatoreCF";
             txb_GuidatoreCF.Size = new Size(166, 23);
             txb_GuidatoreCF.TabIndex = 1;
@@ -212,7 +212,7 @@
             label1.Dock = DockStyle.Fill;
             label1.Location = new Point(3, 3);
             label1.Name = "label1";
-            label1.Size = new Size(166, 28);
+            label1.Size = new Size(166, 24);
             label1.TabIndex = 2;
             label1.Text = "Nome";
             label1.TextAlign = ContentAlignment.BottomLeft;
@@ -223,7 +223,7 @@
             label2.Dock = DockStyle.Fill;
             label2.Location = new Point(175, 3);
             label2.Name = "label2";
-            label2.Size = new Size(166, 28);
+            label2.Size = new Size(166, 24);
             label2.TabIndex = 3;
             label2.Text = "Cognome";
             label2.TextAlign = ContentAlignment.BottomLeft;
@@ -234,7 +234,7 @@
             label3.Dock = DockStyle.Fill;
             label3.Location = new Point(347, 3);
             label3.Name = "label3";
-            label3.Size = new Size(166, 28);
+            label3.Size = new Size(166, 24);
             label3.TabIndex = 4;
             label3.Text = "Codice Fiscale";
             label3.TextAlign = ContentAlignment.BottomLeft;
@@ -245,7 +245,7 @@
             label4.Dock = DockStyle.Fill;
             label4.Location = new Point(519, 3);
             label4.Name = "label4";
-            label4.Size = new Size(166, 28);
+            label4.Size = new Size(166, 24);
             label4.TabIndex = 5;
             label4.Text = "Scadenza Patente";
             label4.TextAlign = ContentAlignment.BottomLeft;
@@ -256,7 +256,7 @@
             label5.Dock = DockStyle.Fill;
             label5.Location = new Point(691, 3);
             label5.Name = "label5";
-            label5.Size = new Size(166, 28);
+            label5.Size = new Size(166, 24);
             label5.TabIndex = 6;
             label5.Text = "Stato";
             label5.TextAlign = ContentAlignment.BottomLeft;
@@ -266,7 +266,7 @@
             cmb_GuidatoreStato.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             cmb_GuidatoreStato.FormattingEnabled = true;
             cmb_GuidatoreStato.Items.AddRange(new object[] { "Tutti Gli Stati", "ATTIVO", "IN SCADENZA", "SOSPESO" });
-            cmb_GuidatoreStato.Location = new Point(691, 34);
+            cmb_GuidatoreStato.Location = new Point(691, 30);
             cmb_GuidatoreStato.Name = "cmb_GuidatoreStato";
             cmb_GuidatoreStato.Size = new Size(166, 23);
             cmb_GuidatoreStato.TabIndex = 8;
@@ -274,18 +274,18 @@
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             tableLayoutPanel2.ColumnCount = 2;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.57143F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 71.42857F));
             tableLayoutPanel2.Controls.Add(dtp_GuidatorePatente, 1, 0);
             tableLayoutPanel2.Controls.Add(btn_GuidatorePatente_CrescDescr, 0, 0);
-            tableLayoutPanel2.Location = new Point(519, 34);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(519, 30);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Size = new Size(166, 21);
+            tableLayoutPanel2.Size = new Size(166, 24);
             tableLayoutPanel2.TabIndex = 9;
             // 
             // dtp_GuidatorePatente
