@@ -48,6 +48,9 @@ namespace FleetManager
         {
             InitializeComponent();
 
+            ConfiguraStileGriglia(dGw_Veicoli);
+            ConfiguraStileGriglia(dGw_Modelli);
+
             // Disattivo l'auto-generazione delle colonne
             dGw_Veicoli.AutoGenerateColumns = false;
             dGw_Modelli.AutoGenerateColumns = false;
@@ -675,6 +678,55 @@ namespace FleetManager
                 "══════════════════════════════";
 
             MessageBox.Show(messaggio, "Funzionamento dei Filtri", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        #endregion
+        #region STILE
+        private void ConfiguraStileGriglia(DataGridView dgw)
+        {
+            // 1. FONDAMENTALE: Permette di sovrascrivere lo stile nativo di Windows per le intestazioni
+            dgw.EnableHeadersVisualStyles = false;
+
+            // 2. Proprietà di Struttura e Bordi
+            dgw.BackgroundColor = Color.FromArgb(249, 250, 251); // Sfondo grigio chiarissimo (Tailwind Gray 50)
+            dgw.GridColor = Color.FromArgb(243, 244, 246);       // Linee di divisione molto tenui (Gray 100)
+            dgw.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal; // Solo linee orizzontali, look più pulito
+            dgw.RowHeadersVisible = false;                       // Nasconde la colonna vuota a sinistra
+            dgw.BorderStyle = BorderStyle.None;
+
+            // 3. Il "Respiro" (Righe più alte = interfaccia moderna)
+            dgw.RowTemplate.Height = 40;                         // Diamo spazio alle celle
+            dgw.ColumnHeadersHeight = 42;                        // Più spazio per i titoli
+            dgw.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            // 4. Stile dell'Intestazione (Header) - Stile scuro "Pro"
+            DataGridViewCellStyle stileHeader = new DataGridViewCellStyle();
+            stileHeader.BackColor = Color.FromArgb(31, 41, 55);            // Antracite scuro (Gray 800)
+            stileHeader.SelectionBackColor = Color.FromArgb(31, 41, 55);   // Mantiene lo stesso colore anche in selezione
+            stileHeader.ForeColor = Color.White;                           // Testo bianco
+            stileHeader.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            stileHeader.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgw.ColumnHeadersDefaultCellStyle = stileHeader;
+
+            // 5. Stile delle Righe Standard (Default)
+            DataGridViewCellStyle stileRighe = new DataGridViewCellStyle();
+            stileRighe.BackColor = Color.White;
+            stileRighe.ForeColor = Color.FromArgb(55, 65, 81);             // Grigio scuro (meno aggressivo del nero puro)
+            stileRighe.Font = new Font("Segoe UI", 9.5f, FontStyle.Regular);
+
+            // Colore di selezione armonioso (Azzurro morbido con testo scuro, non il blu elettrico di Windows)
+            stileRighe.SelectionBackColor = Color.FromArgb(239, 246, 255); // Blue 50
+            stileRighe.SelectionForeColor = Color.FromArgb(29, 78, 216);   // Blue 700
+            stileRighe.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgw.DefaultCellStyle = stileRighe;
+
+            // 6. Stile Righe Alterne (Per migliorare la lettura dei dati)
+            DataGridViewCellStyle stileRigheAlterne = new DataGridViewCellStyle();
+            stileRigheAlterne.BackColor = Color.FromArgb(249, 250, 251);   // Sfondo alternato Gray 50
+            stileRigheAlterne.ForeColor = Color.FromArgb(55, 65, 81);
+            stileRigheAlterne.SelectionBackColor = Color.FromArgb(239, 246, 255);
+            stileRigheAlterne.SelectionForeColor = Color.FromArgb(29, 78, 216);
+            stileRigheAlterne.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgw.AlternatingRowsDefaultCellStyle = stileRigheAlterne;
         }
         #endregion
     }

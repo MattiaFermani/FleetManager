@@ -225,7 +225,6 @@ namespace FleetManager.DB
         {
             using (var connection = Database.Connection())
             {
-                //Gestione operatore KM
                 string operatore = KmfilterType switch
                 {
                     KmFilterType.Under => "<",
@@ -255,8 +254,7 @@ namespace FleetManager.DB
                     ? "ORDER BY " + string.Join(", ", orders)
                     : "ORDER BY V.Targa ASC";
 
-                string query = $@"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, 
-                                V.AnnoProduzione, V.Chilometraggio, V.Stato
+                string query = $@"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, V.AnnoProduzione, V.Chilometraggio, V.Stato
                                 FROM VEICOLI V
                                 JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
                                 WHERE (@targa IS NULL OR V.Targa LIKE '%' + @targa + '%')
@@ -306,27 +304,28 @@ namespace FleetManager.DB
 
         #region GUIDATORI
 
-        public static List<Guidatore> GetTuttiGuidatori()
+        public static List<Guidatore> RicercaGuidatori(string Nome = null, string Cognome = null, string CodiceFiscale = null, DateFilterType? DatefilterType = null, DateTime? ScadenzaPatente = null, string Stato = null)
         {
             using (var connection = Database.Connection())
             {
-                string query = "SELECT * FROM GUIDATORI ORDER BY Cognome, Nome";
-                return connection.Query<Guidatore>(query).ToList();
-            }
-        }
-        public static List<Assegnazione> GetAssegnazioniPerGuidatore(int idGuidatore)
-        {
-            using (var connection = Database.Connection())
-            {
-                string query = @"
-                SELECT A.DataInizio, A.DataFine, V.Targa
-                FROM ASSEGNAZIONI A
-                JOIN VEICOLI V ON A.FK_Veicolo = V.ID_Veicolo
-                JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
-                WHERE A.FK_Guidatore = @idGuidatore
-                ORDER BY A.DataInizio DESC";
+                string operatore = DatefilterType switch
+                {
+                    DateFilterType.Cresc => ">",
+                    DateFilterType.Descr => "<",
+                    DateFilterType.Equal => "=",
+                    _ => ">"
+                };
 
-                return connection.Query<Assegnazione>(query, new { idGuidatore }).ToList();
+                string query = $@"SELECT ID_Guidatore, Nome, Cognome, CodiceFiscale, ScadenzaPatente, Stato 
+                        FROM GUIDATORI 
+                        WHERE (@Nome IS NULL OR Nome LIKE '%' + @Nome + '%')
+                        AND (@Cognome IS NULL OR Cognome LIKE '%' + @Cognome + '%')
+                        AND (@CodiceFiscale IS NULL OR CodiceFiscale LIKE '%' + @CodiceFiscale + '%')
+                        AND (@ScadenzaPatente IS NULL OR ScadenzaPatente {operatore} @ScadenzaPatente)
+                        AND (@Stato IS NULL OR Stato LIKE '%' + @Stato + '%')
+                        ORDER BY Cognome, Nome ASC";
+
+                return connection.Query<Guidatore>(query, new { Nome, Cognome, CodiceFiscale, DatefilterType, ScadenzaPatente, Stato }).ToList();
             }
         }
         public static void AggiornaStatoGuidatore(int id, string nuovoStato)

@@ -30,12 +30,12 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             dGw_Guidatori = new DataGridView();
-            ID_Guidatore = new DataGridViewTextBoxColumn();
-            Nome = new DataGridViewTextBoxColumn();
             Cognome = new DataGridViewTextBoxColumn();
+            Nome = new DataGridViewTextBoxColumn();
             CodiceFiscale = new DataGridViewTextBoxColumn();
             ScadenzaPatente = new DataGridViewTextBoxColumn();
             Stato = new DataGridViewTextBoxColumn();
+            ID_Guidatore = new DataGridViewTextBoxColumn();
             splitContainer1 = new SplitContainer();
             tableLayoutPanel1 = new TableLayoutPanel();
             txb_GuidatoreNome = new TextBox();
@@ -71,7 +71,7 @@
             dGw_Guidatori.BackgroundColor = SystemColors.Control;
             dGw_Guidatori.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dGw_Guidatori.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dGw_Guidatori.Columns.AddRange(new DataGridViewColumn[] { ID_Guidatore, Nome, Cognome, CodiceFiscale, ScadenzaPatente, Stato });
+            dGw_Guidatori.Columns.AddRange(new DataGridViewColumn[] { Cognome, Nome, CodiceFiscale, ScadenzaPatente, Stato, ID_Guidatore });
             dGw_Guidatori.Dock = DockStyle.Fill;
             dGw_Guidatori.EditMode = DataGridViewEditMode.EditOnEnter;
             dGw_Guidatori.Location = new Point(0, 0);
@@ -85,23 +85,7 @@
             dGw_Guidatori.TabIndex = 1;
             dGw_Guidatori.CellDoubleClick += dGw_Guidatori_CellDoubleClick;
             dGw_Guidatori.CellFormatting += dGw_Guidatori_CellFormatting;
-            // 
-            // ID_Guidatore
-            // 
-            ID_Guidatore.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ID_Guidatore.DataPropertyName = "ID_Guidatore";
-            ID_Guidatore.Frozen = true;
-            ID_Guidatore.HeaderText = "ID";
-            ID_Guidatore.Name = "ID_Guidatore";
-            ID_Guidatore.ReadOnly = true;
-            ID_Guidatore.Visible = false;
-            // 
-            // Nome
-            // 
-            Nome.DataPropertyName = "Nome";
-            Nome.HeaderText = "Nome";
-            Nome.Name = "Nome";
-            Nome.ReadOnly = true;
+            dGw_Guidatori.CellPainting += dGw_Guidatori_CellPainting;
             // 
             // Cognome
             // 
@@ -109,6 +93,13 @@
             Cognome.HeaderText = "Cognome";
             Cognome.Name = "Cognome";
             Cognome.ReadOnly = true;
+            // 
+            // Nome
+            // 
+            Nome.DataPropertyName = "Nome";
+            Nome.HeaderText = "Nome";
+            Nome.Name = "Nome";
+            Nome.ReadOnly = true;
             // 
             // CodiceFiscale
             // 
@@ -130,6 +121,15 @@
             Stato.HeaderText = "Stato";
             Stato.Name = "Stato";
             Stato.ReadOnly = true;
+            // 
+            // ID_Guidatore
+            // 
+            ID_Guidatore.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            ID_Guidatore.DataPropertyName = "ID_Guidatore";
+            ID_Guidatore.FillWeight = 5F;
+            ID_Guidatore.HeaderText = "ID";
+            ID_Guidatore.Name = "ID_Guidatore";
+            ID_Guidatore.ReadOnly = true;
             // 
             // splitContainer1
             // 
@@ -270,6 +270,7 @@
             cmb_GuidatoreStato.Name = "cmb_GuidatoreStato";
             cmb_GuidatoreStato.Size = new Size(166, 23);
             cmb_GuidatoreStato.TabIndex = 8;
+            cmb_GuidatoreStato.SelectedIndexChanged += cmb_GuidatoreStato_SelectedIndexChanged;
             // 
             // tableLayoutPanel2
             // 
@@ -284,7 +285,7 @@
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Size = new Size(166, 29);
+            tableLayoutPanel2.Size = new Size(166, 21);
             tableLayoutPanel2.TabIndex = 9;
             // 
             // dtp_GuidatorePatente
@@ -295,6 +296,7 @@
             dtp_GuidatorePatente.Name = "dtp_GuidatorePatente";
             dtp_GuidatorePatente.Size = new Size(113, 23);
             dtp_GuidatorePatente.TabIndex = 0;
+            dtp_GuidatorePatente.ValueChanged += dtp_GuidatorePatente_ValueChanged;
             // 
             // btn_GuidatorePatente_CrescDescr
             // 
@@ -330,12 +332,6 @@
         #endregion
 
         private DataGridView dGw_Guidatori;
-        private DataGridViewTextBoxColumn ID_Guidatore;
-        private DataGridViewTextBoxColumn Nome;
-        private DataGridViewTextBoxColumn Cognome;
-        private DataGridViewTextBoxColumn CodiceFiscale;
-        private DataGridViewTextBoxColumn ScadenzaPatente;
-        private DataGridViewTextBoxColumn Stato;
         private SplitContainer splitContainer1;
         private TableLayoutPanel tableLayoutPanel1;
         private TextBox txb_GuidatoreNome;
@@ -350,5 +346,11 @@
         private DateTimePicker dtp_GuidatorePatente;
         private ComboBox cmb_GuidatoreStato;
         private TableLayoutPanel tableLayoutPanel2;
+        private DataGridViewTextBoxColumn Cognome;
+        private DataGridViewTextBoxColumn Nome;
+        private DataGridViewTextBoxColumn CodiceFiscale;
+        private DataGridViewTextBoxColumn ScadenzaPatente;
+        private DataGridViewTextBoxColumn Stato;
+        private DataGridViewTextBoxColumn ID_Guidatore;
     }
 }
