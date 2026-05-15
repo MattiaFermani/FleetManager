@@ -12,13 +12,24 @@ namespace FleetManager
 {
     public partial class UC_Guidatori : UserControl
     {
+        private static UC_Guidatori _instance;
+        public static UC_Guidatori Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new UC_Guidatori();
+                return _instance;
+            }
+        }
         public UC_Guidatori()
         {
             InitializeComponent();
             RefreshData();
+            _instance = this;
         }
 
-        private void RefreshData()
+        public void RefreshData()
         {
             var lista = MethodsDB.GetTuttiGuidatori();
             dGw_Guidatori.DataSource = lista;
@@ -41,7 +52,7 @@ namespace FleetManager
                     e.CellStyle.BackColor = Color.Crimson;
                     e.CellStyle.SelectionBackColor = Color.DarkRed;
                 }
-                else if (valore == "IN SCADENZA")
+                else if (valore.StartsWith("IN SCADENZA"))
                 {
                     e.CellStyle.BackColor = Color.Gold;
                 }
@@ -61,11 +72,11 @@ namespace FleetManager
             {
                 var guidatoreSelezionato = (Guidatore)dGw_Guidatori.Rows[e.RowIndex].DataBoundItem;
 
-                using (FormDettaglioGuidatore frm = new FormDettaglioGuidatore(guidatoreSelezionato))
-                {
-                    frm.ShowDialog();
-                    RefreshData();
-                }
+                FormDettaglioGuidatore frm = new FormDettaglioGuidatore(guidatoreSelezionato);
+
+                frm.FormClosed += (s, args) => RefreshData();
+
+                frm.Show();
             }
         }
     }

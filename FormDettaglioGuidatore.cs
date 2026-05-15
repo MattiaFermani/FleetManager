@@ -48,7 +48,28 @@ namespace FleetManager
             string nome = txb_Nome.Text == string.Empty ? _guidatore.Nome : txb_Nome.Text;
             string cognome = txb_Cognome.Text == string.Empty ? _guidatore.Cognome : txb_Cognome.Text;
             string CF = txb_CF.Text == string.Empty ? _guidatore.CodiceFiscale : txb_CF.Text;
-            DateTime scadenzaPatente = dtp_Scadenza.Value < DateTime.Now? _guidatore.ScadenzaPatente : dtp_Scadenza.Value;
+            DateTime scadenzaPatente = dtp_Scadenza.Value <= DateTime.Now.AddDays(-1) ? _guidatore.ScadenzaPatente : dtp_Scadenza.Value;
+            Guidatore g = new Guidatore(
+                Id_Guidatore : _guidatore.ID_Guidatore,
+                Nome : nome,
+                Cognome : cognome,
+                CodiceFiscale : CF,
+                ScadenzaPatente : scadenzaPatente,
+                Stato : _guidatore.Stato
+            );
+
+            if (MethodsDB.AggiornaInfoGuidatore(g))
+            {
+                MessageBox.Show("Informazioni aggiornate con successo.");
+                this._guidatore = g;
+                PopolaCampi();
+                CaricaAssegnazioni();
+                UC_Guidatori.Instance.RefreshData();
+            }
+            else
+            {
+                MessageBox.Show("Errore durante l'aggiornamento delle informazioni.");
+            }
 
         }
     }

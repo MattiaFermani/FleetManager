@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             dGw_Guidatori = new DataGridView();
             ID_Guidatore = new DataGridViewTextBoxColumn();
             Nome = new DataGridViewTextBoxColumn();
@@ -57,8 +57,8 @@
             dGw_Guidatori.AllowUserToDeleteRows = false;
             dGw_Guidatori.AllowUserToResizeColumns = false;
             dGw_Guidatori.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(224, 224, 224);
-            dGw_Guidatori.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dGw_Guidatori.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dGw_Guidatori.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dGw_Guidatori.BackgroundColor = SystemColors.Control;
             dGw_Guidatori.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;

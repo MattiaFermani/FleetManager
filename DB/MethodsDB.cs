@@ -337,12 +337,13 @@ namespace FleetManager.DB
                 connection.Execute(query, new { id, nuovoStato });
             }
         }
-        public static void AggiornaInfoGuidatore(Guidatore g)
+        public static bool AggiornaInfoGuidatore(Guidatore g)
         {
             using (var connection = Database.Connection())
             {
-                string query = @"UPDATE GUIDATORI SET Nome = @Nome, Cognome = @Cognome, CodiceFiscale = @CodiceFiscale, ScadenzaPatente = @ScadenzaPatente";
-                connection.Execute(query, new { g });
+                string query = @"UPDATE GUIDATORI SET Nome = @Nome, Cognome = @Cognome, CodiceFiscale = @CodiceFiscale, ScadenzaPatente = @ScadenzaPatente WHERE ID_Guidatore = @ID_Guidatore";
+                int rowsAffected = connection.Execute(query, new { g.Nome, g.Cognome, g.CodiceFiscale, g.ScadenzaPatente, g.ID_Guidatore });
+                return rowsAffected > 0;
             }
         }
         public static List<AssegnazioneTabellaDTO> GetDatiTabellaAssegnazioni(int idGuidatore)
