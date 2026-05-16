@@ -737,9 +737,21 @@ namespace FleetManager
 
         private void dGw_Veicoli_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex < 0 || dGw_Veicoli.Rows[e.RowIndex].IsNewRow) return;
+
+            var v = dGw_Veicoli.Rows[e.RowIndex].DataBoundItem as Veicolo;
+
+            if (v != null)
             {
-                Veicolo v = (Veicolo)dGw_Veicoli.Rows[e.RowIndex].DataBoundItem;
+                int id = v.ID_Veicolo;
+                string targa = v.Targa;
+                int km = v.Chilometraggio;
+
+                string nomeModello = dGw_Veicoli.Rows[e.RowIndex].Cells["NomeModello"].Value?.ToString() ?? string.Empty;
+                int fkModello = !string.IsNullOrEmpty(nomeModello) ? MethodsDB.GetIdModelloPerNome(nomeModello) : 0;
+
+                v.FK_Modello = fkModello;
+
                 FormDettaglioVeicolo formDettaglio = new FormDettaglioVeicolo(v);
                 formDettaglio.ShowDialog();
                 Filter();

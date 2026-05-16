@@ -76,18 +76,23 @@
             // 
             // registroEventiToolStripMenuItem
             // 
+            registroEventiToolStripMenuItem.Enabled = false;
             registroEventiToolStripMenuItem.Name = "registroEventiToolStripMenuItem";
             registroEventiToolStripMenuItem.Size = new Size(119, 25);
             registroEventiToolStripMenuItem.Text = "Registro Eventi";
+            registroEventiToolStripMenuItem.Visible = false;
             // 
             // statisticheToolStripMenuItem
             // 
+            statisticheToolStripMenuItem.Enabled = false;
             statisticheToolStripMenuItem.Name = "statisticheToolStripMenuItem";
             statisticheToolStripMenuItem.Size = new Size(119, 25);
             statisticheToolStripMenuItem.Text = "Statistiche";
+            statisticheToolStripMenuItem.Visible = false;
             // 
             // impostazioni_MenuItem
             // 
+            impostazioni_MenuItem.Alignment = ToolStripItemAlignment.Right;
             impostazioni_MenuItem.Name = "impostazioni_MenuItem";
             impostazioni_MenuItem.Size = new Size(119, 25);
             impostazioni_MenuItem.Text = "Impostazioni";

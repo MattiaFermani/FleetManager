@@ -33,8 +33,9 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             splitContainer1 = new SplitContainer();
-            btn_CancelEdits = new Button();
-            btn_ApplyEdits = new Button();
+            btn_TerminaAssegnazione = new Button();
+            btn_AssegnnaVeicolo = new Button();
+            btn_AddManutenzione = new Button();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -47,12 +48,12 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             splitContainer2 = new SplitContainer();
             dGw_Assegnazioni = new DataGridView();
-            ID = new DataGridViewTextBoxColumn();
-            DataInizio = new DataGridViewTextBoxColumn();
-            DataFine = new DataGridViewTextBoxColumn();
+            ID_Assegnazione = new DataGridViewTextBoxColumn();
             Nome = new DataGridViewTextBoxColumn();
             Cognome = new DataGridViewTextBoxColumn();
             ID_Guidatore = new DataGridViewTextBoxColumn();
+            DataInizio = new DataGridViewTextBoxColumn();
+            DataFine = new DataGridViewTextBoxColumn();
             dGw_Manutenzioni = new DataGridView();
             ID_Manutenzione = new DataGridViewTextBoxColumn();
             DataIntervento = new DataGridViewTextBoxColumn();
@@ -76,43 +77,60 @@
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(3, 508);
+            splitContainer1.Location = new Point(3, 497);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            splitContainer1.Panel1.Controls.Add(btn_CancelEdits);
+            splitContainer1.Panel1.Controls.Add(btn_TerminaAssegnazione);
+            splitContainer1.Panel1.Controls.Add(btn_AssegnnaVeicolo);
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(btn_ApplyEdits);
-            splitContainer1.Size = new Size(846, 25);
-            splitContainer1.SplitterDistance = 246;
+            splitContainer1.Panel2.Controls.Add(btn_AddManutenzione);
+            splitContainer1.Size = new Size(1329, 25);
+            splitContainer1.SplitterDistance = 661;
             splitContainer1.TabIndex = 3;
             // 
-            // btn_CancelEdits
+            // btn_TerminaAssegnazione
             // 
-            btn_CancelEdits.BackColor = Color.Tomato;
-            btn_CancelEdits.Dock = DockStyle.Fill;
-            btn_CancelEdits.FlatStyle = FlatStyle.Flat;
-            btn_CancelEdits.Location = new Point(0, 0);
-            btn_CancelEdits.Name = "btn_CancelEdits";
-            btn_CancelEdits.Size = new Size(246, 25);
-            btn_CancelEdits.TabIndex = 4;
-            btn_CancelEdits.Text = "ANNULLA";
-            btn_CancelEdits.UseVisualStyleBackColor = false;
+            btn_TerminaAssegnazione.BackColor = Color.Silver;
+            btn_TerminaAssegnazione.Dock = DockStyle.Right;
+            btn_TerminaAssegnazione.Enabled = false;
+            btn_TerminaAssegnazione.FlatStyle = FlatStyle.Flat;
+            btn_TerminaAssegnazione.Location = new Point(328, 0);
+            btn_TerminaAssegnazione.Name = "btn_TerminaAssegnazione";
+            btn_TerminaAssegnazione.Size = new Size(333, 25);
+            btn_TerminaAssegnazione.TabIndex = 5;
+            btn_TerminaAssegnazione.Text = "TERMINA ASSEGNAZIONE";
+            btn_TerminaAssegnazione.UseVisualStyleBackColor = false;
+            btn_TerminaAssegnazione.Click += btn_TerminaAssegnazione_Click;
             // 
-            // btn_ApplyEdits
+            // btn_AssegnnaVeicolo
             // 
-            btn_ApplyEdits.BackColor = Color.PaleGreen;
-            btn_ApplyEdits.Dock = DockStyle.Fill;
-            btn_ApplyEdits.FlatStyle = FlatStyle.Flat;
-            btn_ApplyEdits.Location = new Point(0, 0);
-            btn_ApplyEdits.Name = "btn_ApplyEdits";
-            btn_ApplyEdits.Size = new Size(596, 25);
-            btn_ApplyEdits.TabIndex = 3;
-            btn_ApplyEdits.Text = "APPLICA";
-            btn_ApplyEdits.UseVisualStyleBackColor = false;
+            btn_AssegnnaVeicolo.BackColor = Color.Silver;
+            btn_AssegnnaVeicolo.Dock = DockStyle.Left;
+            btn_AssegnnaVeicolo.FlatStyle = FlatStyle.Flat;
+            btn_AssegnnaVeicolo.Location = new Point(0, 0);
+            btn_AssegnnaVeicolo.Name = "btn_AssegnnaVeicolo";
+            btn_AssegnnaVeicolo.Size = new Size(333, 25);
+            btn_AssegnnaVeicolo.TabIndex = 4;
+            btn_AssegnnaVeicolo.Text = "ASSEGNA VEICOLO";
+            btn_AssegnnaVeicolo.UseVisualStyleBackColor = false;
+            btn_AssegnnaVeicolo.Click += btn_AssegnnaVeicolo_Click;
+            // 
+            // btn_AddManutenzione
+            // 
+            btn_AddManutenzione.BackColor = Color.Silver;
+            btn_AddManutenzione.Dock = DockStyle.Fill;
+            btn_AddManutenzione.FlatStyle = FlatStyle.Flat;
+            btn_AddManutenzione.Location = new Point(0, 0);
+            btn_AddManutenzione.Name = "btn_AddManutenzione";
+            btn_AddManutenzione.Size = new Size(664, 25);
+            btn_AddManutenzione.TabIndex = 3;
+            btn_AddManutenzione.Text = "AGGIUNGI MANUTENZIONE";
+            btn_AddManutenzione.UseVisualStyleBackColor = false;
+            btn_AddManutenzione.Click += btn_AddManutenzione_Click;
             // 
             // label1
             // 
@@ -121,7 +139,7 @@
             label1.FlatStyle = FlatStyle.Flat;
             label1.Location = new Point(3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(417, 17);
+            label1.Size = new Size(658, 17);
             label1.TabIndex = 2;
             label1.Text = "Targa";
             label1.TextAlign = ContentAlignment.BottomLeft;
@@ -131,9 +149,9 @@
             label2.AutoSize = true;
             label2.Dock = DockStyle.Fill;
             label2.FlatStyle = FlatStyle.Flat;
-            label2.Location = new Point(426, 0);
+            label2.Location = new Point(667, 0);
             label2.Name = "label2";
-            label2.Size = new Size(417, 17);
+            label2.Size = new Size(659, 17);
             label2.TabIndex = 3;
             label2.Text = "Modello";
             label2.TextAlign = ContentAlignment.BottomLeft;
@@ -143,9 +161,9 @@
             label3.AutoSize = true;
             label3.Dock = DockStyle.Fill;
             label3.FlatStyle = FlatStyle.Flat;
-            label3.Location = new Point(3, 43);
+            label3.Location = new Point(3, 42);
             label3.Name = "label3";
-            label3.Size = new Size(417, 17);
+            label3.Size = new Size(658, 17);
             label3.TabIndex = 4;
             label3.Text = "Anno di Produzione";
             label3.TextAlign = ContentAlignment.BottomLeft;
@@ -171,7 +189,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
-            tableLayoutPanel2.Size = new Size(846, 87);
+            tableLayoutPanel2.Size = new Size(1329, 85);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // txb_Targa
@@ -180,25 +198,25 @@
             txb_Targa.Location = new Point(3, 20);
             txb_Targa.Name = "txb_Targa";
             txb_Targa.ReadOnly = true;
-            txb_Targa.Size = new Size(417, 23);
+            txb_Targa.Size = new Size(658, 23);
             txb_Targa.TabIndex = 0;
             // 
             // txb_Modello
             // 
             txb_Modello.Dock = DockStyle.Fill;
-            txb_Modello.Location = new Point(426, 20);
+            txb_Modello.Location = new Point(667, 20);
             txb_Modello.Name = "txb_Modello";
             txb_Modello.ReadOnly = true;
-            txb_Modello.Size = new Size(417, 23);
+            txb_Modello.Size = new Size(659, 23);
             txb_Modello.TabIndex = 0;
             // 
             // txb_AnnoProduzione
             // 
             txb_AnnoProduzione.Dock = DockStyle.Fill;
-            txb_AnnoProduzione.Location = new Point(3, 63);
+            txb_AnnoProduzione.Location = new Point(3, 62);
             txb_AnnoProduzione.Name = "txb_AnnoProduzione";
             txb_AnnoProduzione.ReadOnly = true;
-            txb_AnnoProduzione.Size = new Size(417, 23);
+            txb_AnnoProduzione.Size = new Size(658, 23);
             txb_AnnoProduzione.TabIndex = 0;
             // 
             // label4
@@ -206,9 +224,9 @@
             label4.AutoSize = true;
             label4.Dock = DockStyle.Fill;
             label4.FlatStyle = FlatStyle.Flat;
-            label4.Location = new Point(426, 43);
+            label4.Location = new Point(667, 42);
             label4.Name = "label4";
-            label4.Size = new Size(417, 17);
+            label4.Size = new Size(659, 17);
             label4.TabIndex = 5;
             label4.Text = "Chilometraggio";
             label4.TextAlign = ContentAlignment.BottomLeft;
@@ -216,10 +234,12 @@
             // numericUpDown1
             // 
             numericUpDown1.Dock = DockStyle.Fill;
-            numericUpDown1.Location = new Point(426, 63);
+            numericUpDown1.Enabled = false;
+            numericUpDown1.Location = new Point(667, 62);
+            numericUpDown1.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.ReadOnly = true;
-            numericUpDown1.Size = new Size(417, 23);
+            numericUpDown1.Size = new Size(659, 23);
             numericUpDown1.TabIndex = 6;
             // 
             // tableLayoutPanel1
@@ -236,13 +256,13 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 18.56F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 81.44F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            tableLayoutPanel1.Size = new Size(852, 536);
+            tableLayoutPanel1.Size = new Size(1335, 525);
             tableLayoutPanel1.TabIndex = 6;
             // 
             // splitContainer2
             // 
             splitContainer2.Dock = DockStyle.Fill;
-            splitContainer2.Location = new Point(3, 96);
+            splitContainer2.Location = new Point(3, 94);
             splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -252,8 +272,8 @@
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.Controls.Add(dGw_Manutenzioni);
-            splitContainer2.Size = new Size(846, 406);
-            splitContainer2.SplitterDistance = 423;
+            splitContainer2.Size = new Size(1329, 397);
+            splitContainer2.SplitterDistance = 664;
             splitContainer2.TabIndex = 4;
             // 
             // dGw_Assegnazioni
@@ -268,7 +288,7 @@
             dGw_Assegnazioni.BackgroundColor = SystemColors.Control;
             dGw_Assegnazioni.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dGw_Assegnazioni.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dGw_Assegnazioni.Columns.AddRange(new DataGridViewColumn[] { ID, DataInizio, DataFine, Nome, Cognome, ID_Guidatore });
+            dGw_Assegnazioni.Columns.AddRange(new DataGridViewColumn[] { ID_Assegnazione, Nome, Cognome, ID_Guidatore, DataInizio, DataFine });
             dGw_Assegnazioni.Dock = DockStyle.Fill;
             dGw_Assegnazioni.EditMode = DataGridViewEditMode.EditOnEnter;
             dGw_Assegnazioni.Location = new Point(0, 0);
@@ -280,30 +300,16 @@
             dGw_Assegnazioni.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dGw_Assegnazioni.ScrollBars = ScrollBars.Vertical;
             dGw_Assegnazioni.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dGw_Assegnazioni.Size = new Size(423, 406);
+            dGw_Assegnazioni.Size = new Size(664, 397);
             dGw_Assegnazioni.TabIndex = 3;
             // 
-            // ID
+            // ID_Assegnazione
             // 
-            ID.DataPropertyName = "ID_Assegnazione";
-            ID.HeaderText = "ID_Assegnazioni";
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            ID.Visible = false;
-            // 
-            // DataInizio
-            // 
-            DataInizio.DataPropertyName = "DataInizio";
-            DataInizio.HeaderText = "Data Inizio";
-            DataInizio.Name = "DataInizio";
-            DataInizio.ReadOnly = true;
-            // 
-            // DataFine
-            // 
-            DataFine.DataPropertyName = "DataFine";
-            DataFine.HeaderText = "Data Fine";
-            DataFine.Name = "DataFine";
-            DataFine.ReadOnly = true;
+            ID_Assegnazione.DataPropertyName = "ID_Assegnazione";
+            ID_Assegnazione.HeaderText = "ID_Assegnazione";
+            ID_Assegnazione.Name = "ID_Assegnazione";
+            ID_Assegnazione.ReadOnly = true;
+            ID_Assegnazione.Visible = false;
             // 
             // Nome
             // 
@@ -321,9 +327,24 @@
             // 
             // ID_Guidatore
             // 
+            ID_Guidatore.DataPropertyName = "ID_Guidatore";
             ID_Guidatore.HeaderText = "ID Guidatore";
             ID_Guidatore.Name = "ID_Guidatore";
             ID_Guidatore.ReadOnly = true;
+            // 
+            // DataInizio
+            // 
+            DataInizio.DataPropertyName = "DataInizio";
+            DataInizio.HeaderText = "Data Inizio";
+            DataInizio.Name = "DataInizio";
+            DataInizio.ReadOnly = true;
+            // 
+            // DataFine
+            // 
+            DataFine.DataPropertyName = "DataFine";
+            DataFine.HeaderText = "Data Fine";
+            DataFine.Name = "DataFine";
+            DataFine.ReadOnly = true;
             // 
             // dGw_Manutenzioni
             // 
@@ -349,26 +370,29 @@
             dGw_Manutenzioni.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dGw_Manutenzioni.ScrollBars = ScrollBars.Vertical;
             dGw_Manutenzioni.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dGw_Manutenzioni.Size = new Size(419, 406);
+            dGw_Manutenzioni.Size = new Size(661, 397);
             dGw_Manutenzioni.TabIndex = 4;
             // 
             // ID_Manutenzione
             // 
             ID_Manutenzione.DataPropertyName = "ID_Manutenzione";
-            ID_Manutenzione.HeaderText = "ID Manutenzione";
+            ID_Manutenzione.FillWeight = 43.3164063F;
+            ID_Manutenzione.HeaderText = "ID";
             ID_Manutenzione.Name = "ID_Manutenzione";
             ID_Manutenzione.ReadOnly = true;
             // 
             // DataIntervento
             // 
             DataIntervento.DataPropertyName = "DataIntervento";
-            DataIntervento.HeaderText = "Data Intervento";
+            DataIntervento.FillWeight = 43.3164063F;
+            DataIntervento.HeaderText = "Data";
             DataIntervento.Name = "DataIntervento";
             DataIntervento.ReadOnly = true;
             // 
             // Costo
             // 
             Costo.DataPropertyName = "Costo";
+            Costo.FillWeight = 43.3164063F;
             Costo.HeaderText = "Costo";
             Costo.Name = "Costo";
             Costo.ReadOnly = true;
@@ -376,6 +400,7 @@
             // Descrizione
             // 
             Descrizione.DataPropertyName = "Descrizione";
+            Descrizione.FillWeight = 200F;
             Descrizione.HeaderText = "Descrizione";
             Descrizione.Name = "Descrizione";
             Descrizione.ReadOnly = true;
@@ -384,8 +409,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(852, 536);
+            ClientSize = new Size(1335, 525);
             Controls.Add(tableLayoutPanel1);
+            MinimumSize = new Size(1351, 564);
             Name = "FormDettaglioVeicolo";
             Text = "FormDettaglioVeicolo";
             splitContainer1.Panel1.ResumeLayout(false);
@@ -408,8 +434,6 @@
         #endregion
 
         private SplitContainer splitContainer1;
-        private Button btn_CancelEdits;
-        private Button btn_ApplyEdits;
         private Label label1;
         private Label label2;
         private Label label3;
@@ -422,16 +446,19 @@
         private NumericUpDown numericUpDown1;
         private SplitContainer splitContainer2;
         private DataGridView dGw_Assegnazioni;
-        private DataGridViewTextBoxColumn ID;
-        private DataGridViewTextBoxColumn DataInizio;
-        private DataGridViewTextBoxColumn DataFine;
+        private DataGridView dGw_Manutenzioni;
+        private Button btn_AssegnnaVeicolo;
+        private Button btn_AddManutenzione;
+        private DataGridViewTextBoxColumn ID_Assegnazione;
         private DataGridViewTextBoxColumn Nome;
         private DataGridViewTextBoxColumn Cognome;
         private DataGridViewTextBoxColumn ID_Guidatore;
-        private DataGridView dGw_Manutenzioni;
+        private DataGridViewTextBoxColumn DataInizio;
+        private DataGridViewTextBoxColumn DataFine;
         private DataGridViewTextBoxColumn ID_Manutenzione;
         private DataGridViewTextBoxColumn DataIntervento;
         private DataGridViewTextBoxColumn Costo;
         private DataGridViewTextBoxColumn Descrizione;
+        private Button btn_TerminaAssegnazione;
     }
 }

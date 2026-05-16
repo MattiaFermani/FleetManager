@@ -30,18 +30,12 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             txb_Nome = new TextBox();
             txb_Cognome = new TextBox();
             txb_CF = new TextBox();
             dtp_Scadenza = new DateTimePicker();
-            dGw_Assegnazioni = new DataGridView();
-            ID = new DataGridViewTextBoxColumn();
-            DataInizio = new DataGridViewTextBoxColumn();
-            DataFine = new DataGridViewTextBoxColumn();
-            Targa = new DataGridViewTextBoxColumn();
-            Marca = new DataGridViewTextBoxColumn();
-            Modello = new DataGridViewTextBoxColumn();
-            btn_ApplyEdits = new Button();
             btn_CancelEdits = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -50,13 +44,34 @@
             label3 = new Label();
             label4 = new Label();
             splitContainer1 = new SplitContainer();
-            ((System.ComponentModel.ISupportInitialize)dGw_Assegnazioni).BeginInit();
+            btn_ApplyEdits = new Button();
+            btnn_AggiungiIncidente = new Button();
+            splitContainer2 = new SplitContainer();
+            dGw_Assegnazioni = new DataGridView();
+            ID = new DataGridViewTextBoxColumn();
+            DataInizio = new DataGridViewTextBoxColumn();
+            DataFine = new DataGridViewTextBoxColumn();
+            Targa = new DataGridViewTextBoxColumn();
+            Marca = new DataGridViewTextBoxColumn();
+            Modello = new DataGridViewTextBoxColumn();
+            dgw_Incidenti = new DataGridView();
+            ID_Incidente = new DataGridViewTextBoxColumn();
+            FK_Veicolo = new DataGridViewTextBoxColumn();
+            FK_Guidatore = new DataGridViewTextBoxColumn();
+            DataIncidente = new DataGridViewTextBoxColumn();
+            DescrizioneDanni = new DataGridViewTextBoxColumn();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
+            splitContainer2.Panel1.SuspendLayout();
+            splitContainer2.Panel2.SuspendLayout();
+            splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dGw_Assegnazioni).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgw_Incidenti).BeginInit();
             SuspendLayout();
             // 
             // txb_Nome
@@ -64,15 +79,15 @@
             txb_Nome.Dock = DockStyle.Fill;
             txb_Nome.Location = new Point(3, 25);
             txb_Nome.Name = "txb_Nome";
-            txb_Nome.Size = new Size(223, 23);
+            txb_Nome.Size = new Size(540, 23);
             txb_Nome.TabIndex = 0;
             // 
             // txb_Cognome
             // 
             txb_Cognome.Dock = DockStyle.Fill;
-            txb_Cognome.Location = new Point(232, 25);
+            txb_Cognome.Location = new Point(549, 25);
             txb_Cognome.Name = "txb_Cognome";
-            txb_Cognome.Size = new Size(224, 23);
+            txb_Cognome.Size = new Size(540, 23);
             txb_Cognome.TabIndex = 0;
             // 
             // txb_CF
@@ -80,17 +95,181 @@
             txb_CF.Dock = DockStyle.Fill;
             txb_CF.Location = new Point(3, 80);
             txb_CF.Name = "txb_CF";
-            txb_CF.Size = new Size(223, 23);
+            txb_CF.Size = new Size(540, 23);
             txb_CF.TabIndex = 0;
             // 
             // dtp_Scadenza
             // 
             dtp_Scadenza.Dock = DockStyle.Fill;
             dtp_Scadenza.Format = DateTimePickerFormat.Short;
-            dtp_Scadenza.Location = new Point(232, 80);
+            dtp_Scadenza.Location = new Point(549, 80);
             dtp_Scadenza.Name = "dtp_Scadenza";
-            dtp_Scadenza.Size = new Size(224, 23);
+            dtp_Scadenza.Size = new Size(540, 23);
             dtp_Scadenza.TabIndex = 1;
+            // 
+            // btn_CancelEdits
+            // 
+            btn_CancelEdits.BackColor = Color.Tomato;
+            btn_CancelEdits.Dock = DockStyle.Left;
+            btn_CancelEdits.FlatStyle = FlatStyle.Flat;
+            btn_CancelEdits.Location = new Point(0, 0);
+            btn_CancelEdits.Name = "btn_CancelEdits";
+            btn_CancelEdits.Size = new Size(242, 25);
+            btn_CancelEdits.TabIndex = 4;
+            btn_CancelEdits.Text = "ANNULLA";
+            btn_CancelEdits.UseVisualStyleBackColor = false;
+            btn_CancelEdits.Click += btn_CancelEdits_Click;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
+            tableLayoutPanel1.Controls.Add(splitContainer1, 0, 2);
+            tableLayoutPanel1.Controls.Add(splitContainer2, 0, 1);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 3;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 18.56F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 81.44F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Size = new Size(1098, 656);
+            tableLayoutPanel1.TabIndex = 5;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 2;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.Controls.Add(txb_Nome, 0, 1);
+            tableLayoutPanel2.Controls.Add(txb_Cognome, 1, 1);
+            tableLayoutPanel2.Controls.Add(txb_CF, 0, 3);
+            tableLayoutPanel2.Controls.Add(dtp_Scadenza, 1, 3);
+            tableLayoutPanel2.Controls.Add(label1, 0, 0);
+            tableLayoutPanel2.Controls.Add(label2, 1, 0);
+            tableLayoutPanel2.Controls.Add(label3, 0, 2);
+            tableLayoutPanel2.Controls.Add(label4, 1, 2);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(3, 3);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
+            tableLayoutPanel2.Size = new Size(1092, 110);
+            tableLayoutPanel2.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Fill;
+            label1.FlatStyle = FlatStyle.Flat;
+            label1.Location = new Point(3, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(540, 22);
+            label1.TabIndex = 2;
+            label1.Text = "Nome";
+            label1.TextAlign = ContentAlignment.BottomLeft;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Dock = DockStyle.Fill;
+            label2.FlatStyle = FlatStyle.Flat;
+            label2.Location = new Point(549, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(540, 22);
+            label2.TabIndex = 3;
+            label2.Text = "Cognome";
+            label2.TextAlign = ContentAlignment.BottomLeft;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Dock = DockStyle.Fill;
+            label3.FlatStyle = FlatStyle.Flat;
+            label3.Location = new Point(3, 55);
+            label3.Name = "label3";
+            label3.Size = new Size(540, 22);
+            label3.TabIndex = 4;
+            label3.Text = "Codice Fiscale";
+            label3.TextAlign = ContentAlignment.BottomLeft;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Dock = DockStyle.Fill;
+            label4.FlatStyle = FlatStyle.Flat;
+            label4.Location = new Point(549, 55);
+            label4.Name = "label4";
+            label4.Size = new Size(540, 22);
+            label4.TabIndex = 5;
+            label4.Text = "Data Scadenza Patente";
+            label4.TextAlign = ContentAlignment.BottomLeft;
+            // 
+            // splitContainer1
+            // 
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(3, 628);
+            splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(btn_ApplyEdits);
+            splitContainer1.Panel1.Controls.Add(btn_CancelEdits);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(btnn_AggiungiIncidente);
+            splitContainer1.Size = new Size(1092, 25);
+            splitContainer1.SplitterDistance = 538;
+            splitContainer1.TabIndex = 3;
+            // 
+            // btn_ApplyEdits
+            // 
+            btn_ApplyEdits.BackColor = Color.PaleGreen;
+            btn_ApplyEdits.Dock = DockStyle.Fill;
+            btn_ApplyEdits.FlatStyle = FlatStyle.Flat;
+            btn_ApplyEdits.Location = new Point(242, 0);
+            btn_ApplyEdits.Name = "btn_ApplyEdits";
+            btn_ApplyEdits.Size = new Size(296, 25);
+            btn_ApplyEdits.TabIndex = 5;
+            btn_ApplyEdits.Text = "APPLICA";
+            btn_ApplyEdits.UseVisualStyleBackColor = false;
+            btn_ApplyEdits.Click += btn_ApplyEdits_Click;
+            // 
+            // btnn_AggiungiIncidente
+            // 
+            btnn_AggiungiIncidente.BackColor = Color.PapayaWhip;
+            btnn_AggiungiIncidente.Dock = DockStyle.Fill;
+            btnn_AggiungiIncidente.FlatStyle = FlatStyle.Flat;
+            btnn_AggiungiIncidente.Location = new Point(0, 0);
+            btnn_AggiungiIncidente.Name = "btnn_AggiungiIncidente";
+            btnn_AggiungiIncidente.Size = new Size(550, 25);
+            btnn_AggiungiIncidente.TabIndex = 0;
+            btnn_AggiungiIncidente.Text = "INSERISCI INCIDENTE";
+            btnn_AggiungiIncidente.UseVisualStyleBackColor = false;
+            btnn_AggiungiIncidente.Click += btnn_AggiungiIncidente_Click;
+            // 
+            // splitContainer2
+            // 
+            splitContainer2.Dock = DockStyle.Fill;
+            splitContainer2.Location = new Point(3, 119);
+            splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            splitContainer2.Panel1.Controls.Add(dGw_Assegnazioni);
+            // 
+            // splitContainer2.Panel2
+            // 
+            splitContainer2.Panel2.Controls.Add(dgw_Incidenti);
+            splitContainer2.Size = new Size(1092, 503);
+            splitContainer2.SplitterDistance = 545;
+            splitContainer2.TabIndex = 4;
             // 
             // dGw_Assegnazioni
             // 
@@ -107,7 +286,7 @@
             dGw_Assegnazioni.Columns.AddRange(new DataGridViewColumn[] { ID, DataInizio, DataFine, Targa, Marca, Modello });
             dGw_Assegnazioni.Dock = DockStyle.Fill;
             dGw_Assegnazioni.EditMode = DataGridViewEditMode.EditOnEnter;
-            dGw_Assegnazioni.Location = new Point(3, 119);
+            dGw_Assegnazioni.Location = new Point(0, 0);
             dGw_Assegnazioni.MultiSelect = false;
             dGw_Assegnazioni.Name = "dGw_Assegnazioni";
             dGw_Assegnazioni.ReadOnly = true;
@@ -116,8 +295,8 @@
             dGw_Assegnazioni.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dGw_Assegnazioni.ScrollBars = ScrollBars.Vertical;
             dGw_Assegnazioni.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dGw_Assegnazioni.Size = new Size(459, 503);
-            dGw_Assegnazioni.TabIndex = 2;
+            dGw_Assegnazioni.Size = new Size(545, 503);
+            dGw_Assegnazioni.TabIndex = 3;
             // 
             // ID
             // 
@@ -162,147 +341,81 @@
             Modello.Name = "Modello";
             Modello.ReadOnly = true;
             // 
-            // btn_ApplyEdits
+            // dgw_Incidenti
             // 
-            btn_ApplyEdits.BackColor = Color.PaleGreen;
-            btn_ApplyEdits.Dock = DockStyle.Fill;
-            btn_ApplyEdits.FlatStyle = FlatStyle.Flat;
-            btn_ApplyEdits.Location = new Point(0, 0);
-            btn_ApplyEdits.Name = "btn_ApplyEdits";
-            btn_ApplyEdits.Size = new Size(321, 25);
-            btn_ApplyEdits.TabIndex = 3;
-            btn_ApplyEdits.Text = "APPLICA";
-            btn_ApplyEdits.UseVisualStyleBackColor = false;
-            btn_ApplyEdits.Click += btn_ApplyEdits_Click;
+            dgw_Incidenti.AllowUserToAddRows = false;
+            dgw_Incidenti.AllowUserToDeleteRows = false;
+            dgw_Incidenti.AllowUserToResizeColumns = false;
+            dgw_Incidenti.AllowUserToResizeRows = false;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(224, 224, 224);
+            dgw_Incidenti.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dgw_Incidenti.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgw_Incidenti.BackgroundColor = SystemColors.Control;
+            dgw_Incidenti.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgw_Incidenti.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgw_Incidenti.Columns.AddRange(new DataGridViewColumn[] { ID_Incidente, FK_Veicolo, FK_Guidatore, DataIncidente, DescrizioneDanni });
+            dgw_Incidenti.Dock = DockStyle.Fill;
+            dgw_Incidenti.EditMode = DataGridViewEditMode.EditOnEnter;
+            dgw_Incidenti.Location = new Point(0, 0);
+            dgw_Incidenti.MultiSelect = false;
+            dgw_Incidenti.Name = "dgw_Incidenti";
+            dgw_Incidenti.ReadOnly = true;
+            dgw_Incidenti.RowHeadersVisible = false;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgw_Incidenti.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dgw_Incidenti.ScrollBars = ScrollBars.Vertical;
+            dgw_Incidenti.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgw_Incidenti.Size = new Size(543, 503);
+            dgw_Incidenti.TabIndex = 3;
             // 
-            // btn_CancelEdits
+            // ID_Incidente
             // 
-            btn_CancelEdits.BackColor = Color.Tomato;
-            btn_CancelEdits.Dock = DockStyle.Fill;
-            btn_CancelEdits.FlatStyle = FlatStyle.Flat;
-            btn_CancelEdits.Location = new Point(0, 0);
-            btn_CancelEdits.Name = "btn_CancelEdits";
-            btn_CancelEdits.Size = new Size(134, 25);
-            btn_CancelEdits.TabIndex = 4;
-            btn_CancelEdits.Text = "ANNULLA";
-            btn_CancelEdits.UseVisualStyleBackColor = false;
+            ID_Incidente.DataPropertyName = "ID_Incidente";
+            ID_Incidente.HeaderText = "ID_Incidente";
+            ID_Incidente.Name = "ID_Incidente";
+            ID_Incidente.ReadOnly = true;
+            ID_Incidente.Visible = false;
             // 
-            // tableLayoutPanel1
+            // FK_Veicolo
             // 
-            tableLayoutPanel1.ColumnCount = 1;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
-            tableLayoutPanel1.Controls.Add(dGw_Assegnazioni, 0, 1);
-            tableLayoutPanel1.Controls.Add(splitContainer1, 0, 2);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 18.56F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 81.44F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            tableLayoutPanel1.Size = new Size(465, 656);
-            tableLayoutPanel1.TabIndex = 5;
+            FK_Veicolo.DataPropertyName = "FK_Veicolo";
+            FK_Veicolo.FillWeight = 50F;
+            FK_Veicolo.HeaderText = "ID_Veicolo";
+            FK_Veicolo.Name = "FK_Veicolo";
+            FK_Veicolo.ReadOnly = true;
             // 
-            // tableLayoutPanel2
+            // FK_Guidatore
             // 
-            tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Controls.Add(txb_Nome, 0, 1);
-            tableLayoutPanel2.Controls.Add(txb_Cognome, 1, 1);
-            tableLayoutPanel2.Controls.Add(txb_CF, 0, 3);
-            tableLayoutPanel2.Controls.Add(dtp_Scadenza, 1, 3);
-            tableLayoutPanel2.Controls.Add(label1, 0, 0);
-            tableLayoutPanel2.Controls.Add(label2, 1, 0);
-            tableLayoutPanel2.Controls.Add(label3, 0, 2);
-            tableLayoutPanel2.Controls.Add(label4, 1, 2);
-            tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 3);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 1;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
-            tableLayoutPanel2.Size = new Size(459, 110);
-            tableLayoutPanel2.TabIndex = 0;
+            FK_Guidatore.DataPropertyName = "FK_Guidatore";
+            FK_Guidatore.HeaderText = "ID_Guidatore";
+            FK_Guidatore.Name = "FK_Guidatore";
+            FK_Guidatore.ReadOnly = true;
+            FK_Guidatore.Visible = false;
             // 
-            // label1
+            // DataIncidente
             // 
-            label1.AutoSize = true;
-            label1.Dock = DockStyle.Fill;
-            label1.FlatStyle = FlatStyle.Flat;
-            label1.Location = new Point(3, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(223, 22);
-            label1.TabIndex = 2;
-            label1.Text = "Nome";
-            label1.TextAlign = ContentAlignment.BottomLeft;
+            DataIncidente.DataPropertyName = "DataIncidente";
+            DataIncidente.HeaderText = "Data Incidente";
+            DataIncidente.Name = "DataIncidente";
+            DataIncidente.ReadOnly = true;
             // 
-            // label2
+            // DescrizioneDanni
             // 
-            label2.AutoSize = true;
-            label2.Dock = DockStyle.Fill;
-            label2.FlatStyle = FlatStyle.Flat;
-            label2.Location = new Point(232, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(224, 22);
-            label2.TabIndex = 3;
-            label2.Text = "Cognome";
-            label2.TextAlign = ContentAlignment.BottomLeft;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Dock = DockStyle.Fill;
-            label3.FlatStyle = FlatStyle.Flat;
-            label3.Location = new Point(3, 55);
-            label3.Name = "label3";
-            label3.Size = new Size(223, 22);
-            label3.TabIndex = 4;
-            label3.Text = "Codice Fiscale";
-            label3.TextAlign = ContentAlignment.BottomLeft;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Dock = DockStyle.Fill;
-            label4.FlatStyle = FlatStyle.Flat;
-            label4.Location = new Point(232, 55);
-            label4.Name = "label4";
-            label4.Size = new Size(224, 22);
-            label4.TabIndex = 5;
-            label4.Text = "Data Scadenza Patente";
-            label4.TextAlign = ContentAlignment.BottomLeft;
-            // 
-            // splitContainer1
-            // 
-            splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(3, 628);
-            splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            splitContainer1.Panel1.Controls.Add(btn_CancelEdits);
-            // 
-            // splitContainer1.Panel2
-            // 
-            splitContainer1.Panel2.Controls.Add(btn_ApplyEdits);
-            splitContainer1.Size = new Size(459, 25);
-            splitContainer1.SplitterDistance = 134;
-            splitContainer1.TabIndex = 3;
+            DescrizioneDanni.DataPropertyName = "DescrizioneDanni";
+            DescrizioneDanni.FillWeight = 200F;
+            DescrizioneDanni.HeaderText = "Descrizione Danni";
+            DescrizioneDanni.Name = "DescrizioneDanni";
+            DescrizioneDanni.ReadOnly = true;
             // 
             // FormDettaglioGuidatore
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(465, 656);
+            ClientSize = new Size(1098, 656);
             Controls.Add(tableLayoutPanel1);
             MinimumSize = new Size(300, 650);
             Name = "FormDettaglioGuidatore";
             Text = "Info Guidatore";
-            ((System.ComponentModel.ISupportInitialize)dGw_Assegnazioni).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
@@ -310,6 +423,12 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            splitContainer2.Panel1.ResumeLayout(false);
+            splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
+            splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dGw_Assegnazioni).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgw_Incidenti).EndInit();
             ResumeLayout(false);
         }
 
@@ -319,15 +438,7 @@
         private TextBox txb_Cognome;
         private TextBox txb_CF;
         private DateTimePicker dtp_Scadenza;
-        private DataGridView dGw_Assegnazioni;
-        private Button btn_ApplyEdits;
         private Button btn_CancelEdits;
-        private DataGridViewTextBoxColumn ID;
-        private DataGridViewTextBoxColumn DataInizio;
-        private DataGridViewTextBoxColumn DataFine;
-        private DataGridViewTextBoxColumn Targa;
-        private DataGridViewTextBoxColumn Marca;
-        private DataGridViewTextBoxColumn Modello;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private SplitContainer splitContainer1;
@@ -335,5 +446,21 @@
         private Label label2;
         private Label label3;
         private Label label4;
+        private SplitContainer splitContainer2;
+        private DataGridView dGw_Assegnazioni;
+        private DataGridViewTextBoxColumn ID;
+        private DataGridViewTextBoxColumn DataInizio;
+        private DataGridViewTextBoxColumn DataFine;
+        private DataGridViewTextBoxColumn Targa;
+        private DataGridViewTextBoxColumn Marca;
+        private DataGridViewTextBoxColumn Modello;
+        private DataGridView dgw_Incidenti;
+        private Button btn_ApplyEdits;
+        private Button btnn_AggiungiIncidente;
+        private DataGridViewTextBoxColumn ID_Incidente;
+        private DataGridViewTextBoxColumn FK_Veicolo;
+        private DataGridViewTextBoxColumn FK_Guidatore;
+        private DataGridViewTextBoxColumn DataIncidente;
+        private DataGridViewTextBoxColumn DescrizioneDanni;
     }
 }

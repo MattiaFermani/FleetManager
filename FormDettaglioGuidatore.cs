@@ -19,8 +19,10 @@ namespace FleetManager
             InitializeComponent();
             _guidatore = g;
             ConfiguraStileGriglia(dGw_Assegnazioni);
+            ConfiguraStileGriglia(dgw_Incidenti);
             PopolaCampi();
             CaricaAssegnazioni();
+            CaricaIncidenti();
         }
 
         private void PopolaCampi()
@@ -34,6 +36,7 @@ namespace FleetManager
 
         private void CaricaAssegnazioni()
         {
+            dGw_Assegnazioni.AutoGenerateColumns = false;
             Targa.DataPropertyName = "Targa";
             Marca.DataPropertyName = "Marca";
             Modello.DataPropertyName = "NomeModello";
@@ -44,6 +47,13 @@ namespace FleetManager
             dGw_Assegnazioni.DataSource = dati;
         }
 
+        private void CaricaIncidenti()
+        {
+            dgw_Incidenti.AutoGenerateColumns = false;
+            var dati = MethodsDB.GetIncidentiPerGuidatore(this._guidatore.ID_Guidatore);
+            dgw_Incidenti.DataSource = dati;
+        }
+
         private void btn_ApplyEdits_Click(object sender, EventArgs e)
         {
             string nome = txb_Nome.Text == string.Empty ? _guidatore.Nome : txb_Nome.Text;
@@ -51,12 +61,12 @@ namespace FleetManager
             string CF = txb_CF.Text == string.Empty ? _guidatore.CodiceFiscale : txb_CF.Text;
             DateTime scadenzaPatente = dtp_Scadenza.Value <= DateTime.Now.AddDays(-1) ? _guidatore.ScadenzaPatente : dtp_Scadenza.Value;
             Guidatore g = new Guidatore(
-                Id_Guidatore : _guidatore.ID_Guidatore,
-                Nome : nome,
-                Cognome : cognome,
-                CodiceFiscale : CF,
-                ScadenzaPatente : scadenzaPatente,
-                Stato : _guidatore.Stato
+                Id_Guidatore: _guidatore.ID_Guidatore,
+                Nome: nome,
+                Cognome: cognome,
+                CodiceFiscale: CF,
+                ScadenzaPatente: scadenzaPatente,
+                Stato: _guidatore.Stato
             );
 
             if (MethodsDB.AggiornaInfoGuidatore(g))
@@ -120,6 +130,18 @@ namespace FleetManager
             stileRigheAlterne.SelectionForeColor = Color.FromArgb(29, 78, 216);
             stileRigheAlterne.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgw.AlternatingRowsDefaultCellStyle = stileRigheAlterne;
+        }
+
+        private void btnn_AggiungiIncidente_Click(object sender, EventArgs e)
+        {
+            AggiungiIncidente form = new AggiungiIncidente(this._guidatore.ID_Guidatore);
+            form.ShowDialog();
+            CaricaIncidenti();
+        }
+
+        private void btn_CancelEdits_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -110,11 +110,15 @@ namespace FleetManager.DB
                 connection.Execute(query, v);
             }
         }
-        public static void AggiornaVeicolo(int id, int km, string stato)
+        public static void AggiornaVeicolo(int id, int? km = null, string? stato = null)
         {
             using (var connection = Database.Connection())
             {
-                string query = "UPDATE VEICOLI SET Chilometraggio = @km, Stato = @stato WHERE ID_Veicolo = @id";
+                string query = @"UPDATE VEICOLI SET " +
+                               (km != null ? "Chilometraggio = @km" : "") +
+                               (km != null && stato != null ? ", " : "") +
+                               (stato != null ? "Stato = @stato" : "") +
+                               " WHERE ID_Veicolo = @id";
                 connection.Execute(query, new { id, km, stato });
             }
         }
@@ -232,7 +236,7 @@ namespace FleetManager.DB
             }
         }
 
-        public static List<dynamic> RicercaVeicoli(string? targa = null, OrderType? annoProduzioneOrder = null, string? annoProduzione = null, OrderType? marcaOrder = null, string? marca = null, OrderType? modelloOrder = null, string? modello = null, OrderType? kmOrder = null, KmFilterType? KmfilterType = null, int? chilometraggio = null, OrderType? statusOrder = null, string? stato = null)
+        public static List<Veicolo> RicercaVeicoli(string? targa = null, OrderType? annoProduzioneOrder = null, string? annoProduzione = null, OrderType? marcaOrder = null, string? marca = null, OrderType? modelloOrder = null, string? modello = null, OrderType? kmOrder = null, KmFilterType? KmfilterType = null, int? chilometraggio = null, OrderType? statusOrder = null, string? stato = null)
         {
             using (var connection = Database.Connection())
             {
@@ -276,7 +280,7 @@ namespace FleetManager.DB
                                 AND (@stato IS NULL OR V.Stato = @stato)
                                 {orderBy}";
 
-                return connection.Query(query, new { targa, annoProduzione, marca, modello, chilometraggio, stato }).ToList();
+                return connection.Query<Veicolo>(query, new { targa, annoProduzione, marca, modello, chilometraggio, stato }).ToList();
             }
         }
 
@@ -383,13 +387,23 @@ namespace FleetManager.DB
                 return connection.Query<Manutenzione>(query, new { idVeicolo }).ToList();
             }
         }
-        public static void InserisciManutenzione(Manutenzione m)
+        public static bool InserisciManutenzione(Manutenzione m)
         {
             using (var connection = Database.Connection())
             {
-                string query = @"INSERT INTO MANUTENZIONI (FK_Veicolo, DataIntervento, Costo, Descrizione) 
+                try
+                {
+                    string query = @"INSERT INTO MANUTENZIONI (FK_Veicolo, DataIntervento, Costo, Descrizione) 
                                VALUES (@FK_Veicolo, @DataIntervento, @Costo, @Descrizione)";
-                connection.Execute(query, m);
+                    connection.Execute(query, m);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Errore durante l'inserimento della manutenzione: " + ex.Message, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                
             }
         }
         public static void EliminaManutenzione(int idManutenzione)
@@ -401,6 +415,7 @@ namespace FleetManager.DB
             }
         }
         #endregion MANUTENZIONI
+
         #region ASSEGNAZIONI
         public static void InserisciAssegnazione(Assegnazione a)
         {
@@ -419,7 +434,19 @@ namespace FleetManager.DB
                 connection.Execute(query, new { idAssegnazione, dataFine });
             }
         }
-        public static List<Assegnazione> GetAssegnazioniPerVeicolo(int idVeicolo)
+        public static List<dynamic> GetAssegnazioniPerVeicolo(int idVeicolo)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"SELECT ID_Assegnazione, G.Nome, G.Cognome, G.ID_Guidatore, DataInizio, DataFine 
+                                FROM ASSEGNAZIONI
+                                INNER JOIN GUIDATORI G ON ASSEGNAZIONI.FK_Guidatore = G.ID_Guidatore
+                                WHERE FK_Veicolo = @idVeicolo 
+                                ORDER BY DataInizio DESC";
+                return connection.Query<dynamic>(query, new { idVeicolo }).ToList();
+            }
+        }
+        public static List<Assegnazione> GetAssegnazioniByVeicolo(int idVeicolo)
         {
             using (var connection = Database.Connection())
             {
@@ -428,5 +455,25 @@ namespace FleetManager.DB
             }
         }
         #endregion ASSEGNAZIONI
+
+        #region INCIDENTI
+        public static List<Incidente> GetIncidentiPerGuidatore(int idGuidatore)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = "SELECT * FROM INCIDENTI WHERE FK_Guidatore = @idGuidatore ORDER BY DataIncidente DESC";
+                return connection.Query<Incidente>(query, new { idGuidatore }).ToList();
+            }
+        }
+        public static void InserisciIncidente(Incidente i)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"INSERT INTO INCIDENTI (FK_Guidatore, FK_Veicolo, DataIncidente, DescrizioneDanni) 
+                               VALUES (@FK_Guidatore, @FK_Veicolo, @DataIncidente, @DescrizioneDanni)";
+                connection.Execute(query, i);
+            }
+        }
+        #endregion INCIDENTI
     }
 }
