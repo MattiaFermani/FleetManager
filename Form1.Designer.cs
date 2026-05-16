@@ -62,6 +62,7 @@
             // 
             // SideBar
             // 
+            SideBar.BackColor = Color.Gainsboro;
             SideBar.Dock = DockStyle.Left;
             SideBar.Font = new Font("Segoe UI", 12F);
             SideBar.Items.AddRange(new ToolStripItem[] { dashboard_MenuItem, flotta_MenuItem, personale_MenuItem, registroEventiToolStripMenuItem, statisticheToolStripMenuItem, impostazioni_MenuItem });
@@ -71,6 +72,7 @@
             SideBar.Size = new Size(132, 698);
             SideBar.TabIndex = 0;
             SideBar.Text = "menuStrip1";
+            SideBar.Paint += SideBar_Paint;
             // 
             // registroEventiToolStripMenuItem
             // 
@@ -93,12 +95,14 @@
             // 
             // pnlContainer
             // 
-            pnlContainer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pnlContainer.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            pnlContainer.BackColor = Color.Gainsboro;
+            pnlContainer.Dock = DockStyle.Fill;
             pnlContainer.Location = new Point(132, 0);
             pnlContainer.Name = "pnlContainer";
             pnlContainer.Size = new Size(886, 698);
             pnlContainer.TabIndex = 1;
+            pnlContainer.Paint += pnlContainer_Paint;
             // 
             // Form1
             // 
@@ -116,6 +120,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Fleet Manager";
             WindowState = FormWindowState.Maximized;
+            Paint += Form1_Paint;
             SideBar.ResumeLayout(false);
             SideBar.PerformLayout();
             ResumeLayout(false);

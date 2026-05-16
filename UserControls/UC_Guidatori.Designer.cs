@@ -314,7 +314,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Thistle;
+            BackColor = Color.Gainsboro;
             Controls.Add(splitContainer1);
             Name = "UC_Guidatori";
             Size = new Size(877, 685);

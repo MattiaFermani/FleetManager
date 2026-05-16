@@ -167,6 +167,17 @@ namespace FleetManager.DB
                 return count > 0;
             }
         }
+        public static List<dynamic> GetModelloVeicolo()
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"SELECT V.ID_Veicolo, V.Targa, M.Marca, M.NomeModello, V.AnnoProduzione, V.Chilometraggio, V.Stato
+                                FROM VEICOLI V
+                                JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
+                                ORDER BY M.Marca, M.NomeModello, V.Targa";
+                return connection.Query(query).ToList();
+            }
+        }
         #endregion VEICOLI
         #region MODELLI
 
@@ -362,5 +373,60 @@ namespace FleetManager.DB
         }
 
         #endregion GUIDATORI
+
+        #region MANUTENZIONI
+        public static List<Manutenzione> GetManutenzioniPerVeicolo(int idVeicolo)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = "SELECT ID_Manutenzione, FK_Veicolo, DataIntervento, Costo, Descrizione FROM MANUTENZIONI WHERE FK_Veicolo = @idVeicolo ORDER BY DataIntervento DESC";
+                return connection.Query<Manutenzione>(query, new { idVeicolo }).ToList();
+            }
+        }
+        public static void InserisciManutenzione(Manutenzione m)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"INSERT INTO MANUTENZIONI (FK_Veicolo, DataIntervento, Costo, Descrizione) 
+                               VALUES (@FK_Veicolo, @DataIntervento, @Costo, @Descrizione)";
+                connection.Execute(query, m);
+            }
+        }
+        public static void EliminaManutenzione(int idManutenzione)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = "DELETE FROM MANUTENZIONI WHERE ID_Manutenzione = @idManutenzione";
+                connection.Execute(query, new { idManutenzione });
+            }
+        }
+        #endregion MANUTENZIONI
+        #region ASSEGNAZIONI
+        public static void InserisciAssegnazione(Assegnazione a)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = @"INSERT INTO ASSEGNAZIONI (FK_Veicolo, FK_Guidatore, DataInizio, DataFine) 
+                               VALUES (@FK_Veicolo, @FK_Guidatore, @DataInizio, @DataFine)";
+                connection.Execute(query, a);
+            }
+        }
+        public static void TerminaAssegnazione(int idAssegnazione, DateTime dataFine)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = "UPDATE ASSEGNAZIONI SET DataFine = @dataFine WHERE ID_Assegnazione = @idAssegnazione";
+                connection.Execute(query, new { idAssegnazione, dataFine });
+            }
+        }
+        public static List<Assegnazione> GetAssegnazioniPerVeicolo(int idVeicolo)
+        {
+            using (var connection = Database.Connection())
+            {
+                string query = "SELECT ID_Assegnazione, FK_Veicolo, FK_Guidatore, DataInizio, DataFine FROM ASSEGNAZIONI WHERE FK_Veicolo = @idVeicolo ORDER BY DataInizio DESC";
+                return connection.Query<Assegnazione>(query, new { idVeicolo }).ToList();
+            }
+        }
+        #endregion ASSEGNAZIONI
     }
 }

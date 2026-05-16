@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
+using System.Drawing.Drawing2D; 
 using FleetManager.DB;
 
 namespace FleetManager
@@ -13,7 +14,14 @@ namespace FleetManager
         public Form1()
         {
             InitializeComponent();
+            // --- CONFIGURAZIONE GEOMETRICA MODERNA ---
+            // Distribuisce i pesi visivi: lascia respirare il pannello staccandolo dai bordi esterni del Form
+            pnlContainer.Dock = DockStyle.Fill;
+            this.Padding = new Padding(0, 12, 12, 12); // 12px di spazio sopra, a destra e sotto. 0 a sinistra (attaccato alla SideBar)
 
+            // Spazio interno alla card: evita che le griglie o i bottoni dentro gli UserControl tocchino il bordo arrotondato
+            pnlContainer.Padding = new Padding(16);
+            // -----------------------------------------
 
             if (string.IsNullOrWhiteSpace(Database.ConnectionString))
             {
@@ -32,11 +40,13 @@ namespace FleetManager
 
         private void MenuSelection(PageType page, ToolStripMenuItem selectedItem)
         {
-            // Aggiorniamo sempre la pagina corrente per il Watchdog
             _currentPage = page;
 
             ResetMenuColors();
-            selectedItem.BackColor = Color.LightBlue;
+
+            // Applica lo stile moderno e coordinato all'elemento selezionato
+            selectedItem.BackColor = ColoreMenuSelezionato;
+            selectedItem.ForeColor = ColoreTestoSelezionato;
 
             if (!_userControls.ContainsKey(page))
             {
@@ -44,6 +54,16 @@ namespace FleetManager
             }
 
             ShowControl(_userControls[page]);
+        }
+
+        private void ResetMenuColors()
+        {
+            foreach (ToolStripItem item in SideBar.Items)
+            {
+                // Ritorniamo allo sfondo neutro del form e al grigio scuro per il testo non attivo
+                item.BackColor = Color.Transparent;
+                item.ForeColor = Color.FromArgb(55, 65, 81); // Stesso grigio (Gray 600) dei dati in griglia
+            }
         }
 
         private UserControl CreateControl(PageType page)
@@ -69,13 +89,6 @@ namespace FleetManager
             pnlContainer.ResumeLayout();
         }
 
-        private void ResetMenuColors()
-        {
-            foreach (ToolStripItem item in SideBar.Items)
-            {
-                item.BackColor = SystemColors.Control;
-            }
-        }
 
         // Gestori eventi (Assicurati che i nomi corrispondano a quelli del Designer)
         private void dashboardToolStripMenuItem_Click(object sender, EventArgs e) =>
@@ -94,7 +107,8 @@ namespace FleetManager
         {
             while (!this.IsDisposed)
             {
-                bool connessioneValida = await Task.Run(() => {
+                bool connessioneValida = await Task.Run(() =>
+                {
                     try
                     {
                         using (var conn = Database.Connection())
@@ -109,7 +123,7 @@ namespace FleetManager
                 if (!this.IsDisposed)
                 {
                     this.Invoke(new Action(() => AggiornaStatoApplicazione(connessioneValida)));
-                    if(_currentPage == PageType.Dashboard && connessioneValida)
+                    if (_currentPage == PageType.Dashboard && connessioneValida)
                     {
                         if (_userControls.ContainsKey(PageType.Dashboard))
                         {
@@ -157,9 +171,141 @@ namespace FleetManager
                 }
             }
         }
+
+    #region STILE
+    // Palette coerente con ConfiguraStileGriglia (Stile Tailwind)
+    private readonly Color ColoreSfondoForm = Color.FromArgb(243, 244, 246);   // Gray 100 (Spento ma pulito)
+    private readonly Color ColoreSeparatore = Color.FromArgb(229, 231, 235);   // Gray 200 (Linea sottile discreta)
+    private readonly Color ColoreMenuSelezionato = Color.FromArgb(239, 246, 255); // Blue 50 (In linea con la griglia)
+    private readonly Color ColoreTestoSelezionato = Color.FromArgb(29, 78, 216);  // Blue 700
+
+    private void Form1_Paint(object sender, PaintEventArgs e)
+    {
+        Graphics g = e.Graphics;
+        g.SmoothingMode = SmoothingMode.AntiAlias;
+
+        // 1. Uniformiamo lo sfondo del Form
+        using (Brush pennelloSfondo = new SolidBrush(ColoreSfondoForm))
+        {
+            g.FillRectangle(pennelloSfondo, this.ClientRectangle);
+        }
+
+        // 2. ELEVAZIONE GRAFICA: Sostituiamo la linea netta con un'ombra morbida (Soft Shadow Effect)
+        if (SideBar != null && SideBar.Visible)
+        {
+            int larghezzaOmbra = 12;
+            int inizioOmbraX = SideBar.Right;
+
+            Rectangle areaOmbra = new Rectangle(inizioOmbraX, 0, larghezzaOmbra, this.ClientSize.Height);
+
+            Color coloreOmbraInizio = Color.FromArgb(12, 15, 23, 42); // Ombra ancora più morbida e cinematografica (~5%)
+            Color coloreOmbraFine = Color.Transparent;
+
+            using (LinearGradientBrush pennelloGradiente = new LinearGradientBrush(
+                areaOmbra,
+                coloreOmbraInizio,
+                coloreOmbraFine,
+                LinearGradientMode.Horizontal))
+            {
+                g.FillRectangle(pennelloGradiente, areaOmbra);
+            }
+
+            using (Pen pennaRifinitura = new Pen(Color.FromArgb(6, 0, 0, 0), 1))
+            {
+                g.DrawLine(pennaRifinitura, inizioOmbraX, 0, inizioOmbraX, this.ClientSize.Height);
+            }
+        }
     }
 
-    public enum PageType
+    private void SideBar_Paint(object sender, PaintEventArgs e)
+    {
+        Graphics g = e.Graphics;
+        g.SmoothingMode = SmoothingMode.AntiAlias;
+
+        // Struttura moderna per la SideBar: Creiamo una fascia di "Branding" o stacco visivo in alto
+        // Disegna una linea orizzontale finissima e sfumata per separare un'eventuale intestazione/logo dal menu
+        if (SideBar.Height > 60)
+        {
+            using (Pen pennaSeparatoreMenu = new Pen(Color.FromArgb(40, ColoreSeparatore), 1))
+            {
+                // Traccia un micro-separatore elegante leggermente rientrato dai bordi
+                g.DrawLine(pennaSeparatoreMenu, 15, 55, SideBar.Width - 15, 55);
+            }
+        }
+    }
+
+    private void pnlContainer_Paint(object sender, PaintEventArgs e)
+    {
+        Graphics g = e.Graphics;
+        g.SmoothingMode = SmoothingMode.AntiAlias;
+
+        // Effetto "Floating Card Canvas" (Contenitore Sospeso Arrotondato)
+        // Lasciamo 1 pixel di margine interno per evitare che il disegno del bordo venga clippato
+        int raggioArrotondamento = 16; // Angoli morbidi e moderni in stile Windows 11 / macOS
+        Rectangle rectCard = new Rectangle(0, 0, pnlContainer.Width - 1, pnlContainer.Height - 1);
+
+        using (GraphicsPath path = GetRoundedRectanglePath(rectCard, raggioArrotondamento))
+        {
+            // Tagliamo la regione del pannello principale per costringere TUTTI gli UserControl 
+            // figli ad ereditare ed essere contenuti dentro gli angoli arrotondati
+            pnlContainer.Region = new Region(path);
+
+            // Disegniamo lo sfondo della grande "Card" di lavoro (Bianco puro per far risaltare i dati della griglia)
+            using (Brush pennelloCard = new SolidBrush(Color.White))
+            {
+                g.FillPath(pennelloCard, path);
+            }
+
+            // Un bordino millimetrico e texturizzato che profila il pannello dandogli definizione geometrica
+            using (Pen pennaBordoCard = new Pen(Color.FromArgb(180, ColoreSeparatore), 1.5f))
+            {
+                g.DrawPath(pennaBordoCard, path);
+            }
+        }
+    }
+        /// <summary>
+        /// Genera geometricamente un tracciato a rettangolo con angoli arrotondati.
+        /// </summary>
+        private GraphicsPath GetRoundedRectanglePath(Rectangle rect, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            int diameter = radius * 2;
+
+            // Previene anomalie se l'utente rimpicciolisce la colonna oltre la dimensione del raggio
+            if (diameter > rect.Width) diameter = rect.Width;
+            if (diameter > rect.Height) diameter = rect.Height;
+
+            Size size = new Size(diameter, diameter);
+            Rectangle arc = new Rectangle(rect.Location, size);
+
+            if (diameter <= 0)
+            {
+                path.AddRectangle(rect);
+                return path;
+            }
+
+            // Angolo in alto a sinistra
+            path.AddArc(arc, 180, 90);
+
+            // Angolo in alto a destra
+            arc.X = rect.Right - diameter;
+            path.AddArc(arc, 270, 90);
+
+            // Angolo in basso a destra
+            arc.Y = rect.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+
+            // Angolo in basso a sinistra
+            arc.X = rect.Left;
+            path.AddArc(arc, 90, 90);
+
+            path.CloseFigure();
+            return path;
+        }
+        #endregion STILE
+    }
+
+public enum PageType
     {
         Dashboard,
         Flotta,

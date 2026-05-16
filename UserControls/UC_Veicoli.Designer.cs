@@ -139,6 +139,7 @@
             dGw_Veicoli.Size = new Size(655, 552);
             dGw_Veicoli.TabIndex = 0;
             dGw_Veicoli.CellClick += dGw_Veicoli_CellClick;
+            dGw_Veicoli.CellDoubleClick += dGw_Veicoli_CellDoubleClick;
             dGw_Veicoli.CellMouseDown += dGw_Veicoli_CellMouseDown;
             dGw_Veicoli.CellValueChanged += dGw_Veicoli_CellValueChanged;
             // 
@@ -331,6 +332,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.Gainsboro;
             panel1.Controls.Add(btn_AddVeicolo);
             panel1.Controls.Add(btn_addModello);
             panel1.Controls.Add(nUd_AddAnnoProd);
@@ -592,10 +594,11 @@
             tabControl1.Size = new Size(669, 685);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 9;
+            tabControl1.DrawItem += tabControl1_DrawItem;
             // 
             // tabPage1
             // 
-            tabPage1.BackColor = Color.Tan;
+            tabPage1.BackColor = Color.Gainsboro;
             tabPage1.BackgroundImageLayout = ImageLayout.None;
             tabPage1.Controls.Add(splitContainer1);
             tabPage1.Location = new Point(4, 27);
@@ -607,6 +610,7 @@
             // 
             // splitContainer1
             // 
+            splitContainer1.BackColor = Color.Gainsboro;
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(3, 3);
             splitContainer1.Name = "splitContainer1";
@@ -614,6 +618,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.BackColor = Color.Gainsboro;
             splitContainer1.Panel1.Controls.Add(cmb_FilterYearProd);
             splitContainer1.Panel1.Controls.Add(label2);
             splitContainer1.Panel1.Controls.Add(label6);
@@ -643,7 +648,7 @@
             // 
             // tabPage2
             // 
-            tabPage2.BackColor = Color.Tan;
+            tabPage2.BackColor = Color.Gainsboro;
             tabPage2.Controls.Add(splitContainer2);
             tabPage2.Location = new Point(4, 27);
             tabPage2.Name = "tabPage2";
@@ -654,6 +659,7 @@
             // 
             // splitContainer2
             // 
+            splitContainer2.BackColor = Color.Gainsboro;
             splitContainer2.Dock = DockStyle.Fill;
             splitContainer2.Location = new Point(3, 3);
             splitContainer2.Name = "splitContainer2";
@@ -793,7 +799,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Tan;
+            BackColor = Color.Gainsboro;
             Controls.Add(tabControl1);
             Controls.Add(panel1);
             Name = "UC_Veicoli";

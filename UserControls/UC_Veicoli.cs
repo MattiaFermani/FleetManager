@@ -728,6 +728,22 @@ namespace FleetManager
             stileRigheAlterne.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgw.AlternatingRowsDefaultCellStyle = stileRigheAlterne;
         }
-        #endregion
+
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+
+        }
+        #endregion STILE
+
+        private void dGw_Veicoli_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                Veicolo v = (Veicolo)dGw_Veicoli.Rows[e.RowIndex].DataBoundItem;
+                FormDettaglioVeicolo formDettaglio = new FormDettaglioVeicolo(v);
+                formDettaglio.ShowDialog();
+                Filter();
+            }
+        }
     }
 }
