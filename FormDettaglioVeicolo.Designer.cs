@@ -302,6 +302,7 @@
             dGw_Assegnazioni.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dGw_Assegnazioni.Size = new Size(664, 397);
             dGw_Assegnazioni.TabIndex = 3;
+            dGw_Assegnazioni.CellFormatting += dGw_Assegnazioni_CellFormatting;
             // 
             // ID_Assegnazione
             // 

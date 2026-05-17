@@ -23,8 +23,17 @@ namespace FleetManager.Entita
                 }
                 else 
                 { 
-                    MethodsDB.AggiornaVeicolo(ID_Veicolo, stato: "Disponibile");
-                    return "Disponibile";
+                    switch (_stato)
+                    {
+                        case "In Manutenzione":
+                            return "In Manutenzione";
+                        case "Non Disponibile":
+                            return "Non Disponibile";
+                        case "In Uso":
+                            return "In Uso";
+                        default:
+                            return "Disponibile";
+                    }
                 }
             }
             set { _stato = value; }
@@ -40,7 +49,7 @@ namespace FleetManager.Entita
             this.FK_Modello = FK_Modello;
             this.AnnoProduzione = AnnoProduzione;
             this.Chilometraggio = Chilometraggio;
-            this.Stato = Stato;
+            this._stato = Stato;
         }
 
         public string Marca { get; set;  }

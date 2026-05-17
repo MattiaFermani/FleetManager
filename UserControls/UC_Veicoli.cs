@@ -502,16 +502,19 @@ namespace FleetManager
             {
                 int idVeicolo = Convert.ToInt32(dGw_Veicoli.Rows[e.RowIndex].Cells["ID_Veicolo"].Value);
                 int km = Convert.ToInt32(dGw_Veicoli.Rows[e.RowIndex].Cells["Chilometraggio"].Value);
-                string nuovoStato = dGw_Veicoli.Rows[e.RowIndex].Cells["Stato"].Value.ToString();
+
+                string nuovoStato = dGw_Veicoli.Rows[e.RowIndex].Cells["Stato"].Value?.ToString() ?? string.Empty;
 
                 try
                 {
                     MethodsDB.AggiornaVeicolo(idVeicolo, km, nuovoStato);
-                    Filter(); // Ricarico la schermata
+
+                    this.BeginInvoke(new Action(() => Filter()));
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Errore durante l'aggiornamento dello stato: " + ex.Message);
+                    MessageBox.Show("Errore durante l'aggiornamento dello stato: " + ex.Message,
+                                    "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
