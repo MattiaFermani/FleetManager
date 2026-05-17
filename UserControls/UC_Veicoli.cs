@@ -113,33 +113,33 @@ namespace FleetManager
 
             // --- Form Inserimento Veicolo ---
             string[] _marche;
+            string[] _modelli;
             cmb_AddMarca.Items.Clear();
-            cmb_AddMarca.Items.Add("Tutte le marche"); // TODO: Forse nell'inserimento non serve "Tutte"?
+            cmb_AddModello.Items.Clear();
+            cmb_AddMarca.Items.Add("Seleziona Marca");
+            cmb_AddModello.Items.Add("Seleziona Modello");
             _marche = MethodsDB.GetDistinteMarche().ToArray();
+            _modelli = MethodsDB.GetDistintiModelli().ToArray();
             foreach (string _marca in _marche)
             {
                 // Pulisco la stringa prima di inserirla (rimuovo eventuale ID o formattazione)
                 _marche[_marche.IndexOf(_marca)] = Clean(_marca);
             }
+            foreach (string _modello in _modelli)
+            {
+                // Pulisco la stringa prima di inserirla (rimuovo eventuale ID o formattazione)
+                _modelli[_modelli.IndexOf(_modello)] = Clean(_modello);
+            }
             cmb_AddMarca.Items.AddRange(_marche);
+            cmb_AddModello.Items.AddRange(_modelli);
             cmb_AddMarca.SelectedIndex = 0;
+            cmb_AddModello.SelectedIndex = 0;
 
             // Filtro Ricerca Modello
             cmb_FilterModello.Items.Clear();
             cmb_FilterModello.Items.Add("Tutti i modelli");
             cmb_FilterModello.Items.AddRange(MethodsDB.GetDistintiModelli().ToArray());
             cmb_FilterModello.SelectedIndex = 0;
-
-            // Form Inserimento Modello
-            string[] _modelli;
-            cmb_AddModello.Items.Clear();
-            _modelli = MethodsDB.GetDistintiModelli().ToArray();
-            foreach (string _modello in _modelli)
-            {
-                _modelli[_modelli.IndexOf(_modello)] = Clean(_modello);
-            }
-            cmb_AddModello.Items.AddRange(_modelli);
-            cmb_AddModello.SelectedIndex = -1; // Lascio vuoto per obbligare la scelta
 
             // Filtri Anno e Stato
             cmb_FilterYearProd.Items.Clear();
@@ -196,7 +196,7 @@ namespace FleetManager
         /// <returns>La stringa pulita senza formattazioni.</returns>
         private string Clean(ComboBox cb)
         {
-            if (cb.SelectedIndex <= 0) return null; // Ignora opzioni come "Tutti..."
+            if (cb.SelectedIndex <= 0) return null;
             string s = cb.SelectedItem.ToString();
             int pos = s.IndexOf(") ");
             return pos > -1 ? s.Substring(pos + 2) : s;
@@ -326,6 +326,7 @@ namespace FleetManager
                 {
                     _modelli[_modelli.IndexOf(_modello)] = Clean(_modello);
                 }
+                cmb_AddModello.Items.Add("Seleziona Modello");
                 cmb_AddModello.Items.AddRange(_modelli);
             }
             else
@@ -335,10 +336,11 @@ namespace FleetManager
                 {
                     _modelli[_modelli.IndexOf(_modello)] = Clean(_modello);
                 }
+                cmb_AddModello.Items.Add("Seleziona Modello");
                 cmb_AddModello.Items.AddRange(_modelli);
             }
             cmb_AddModello.Text = string.Empty;
-            cmb_AddModello.SelectedIndex = -1;
+            cmb_AddModello.SelectedIndex = 0;
         }
         #endregion
 

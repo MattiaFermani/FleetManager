@@ -192,7 +192,7 @@ namespace FleetManager.DB
                 string query = @"
                 SELECT M.ID_Modello, M.NomeModello, M.Marca, COUNT(V.ID_Veicolo) AS NumeroVeicoli
                 FROM MODELLI M
-                LEFT JOIN VEICOLI V ON M.ID_Modello = V.FK_Modello
+                RIGHT JOIN VEICOLI V ON M.ID_Modello = V.FK_Modello
                 GROUP BY M.ID_Modello, M.NomeModello, M.Marca
                 ORDER BY M.Marca, M.NomeModello";
 
@@ -214,7 +214,7 @@ namespace FleetManager.DB
             {
                 string query = @"SELECT '(' + CAST(COUNT(*) AS VARCHAR) + ') ' + M.NomeModello 
                          FROM VEICOLI V
-                         JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
+                         RIGHT JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
                          WHERE (@marca IS NULL OR M.Marca = @marca)
                          GROUP BY M.NomeModello
                          ORDER BY M.NomeModello";
@@ -228,7 +228,7 @@ namespace FleetManager.DB
             {
                 string query = @"SELECT '(' + CAST(COUNT(*) AS VARCHAR) + ') ' + M.Marca 
                          FROM VEICOLI V
-                         JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
+                         RIGHT JOIN MODELLI M ON V.FK_Modello = M.ID_Modello
                          WHERE (@modello IS NULL OR M.NomeModello = @modello)
                          GROUP BY M.Marca
                          ORDER BY M.Marca";

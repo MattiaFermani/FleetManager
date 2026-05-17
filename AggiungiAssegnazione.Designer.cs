@@ -39,6 +39,8 @@
             // 
             // cmb_Guidatore
             // 
+            cmb_Guidatore.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmb_Guidatore.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmb_Guidatore.FormattingEnabled = true;
             cmb_Guidatore.Location = new Point(12, 23);
             cmb_Guidatore.Name = "cmb_Guidatore";

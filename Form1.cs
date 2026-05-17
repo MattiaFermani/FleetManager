@@ -14,14 +14,10 @@ namespace FleetManager
         public Form1()
         {
             InitializeComponent();
-            // --- CONFIGURAZIONE GEOMETRICA MODERNA ---
-            // Distribuisce i pesi visivi: lascia respirare il pannello staccandolo dai bordi esterni del Form
             pnlContainer.Dock = DockStyle.Fill;
             this.Padding = new Padding(0, 12, 12, 12); // 12px di spazio sopra, a destra e sotto. 0 a sinistra (attaccato alla SideBar)
 
-            // Spazio interno alla card: evita che le griglie o i bottoni dentro gli UserControl tocchino il bordo arrotondato
             pnlContainer.Padding = new Padding(16);
-            // -----------------------------------------
 
             if (string.IsNullOrWhiteSpace(Database.ConnectionString))
             {
@@ -60,7 +56,6 @@ namespace FleetManager
         {
             foreach (ToolStripItem item in SideBar.Items)
             {
-                // Ritorniamo allo sfondo neutro del form e al grigio scuro per il testo non attivo
                 item.BackColor = Color.Transparent;
                 item.ForeColor = Color.FromArgb(55, 65, 81); // Stesso grigio (Gray 600) dei dati in griglia
             }
@@ -74,7 +69,6 @@ namespace FleetManager
                 case PageType.Flotta: return new UC_Veicoli();
                 case PageType.Personale: return new UC_Guidatori();
                 case PageType.Impostazioni: return new UC_DbConnection();
-                case PageType.Incidenti: return new UC_Incidenti();
                 case PageType.Statistiche: return new UC_Statistiche();
                 default: throw new ArgumentException("Pagina non gestita");
             }
@@ -305,7 +299,7 @@ namespace FleetManager
         #endregion STILE
     }
 
-public enum PageType
+    public enum PageType
     {
         Dashboard,
         Flotta,

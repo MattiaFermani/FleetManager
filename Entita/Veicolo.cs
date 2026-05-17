@@ -44,7 +44,7 @@ namespace FleetManager.Entita
         }
 
         public string Marca { get; set;  }
-        public string Modello { get; set; }
+        public string NomeModello { get; set; }
 
 
         public Veicolo(int ID_Veicolo, string Targa, string Marca, string NomeModello, int AnnoProduzione, int Chilometraggio, string Stato)
@@ -52,7 +52,7 @@ namespace FleetManager.Entita
             this.ID_Veicolo = ID_Veicolo;
             this.Targa = Targa;
             this.Marca = Marca;
-            this.Modello = NomeModello;
+            this.NomeModello = NomeModello;
             this.AnnoProduzione = AnnoProduzione;
             this.Chilometraggio = Chilometraggio;
             this.Stato = Stato;

@@ -19,7 +19,8 @@ CREATE TABLE GUIDATORI (
     Nome VARCHAR(50) NOT NULL,
     Cognome VARCHAR(50) NOT NULL,
     CodiceFiscale CHAR(16) UNIQUE NOT NULL,
-    ScadenzaPatente DATE
+    ScadenzaPatente DATE,
+    Stato VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE MANUTENZIONI (

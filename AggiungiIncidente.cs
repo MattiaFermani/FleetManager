@@ -19,7 +19,7 @@ namespace FleetManager
             this.FK_Guidatore = idGuidatore;
             this.Text = "Aggiungi Incidente per Guidatore ID: " + idGuidatore.ToString();
             cmb_Veicolo.DataSource = MethodsDB.RicercaVeicoli()
-                .Select(v => new { v.ID_Veicolo, Display = $"{v.ID_Veicolo} - {v.Marca} {v.Modello}" })
+                .Select(v => new { v.ID_Veicolo, Display = $"{v.ID_Veicolo} - {v.Marca} {v.NomeModello}" })
                 .ToList();
             cmb_Veicolo.DisplayMember = "Display";
             cmb_Veicolo.ValueMember = "ID_Veicolo";

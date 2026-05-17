@@ -18,6 +18,7 @@ namespace FleetManager
         {
             InitializeComponent();
             _guidatore = g;
+            this.Text = $"Dettagli di {_guidatore.ID_Guidatore} {_guidatore.Nome} {_guidatore.Cognome}";
             ConfiguraStileGriglia(dGw_Assegnazioni);
             ConfiguraStileGriglia(dgw_Incidenti);
             PopolaCampi();
