@@ -21,7 +21,7 @@ jobs:
     - name: ⚙️ Setup ambiente .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '10.x' # Scarica direttamente l'SDK 10 stabile/disponibile
+        dotnet-version: '10.x'
 
     - name: 🏷️ Calcolo Versione e Generazione Changelog
       id: tag_version
@@ -42,49 +42,4 @@ jobs:
         tag_name: ${{ steps.tag_version.outputs.new_tag }}
         name: Aggiornamento ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
-        files: FleetManager-Windows.zipname: Build & Auto-Release
-
-on:
-  push:
-    branches:
-      - main
-      - master
-
-jobs:
-  build-and-release:
-    runs-on: windows-latest
-    permissions:
-      contents: write
-
-    steps:
-    - name: 📥 Checkout del codice
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: ⚙️ Setup ambiente .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '10.x'
-        include-prerelease: true
-
-    - name: 🏷️ Calcolo Versione e Generazione Changelog
-      id: tag_version
-      uses: mathieudutour/github-tag-action@v6.2
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        default_bump: patch
-
-    - name: 🔨 Compilazione dell'App (Single File)
-      run: dotnet publish FleetManager.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish_output
-
-    - name: 📦 Creazione archivio ZIP
-      run: Compress-Archive -Path ./publish_output/* -DestinationPath FleetManager-Windows.zip
-
-    - name: 🚀 Creazione Release Ufficiale su GitHub
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ steps.tag_version.outputs.new_tag }}
-        name: Aggiornamento ${{ steps.tag_version.outputs.new_tag }}
-        body: ${{ steps.tag_version.outputs.changelog }} # <--- LA MAGIA È QUI: Inserisce i tuoi commit!
         files: FleetManager-Windows.zip
