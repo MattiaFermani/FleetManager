@@ -1,4 +1,13 @@
-﻿namespace FleetManager
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
+using System;
+using System.Windows.Forms; // <-- Controlla che ci sia questo!
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using FleetManager.DB;
+using System.Collections.Generic;
+
+namespace FleetManager
 {
     partial class UC_Veicoli
     {

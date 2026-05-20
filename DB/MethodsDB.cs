@@ -5,6 +5,14 @@ using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
+using System;
+using System.Windows.Forms; // <-- Controlla che ci sia questo!
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using FleetManager.DB;
+using System.Collections.Generic;
 
 namespace FleetManager.DB
 {

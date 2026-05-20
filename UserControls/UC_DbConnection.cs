@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
 using FleetManager.DB;
@@ -13,10 +14,10 @@ namespace FleetManager
     public partial class UC_DbConnection : UserControl
     {
         string tempConnectionString;
+
         public UC_DbConnection()
         {
             InitializeComponent();
-            // Valori di default
             cb_cnType.Items.AddRange(new string[] { "LocalDB", "SQL Server" });
             cb_cnType.SelectedIndex = 0;
         }
@@ -47,34 +48,41 @@ namespace FleetManager
             }
 
             builder.TrustServerCertificate = true;
-
             tempConnectionString = builder.ConnectionString;
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_Click(object sender, EventArgs e)
         {
             createCnnString();
 
-            // TEST sui dati inseriti, NON salvati
-            if (!TestConnection())
+            if (!await TestConnectionAsync())
                 return;
 
-            // Salva solo se il test passa
             Database.ConnectionString = tempConnectionString;
-            Database.Connection(); // Inizializza la connessione per verificare che funzioni
+
+            try
+            {
+                Database.Connection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Errore nell'inizializzazione del database: {ex.Message}", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             MessageBox.Show("Configurazione salvata permanentemente!", "OK",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
-        private bool TestConnection()
+        private async Task<bool> TestConnectionAsync()
         {
             createCnnString();
             try
             {
                 using (var conn = new SqlConnection(tempConnectionString))
                 {
-                    conn.Open();
+                    await conn.OpenAsync();
                     MessageBox.Show("Test di connessione riuscito!", "Successo",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return true;
@@ -90,40 +98,35 @@ namespace FleetManager
 
         private bool ValidaInput()
         {
-            // Tipo connessione
             if (cb_cnType.SelectedItem == null)
             {
-                MessageBox.Show("Seleziona il tipo di connessione.");
+                MessageBox.Show("Seleziona il tipo di connessione.", "Attenzione", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            // Server (solo se non LocalDB)
-            if (cb_cnType.SelectedItem.ToString() != "LocalDB" &&
-                string.IsNullOrWhiteSpace(txb_svAddress.Text))
+            if (cb_cnType.SelectedItem.ToString() != "LocalDB" && string.IsNullOrWhiteSpace(txb_svAddress.Text))
             {
-                MessageBox.Show("Inserisci l'indirizzo del server.");
+                MessageBox.Show("Inserisci l'indirizzo del server.", "Attenzione", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            // Database
             if (string.IsNullOrWhiteSpace(txb_svName.Text))
             {
-                MessageBox.Show("Inserisci il nome del database.");
+                MessageBox.Show("Inserisci il nome del database.", "Attenzione", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            // Credenziali (se Windows Auth)
             if (ck_Auth.Checked)
             {
                 if (string.IsNullOrWhiteSpace(txb_AuthUsername.Text))
                 {
-                    MessageBox.Show("Inserisci lo username.");
+                    MessageBox.Show("Inserisci lo username per l'autenticazione SQL.", "Attenzione", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
 
                 if (string.IsNullOrWhiteSpace(txb_AuthPassword.Text))
                 {
-                    MessageBox.Show("Inserisci la password.");
+                    MessageBox.Show("Inserisci la password per l'autenticazione SQL.", "Attenzione", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
             }
@@ -131,7 +134,7 @@ namespace FleetManager
             return true;
         }
 
-        private void btn_testConnection_Click(object sender, EventArgs e) => TestConnection();
+        private async void btn_testConnection_Click(object sender, EventArgs e) => await TestConnectionAsync();
 
         private void UC_DbConnection_Load(object sender, EventArgs e)
         {
@@ -142,27 +145,32 @@ namespace FleetManager
 
                 ck_Auth.Checked = builder.IntegratedSecurity;
                 cb_cnType.SelectedItem = builder.DataSource.Contains("(localdb)") ? "LocalDB" : "SQL Server";
-                txb_svAddress.Text = builder.DataSource;
+
+                if (cb_cnType.SelectedItem.ToString() == "SQL Server")
+                {
+                    txb_svAddress.Text = builder.DataSource;
+                }
+
                 txb_svName.Text = builder.InitialCatalog;
+
+                if (!builder.IntegratedSecurity)
+                {
+                    txb_AuthUsername.Text = builder.UserID;
+                    txb_AuthPassword.Text = builder.Password;
+                }
             }
         }
 
         private void ck_Auth_CheckedChanged(object sender, EventArgs e)
         {
-            if (ck_Auth.Checked)
-            {
-                txb_AuthUsername.Visible = true;
-                txb_AuthPassword.Visible = true;
-                txb_AuthUsername.Enabled = true;
-                txb_AuthPassword.Enabled = true;
-            }
-            else
-            {
-                txb_AuthUsername.Visible = false;
-                txb_AuthPassword.Visible = false;
-                txb_AuthUsername.Enabled = false;
-                txb_AuthPassword.Enabled = false;
-            }
+            // CORRETTO: Se usi Windows Auth (Checked), nascondi o disabilita i campi di testo
+            // Se NON lo usi (Unchecked), mostrali perché servono le credenziali SQL
+            bool richiedeCredenziali = ck_Auth.Checked;
+
+            txb_AuthUsername.Visible = richiedeCredenziali;
+            txb_AuthPassword.Visible = richiedeCredenziali;
+            txb_AuthUsername.Enabled = richiedeCredenziali;
+            txb_AuthPassword.Enabled = richiedeCredenziali;
         }
     }
 }

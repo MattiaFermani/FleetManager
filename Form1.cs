@@ -1,7 +1,13 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
-using System.Drawing.Drawing2D; 
+using System;
+using System.Windows.Forms; // <-- Controlla che ci sia questo!
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Threading;
 using FleetManager.DB;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FleetManager
 {
@@ -11,9 +17,24 @@ namespace FleetManager
 
         private PageType _currentPage;
 
+        private static Form1 _instance;
+
+        public static Form1 Instance
+        {
+            get
+            {
+                return _instance;
+            }
+            private set
+            {
+                _instance = value;
+            }
+        }
+
         public Form1()
         {
             InitializeComponent();
+            _instance = this;
 
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 
@@ -74,7 +95,6 @@ namespace FleetManager
                 case PageType.Flotta: return new UC_Veicoli();
                 case PageType.Personale: return new UC_Guidatori();
                 case PageType.Impostazioni: return new UC_DbConnection();
-                case PageType.Statistiche: return new UC_Statistiche();
                 default: throw new ArgumentException("Pagina non gestita");
             }
         }
@@ -102,9 +122,9 @@ namespace FleetManager
         private void impostazioniToolStripMenuItem_Click(object sender, EventArgs e) =>
             MenuSelection(PageType.Impostazioni, (ToolStripMenuItem)sender);
 
-        private async Task WatchdogConnessione()
+        public static async Task WatchdogConnessione()
         {
-            while (!this.IsDisposed)
+            while (!Form1.Instance.IsDisposed)
             {
                 bool connessioneValida = await Task.Run(() =>
                 {
@@ -119,20 +139,20 @@ namespace FleetManager
                     catch { return false; }
                 });
 
-                if (!this.IsDisposed)
+                if (!Form1.Instance.IsDisposed)
                 {
-                    this.Invoke(new Action(() => AggiornaStatoApplicazione(connessioneValida)));
-                    if (_currentPage == PageType.Dashboard && connessioneValida)
+                    Form1.Instance.Invoke(new Action(() => Form1.Instance.AggiornaStatoApplicazione(connessioneValida)));
+                    if (Form1.Instance._currentPage == PageType.Dashboard && connessioneValida)
                     {
-                        if (_userControls.ContainsKey(PageType.Dashboard))
+                        if (Form1.Instance._userControls.ContainsKey(PageType.Dashboard))
                         {
-                            var dashboardControl = _userControls[PageType.Dashboard] as UC_Dashboard;
+                            var dashboardControl = Form1.Instance._userControls[PageType.Dashboard] as UC_Dashboard;
                             dashboardControl?.AggiornaDati();
                         }
                     }
                 }
 
-                await Task.Delay(5000);
+                await Task.Delay(3000);
             }
         }
 
