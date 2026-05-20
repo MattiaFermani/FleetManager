@@ -3,35 +3,36 @@ name: Build & Auto-Release
 on:
   push:
     branches:
-      - main # Si avvia solo quando fai modifiche sul branch principale
+      - main
+      - master
 
 jobs:
   build-and-release:
-    runs-on: windows-latest # Usa un server Windows per compilare C#
+    runs-on: windows-latest
     permissions:
-      contents: write # Permette la creazione della release
+      contents: write
 
     steps:
     - name: 📥 Checkout del codice
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0 # Fondamentale: scarica tutta la storia dei commit per MinVer
+        fetch-depth: 0
 
     - name: ⚙️ Setup ambiente .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.x' # Cambia in 9.x se usi .NET 9
+        dotnet-version: '10.x' # <--- Aggiornato a .NET 10
+        include-prerelease: true # <--- Fondamentale per scaricare .NET 10
 
     - name: 🏷️ Calcolo Versione e Creazione Tag Git
       id: tag_version
       uses: mathieudutour/github-tag-action@v6.2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        default_bump: patch # Se non usi feat: o fix:, incrementa la patch (0.0.X)
+        default_bump: patch
 
     - name: 🔨 Compilazione dell'App (Single File)
-      # Sostituisci "NomeCartella/NomeFile.csproj" con il percorso esatto del tuo file di progetto C#
-      run: dotnet publish FleetManager/FleetManager.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish_output
+      run: dotnet publish FleetManager.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish_output
 
     - name: 📦 Creazione archivio ZIP
       run: Compress-Archive -Path ./publish_output/* -DestinationPath FleetManager-Windows.zip
@@ -41,5 +42,5 @@ jobs:
       with:
         tag_name: ${{ steps.tag_version.outputs.new_tag }}
         name: Aggiornamento ${{ steps.tag_version.outputs.new_tag }}
-        generate_release_notes: true # Magia: genera il changelog automatico leggendo i tuoi commit!
+        generate_release_notes: true
         files: FleetManager-Windows.zip
