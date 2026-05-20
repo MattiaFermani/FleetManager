@@ -1,7 +1,8 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using System;
-using System.Windows.Forms; // <-- Controlla che ci sia questo!
+using System.Windows.Forms;
+using System.Reflection;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Threading;
@@ -36,9 +37,16 @@ namespace FleetManager
             InitializeComponent();
             _instance = this;
 
-            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            string versioneFormattata = Assembly.GetExecutingAssembly()
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+                .InformationalVersion ?? "1.0.0";
 
-            this.Text = $"FleetManager - v{version.Major}.{version.Minor}.{version.Build}";
+            if (versioneFormattata.Contains("+"))
+            {
+                versioneFormattata = versioneFormattata.Split('+')[0];
+            }
+
+            this.Text = $"FleetManager - v{versioneFormattata}";
 
             pnlContainer.Dock = DockStyle.Fill;
             this.Padding = new Padding(0, 12, 12, 12); // 12px di spazio sopra, a destra e sotto. 0 a sinistra (attaccato alla SideBar)

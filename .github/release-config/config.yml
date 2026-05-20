@@ -1,0 +1,16 @@
+changelog:
+  categories:
+    - title: "🚀 New Features"
+      labels:
+        - feature
+        - enhancement
+    - title: "🐛 Bug Fixes"
+      labels:
+        - bug
+        - fix
+    - title: "🧹 Cleaning & Refactoring"
+      labels:
+        - refactor
+        - chore
+  default:
+    title: "📝 Other" # <--- Questa categoria catturerà tutti i commit con messaggi normali!
