@@ -123,7 +123,7 @@
             MdiChildrenMinimizedAnchorBottom = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Fleet Manager";
+            Text = "Fleet Manager System";
             WindowState = FormWindowState.Maximized;
             Paint += Form1_Paint;
             SideBar.ResumeLayout(false);

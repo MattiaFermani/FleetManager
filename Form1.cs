@@ -14,6 +14,11 @@ namespace FleetManager
         public Form1()
         {
             InitializeComponent();
+
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+
+            this.Text = $"FleetManager - v{version.Major}.{version.Minor}.{version.Build}";
+
             pnlContainer.Dock = DockStyle.Fill;
             this.Padding = new Padding(0, 12, 12, 12); // 12px di spazio sopra, a destra e sotto. 0 a sinistra (attaccato alla SideBar)
 
