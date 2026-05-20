@@ -42,21 +42,21 @@
             // dashboard_MenuItem
             // 
             dashboard_MenuItem.Name = "dashboard_MenuItem";
-            dashboard_MenuItem.Size = new Size(119, 25);
+            dashboard_MenuItem.Size = new Size(104, 25);
             dashboard_MenuItem.Text = "Dashboard";
             dashboard_MenuItem.Click += dashboardToolStripMenuItem_Click;
             // 
             // flotta_MenuItem
             // 
             flotta_MenuItem.Name = "flotta_MenuItem";
-            flotta_MenuItem.Size = new Size(119, 25);
+            flotta_MenuItem.Size = new Size(104, 25);
             flotta_MenuItem.Text = "Flotta";
             flotta_MenuItem.Click += flottaToolStripMenuItem_Click;
             // 
             // personale_MenuItem
             // 
             personale_MenuItem.Name = "personale_MenuItem";
-            personale_MenuItem.Size = new Size(119, 25);
+            personale_MenuItem.Size = new Size(104, 25);
             personale_MenuItem.Text = "Personale";
             personale_MenuItem.Click += personaleToolStripMenuItem_Click;
             // 
@@ -69,7 +69,7 @@
             SideBar.Location = new Point(0, 0);
             SideBar.Name = "SideBar";
             SideBar.RenderMode = ToolStripRenderMode.Professional;
-            SideBar.Size = new Size(132, 698);
+            SideBar.Size = new Size(117, 698);
             SideBar.TabIndex = 0;
             SideBar.Text = "menuStrip1";
             SideBar.Paint += SideBar_Paint;
@@ -86,7 +86,7 @@
             // 
             statisticheToolStripMenuItem.Enabled = false;
             statisticheToolStripMenuItem.Name = "statisticheToolStripMenuItem";
-            statisticheToolStripMenuItem.Size = new Size(119, 25);
+            statisticheToolStripMenuItem.Size = new Size(104, 25);
             statisticheToolStripMenuItem.Text = "Statistiche";
             statisticheToolStripMenuItem.Visible = false;
             // 
@@ -94,7 +94,7 @@
             // 
             impostazioni_MenuItem.Alignment = ToolStripItemAlignment.Right;
             impostazioni_MenuItem.Name = "impostazioni_MenuItem";
-            impostazioni_MenuItem.Size = new Size(119, 25);
+            impostazioni_MenuItem.Size = new Size(104, 25);
             impostazioni_MenuItem.Text = "Impostazioni";
             impostazioni_MenuItem.Click += impostazioniToolStripMenuItem_Click;
             // 
@@ -103,9 +103,9 @@
             pnlContainer.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             pnlContainer.BackColor = Color.Gainsboro;
             pnlContainer.Dock = DockStyle.Fill;
-            pnlContainer.Location = new Point(132, 0);
+            pnlContainer.Location = new Point(117, 0);
             pnlContainer.Name = "pnlContainer";
-            pnlContainer.Size = new Size(886, 698);
+            pnlContainer.Size = new Size(901, 698);
             pnlContainer.TabIndex = 1;
             pnlContainer.Paint += pnlContainer_Paint;
             // 
@@ -123,7 +123,7 @@
             MdiChildrenMinimizedAnchorBottom = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Fleet Manager";
+            Text = "Fleet Manager System";
             WindowState = FormWindowState.Maximized;
             Paint += Form1_Paint;
             SideBar.ResumeLayout(false);
