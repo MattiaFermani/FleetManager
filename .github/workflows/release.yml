@@ -21,10 +21,10 @@ jobs:
     - name: ⚙️ Setup ambiente .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '10.x' # <--- Aggiornato a .NET 10
-        include-prerelease: true # <--- Fondamentale per scaricare .NET 10
+        dotnet-version: '10.x'
+        include-prerelease: true
 
-    - name: 🏷️ Calcolo Versione e Creazione Tag Git
+    - name: 🏷️ Calcolo Versione e Generazione Changelog
       id: tag_version
       uses: mathieudutour/github-tag-action@v6.2
       with:
@@ -32,7 +32,7 @@ jobs:
         default_bump: patch
 
     - name: 🔨 Compilazione dell'App (Single File)
-      run: dotnet publish FleetManager.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish_output
+      run: dotnet publish FleetManager.csproj -c Release -r win-x64 --os windows --self-contained false -p:PublishSingleFile=true -o ./publish_output
 
     - name: 📦 Creazione archivio ZIP
       run: Compress-Archive -Path ./publish_output/* -DestinationPath FleetManager-Windows.zip
@@ -42,5 +42,5 @@ jobs:
       with:
         tag_name: ${{ steps.tag_version.outputs.new_tag }}
         name: Aggiornamento ${{ steps.tag_version.outputs.new_tag }}
-        generate_release_notes: true
+        body: ${{ steps.tag_version.outputs.changelog }} # <--- LA MAGIA È QUI: Inserisce i tuoi commit!
         files: FleetManager-Windows.zip
