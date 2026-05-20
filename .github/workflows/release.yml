@@ -32,7 +32,7 @@ jobs:
         default_bump: patch
 
     - name: 🔨 Compilazione dell'App (Single File)
-      run: dotnet publish FleetManager.csproj -c Release -r win-x64 --os windows --self-contained false -p:PublishSingleFile=true -o ./publish_output
+      run: dotnet publish FleetManager.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish_output
 
     - name: 📦 Creazione archivio ZIP
       run: Compress-Archive -Path ./publish_output/* -DestinationPath FleetManager-Windows.zip
