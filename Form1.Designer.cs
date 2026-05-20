@@ -78,7 +78,7 @@ namespace FleetManager
             SideBar.Location = new Point(0, 0);
             SideBar.Name = "SideBar";
             SideBar.RenderMode = ToolStripRenderMode.Professional;
-            SideBar.Size = new Size(117, 698);
+            SideBar.Size = new Size(117, 806);
             SideBar.TabIndex = 0;
             SideBar.Text = "menuStrip1";
             SideBar.Paint += SideBar_Paint;
@@ -114,7 +114,7 @@ namespace FleetManager
             pnlContainer.Dock = DockStyle.Fill;
             pnlContainer.Location = new Point(117, 0);
             pnlContainer.Name = "pnlContainer";
-            pnlContainer.Size = new Size(901, 698);
+            pnlContainer.Size = new Size(1092, 806);
             pnlContainer.TabIndex = 1;
             pnlContainer.Paint += pnlContainer_Paint;
             // 
@@ -123,7 +123,7 @@ namespace FleetManager
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(1018, 698);
+            ClientSize = new Size(1209, 806);
             Controls.Add(pnlContainer);
             Controls.Add(SideBar);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
