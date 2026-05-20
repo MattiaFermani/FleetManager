@@ -31,7 +31,7 @@ jobs:
 
     - name: 🔨 Compilazione dell'App (Single File)
       # Sostituisci "NomeCartella/NomeFile.csproj" con il percorso esatto del tuo file di progetto C#
-      run: dotnet publish FleetManager.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish_output
+      run: dotnet publish FleetManager/FleetManager.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish_output
 
     - name: 📦 Creazione archivio ZIP
       run: Compress-Archive -Path ./publish_output/* -DestinationPath FleetManager-Windows.zip
