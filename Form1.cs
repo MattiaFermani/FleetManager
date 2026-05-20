@@ -37,16 +37,7 @@ namespace FleetManager
             InitializeComponent();
             _instance = this;
 
-            string versioneFormattata = Assembly.GetExecutingAssembly()
-                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-                .InformationalVersion ?? "1.0.0";
-
-            if (versioneFormattata.Contains("+"))
-            {
-                versioneFormattata = versioneFormattata.Split('+')[0];
-            }
-
-            this.Text = $"FleetManager - v{versioneFormattata}";
+            this.Text = $"FleetManager - Versione {AppVersion.GetDisplayString()}";
 
             pnlContainer.Dock = DockStyle.Fill;
             this.Padding = new Padding(0, 12, 12, 12); // 12px di spazio sopra, a destra e sotto. 0 a sinistra (attaccato alla SideBar)
